@@ -1,29 +1,19 @@
 package ru.pwtest.pwapp.presenter
 
-import android.text.TextUtils
 import com.arellomobile.mvp.InjectViewState
-import io.reactivex.Observable
+import com.arellomobile.mvp.MvpPresenter
+import ru.pwtest.domainLayer.UserLoginUseCase
+import ru.pwtest.pwapp.view.LoginView
 import javax.inject.Inject
 
-
 @InjectViewState
-class UserLoginPresenter @Inject constructor(
-    private var httpReqManager: HttpReqManager,
-    private var schedulerProvider: SchedulerProvider
-) {
+class UserLoginPresenter @Inject constructor(private val userLoginUseCase: UserLoginUseCase) : MvpPresenter<LoginView>() {
 
-    private val prefs = prefs()
-
-    fun isTokenPresented(): Boolean {
-        val isToken: String? = prefs[TOKEN_STRING_KEY]
-        return !TextUtils.isEmpty(isToken)
+    fun login(login: String, pass: String) {
+        userLoginUseCase.login(login, pass)
     }
 
-    fun provideTerminalLogin(username: String, password: String): Observable<LoginDataModel?>? {
-        loading = true
-        return httpReqManager.requestLogin<LoginDataModel?>(LOGIN_PATH, username, password)
-            .subscribeOn(schedulerProvider.io())
-            .observeOn(schedulerProvider.ui())
-            .doFinally { loading = false }
-            .map { result -> result} }
+    fun logout() {
+        userLoginUseCase.logout()
     }
+}

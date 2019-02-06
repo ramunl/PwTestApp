@@ -23,6 +23,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 
@@ -45,8 +48,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     //dagger
-    implementation 'com.google.dagger:dagger:2.9'
-    kapt "com.google.dagger:dagger-compiler:2.9"
+    implementation 'com.google.dagger:dagger:2.21'
+    kapt "com.google.dagger:dagger-compiler:2.21"
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
@@ -72,11 +75,13 @@ dependencies {
     //rx2 bindings
     implementation 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.2.0'
 
-    implementation project(':dataLayer')
-    implementation project(':DomainLayer')
 
     //moxy
     implementation 'com.arello-mobile:moxy:1.5.5'
     implementation 'com.arello-mobile:moxy-app-compat:1.5.5'
     kapt 'com.arello-mobile:moxy-compiler:1.5.5'
+
+    //logger
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
 }

@@ -3,11 +3,10 @@ package ru.pwtest.pwapp.utils
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
-import ru.cyberstar.cameracapturetest.CyberApp
 
 object PreferenceHelper {
 
-    fun prefs(): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(CyberApp.appContext())
+    fun prefs(context: Context): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     fun customPrefs(context: Context, name: String): SharedPreferences =
         context.getSharedPreferences(name, Context.MODE_PRIVATE)
