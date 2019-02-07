@@ -1,6 +1,5 @@
 package ru.pwtest.pwapp.view
 
-import android.graphics.Bitmap
 import com.arellomobile.mvp.MvpView
 
 
