@@ -13,11 +13,11 @@ class SignUpUseCase @Inject constructor(
     override fun build(parameters: Param): Completable = authRepo.signUp(
             password = parameters.password,
             email = parameters.email,
-            username = parameters.firsName)
+            username = parameters.username)
 
 
     data class Param(
             val email: String,
             val password: String,
-            val firsName: String)
+            val username: String)
 }

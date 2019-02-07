@@ -39,23 +39,18 @@ class SignUpPresenter @Inject constructor(
     }
 
     fun validatePassword(password: CharSequence) {
-        if (password.length < 8) {
+        if (password.length < 3) {
             viewState.passwordNotValid(resRepo.getString(R.string.password_length))
         } else {
-            if (authValidator.isValidPassword(password)) {
-                viewState.passwordValid()
-
-            } else {
-                viewState.passwordNotValid(resRepo.getString(R.string.invalid_password))
-            }
+            viewState.passwordValid()
         }
     }
 
-    fun signUp(email: String, password: String, firstName: String) {
+    fun signUp(email: String, password: String, username: String) {
         signUpUseCase.build(SignUpUseCase.Param(
                 email = email,
                 password = password,
-                firsName = firstName))
+                username = username))
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
                 .doOnSubscribe { viewState.showLoading(true) }

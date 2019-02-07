@@ -13,6 +13,7 @@ import ru.pwtest.domainLayer.provider.SchedulersProvider
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseActivity
 import ru.pwtest.pwapp.utils.ext.changeVisibility
+import ru.pwtest.pwapp.utils.hideKeyboard
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Provider
@@ -98,23 +99,20 @@ class SignUpActivity : BaseActivity(), SignUpView {
                 }, {}).also { disposable.add(it) }
 
         signUpButton.setOnClickListener {
+            hideKeyboard(this)
             presenter.signUp(email = emailEdit.text.toString(),
                     password = passwordEdit.text.toString(),
-                    firstName = emailEdit.text.toString())
+                    username = usernameEdit.text.toString())
         }
 
     }
 
     private fun disableSignUp() {
         signUpButton.isEnabled = false
-        //signUpButton.alpha = ConstantAlpha.INACTIVE_ALPHA
-        //signUpButton.isClickable = false
     }
 
     private fun enableSignUp() {
         signUpButton.isEnabled = true
-        //signUpButton.alpha = ConstantAlpha.ACTIVE_ALPHA
-        //signUpButton.isClickable = true
     }
 
 
@@ -129,8 +127,8 @@ class SignUpActivity : BaseActivity(), SignUpView {
     }
 
     override fun passwordNotValid(error: String) {
-        repeatPasswordInput.error = error
-        repeatPasswordInput.isErrorEnabled = true
+        passwordInput.error = error
+        passwordInput.isErrorEnabled = true
     }
 
     override fun passwordValid() {

@@ -25,6 +25,7 @@
         <activity
                 android:name=".feature.sign_up.view.SignUpActivity"
                 android:label="@string/sign_up"
+                android:windowSoftInputMode="stateUnchanged|adjustResize"
                 android:theme="@style/AppTheme.NoActionBar"/>
         <activity
                 android:label="@string/sign_in"
