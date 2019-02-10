@@ -1,4 +1,4 @@
-package andrey.murzin.travelmate.utils
+package ru.pwtest.pwapp.utils
 
 class ConstantAlpha {
     companion object {

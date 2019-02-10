@@ -1,7 +1,5 @@
 package ru.pwtest.pwapp.feature.sign_up.presenter
 
-import ru.pwtest.pwapp.feature.sign_up.view.SignUpView
-import andrey.murzin.travelmate.utils.AuthValidator
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.disposables.CompositeDisposable
 import ru.pwtest.dataLayer.repository.ResRepo
@@ -10,6 +8,8 @@ import ru.pwtest.domainLayer.provider.SchedulersProvider
 import ru.pwtest.domainLayer.usecases.auth.SignUpUseCase
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BasePresenter
+import ru.pwtest.pwapp.feature.sign_up.view.SignUpView
+import ru.pwtest.pwapp.utils.AuthValidator
 import javax.inject.Inject
 
 @InjectViewState
@@ -47,16 +47,19 @@ class SignUpPresenter @Inject constructor(
     }
 
     fun signUp(email: String, password: String, username: String) {
-        signUpUseCase.build(SignUpUseCase.Param(
+        signUpUseCase.build(
+            SignUpUseCase.Param(
                 email = email,
                 password = password,
-                username = username))
-                .subscribeOn(schedulersProvider.io())
-                .observeOn(schedulersProvider.ui())
-                .doOnSubscribe { viewState.showLoading(true) }
-                .doFinally { viewState.showLoading(false) }
-                .subscribe({viewState.showSuccessMessage(resRepo.getString(R.string.sign_up_success))  },
-                    { errorHandler.handleError(it) })
+                username = username
+            )
+        )
+            .subscribeOn(schedulersProvider.io())
+            .observeOn(schedulersProvider.ui())
+            .doOnSubscribe { viewState.showLoading(true) }
+            .doFinally { viewState.showLoading(false) }
+            .subscribe({ viewState.showSuccessMessage(resRepo.getString(R.string.sign_up_success)) },
+                { errorHandler.handleError(it) })
     }
 
 }

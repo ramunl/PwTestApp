@@ -1,6 +1,6 @@
 package ru.pwtest.pwapp.feature.sign_up.view
 
-import ru.pwtest.pwapp.feature.sign_up.presenter.SignUpPresenter
+import android.content.Intent
 import android.support.annotation.LayoutRes
 import android.view.MenuItem
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -8,10 +8,14 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import kotlinx.android.synthetic.main.layout_progressbar.*
 import ru.pwtest.delegate.SnackBarDelegate
 import ru.pwtest.domainLayer.provider.SchedulersProvider
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseActivity
+import ru.pwtest.pwapp.feature.main.view.MainActivity
+import ru.pwtest.pwapp.feature.sign_in.view.SignInActivity
+import ru.pwtest.pwapp.feature.sign_up.presenter.SignUpPresenter
 import ru.pwtest.pwapp.utils.ext.changeVisibility
 import ru.pwtest.pwapp.utils.hideKeyboard
 import java.util.concurrent.TimeUnit
@@ -20,6 +24,7 @@ import javax.inject.Provider
 
 
 class SignUpActivity : BaseActivity(), SignUpView {
+
 
     companion object {
         const val DEBOUNCE_MAX_TIME: Long = 500L
@@ -145,7 +150,7 @@ class SignUpActivity : BaseActivity(), SignUpView {
     }
 
     override fun showSuccessMessage(text: String) {
-        snackBarDelegate.showSuccess(rootView, text)
+        snackBarDelegate.showSuccess(rootView, text, ::runMainActivity)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

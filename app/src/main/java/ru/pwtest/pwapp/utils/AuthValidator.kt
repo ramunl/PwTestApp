@@ -1,4 +1,4 @@
-package andrey.murzin.travelmate.utils
+package ru.pwtest.pwapp.utils
 
 import android.text.TextUtils
 import java.util.regex.Pattern

@@ -1,9 +1,11 @@
 package ru.pwtest.pwapp.di.module
 
-import ru.pwtest.dataLayer.repository.AuthRepoImpl
-import ru.pwtest.domainLayer.repository.AuthRepo
 import dagger.Binds
 import dagger.Module
+import ru.pwtest.dataLayer.repository.AuthRepoImpl
+import ru.pwtest.dataLayer.repository.TransactionRepoImpl
+import ru.pwtest.domainLayer.repository.AuthRepo
+import ru.pwtest.domainLayer.repository.TransactionRepo
 
 @Module
 interface RepoModule {
@@ -11,4 +13,7 @@ interface RepoModule {
     @Binds
     fun provideAuthRepo(authRepo: AuthRepoImpl): AuthRepo
 
+
+    @Binds
+    fun provideTransactionRepo(cityRepo: TransactionRepoImpl): TransactionRepo
 }

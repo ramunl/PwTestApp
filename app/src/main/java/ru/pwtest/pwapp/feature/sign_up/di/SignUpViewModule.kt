@@ -1,10 +1,9 @@
-package andrey.murzin.travelmate.presentation.feature.registration.di
-
-import andrey.murzin.travelmate.utils.AuthValidator
+package ru.pwtest.pwapp.feature.sign_up.di
 
 import dagger.Module
 import dagger.Provides
 import ru.pwtest.pwapp.di.PerActivity
+import ru.pwtest.pwapp.utils.AuthValidator
 import java.util.regex.Pattern
 
 @Module

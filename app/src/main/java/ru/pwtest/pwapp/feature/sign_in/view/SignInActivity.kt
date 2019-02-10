@@ -1,6 +1,5 @@
 package ru.pwtest.pwapp.feature.sign_in.view
 
-import ru.pwtest.pwapp.feature.sign_in.presenter.SignInPresenter
 import android.support.annotation.LayoutRes
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -9,9 +8,11 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.activity_sign_in.*
+import kotlinx.android.synthetic.main.layout_progressbar.*
 import ru.pwtest.delegate.SnackBarDelegate
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseActivity
+import ru.pwtest.pwapp.feature.sign_in.presenter.SignInPresenter
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -70,6 +71,7 @@ class SignInActivity : BaseActivity(), SignInView {
     override fun showSuccessMessage(text: String) {
         snackBarDelegate.showSuccess(rootView, text)
     }
+
 
 
     override fun showLoading(flag: Boolean) {

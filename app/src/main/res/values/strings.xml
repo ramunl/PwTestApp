@@ -25,4 +25,7 @@
     <string name="incorrect_email">Incorrect email</string>
     <string name="pass">Password</string>
     <string name="create_account">Create account</string>
+    <string name="history_list_of_transactions">History (list of transactions)</string>
+    <string name="users_list">Users list</string>
+    <string name="logout">Logout</string>
 </resources>

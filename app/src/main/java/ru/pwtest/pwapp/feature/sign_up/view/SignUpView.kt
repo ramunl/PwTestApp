@@ -8,7 +8,6 @@ import ru.pwtest.pwapp.base.CanShowMessage
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface SignUpView : MvpView, CanShowLoading, CanShowMessage {
-
     fun emailValid()
     fun emailNotValid()
     fun passwordNotValid(error: String)

@@ -1,8 +1,8 @@
 package ru.pwtest.dataLayer.network
 
-import ru.pwtest.dataLayer.session.UserSession
 import okhttp3.Interceptor
 import okhttp3.Response
+import ru.pwtest.dataLayer.session.UserSession
 import javax.inject.Inject
 
 class AuthorizeInterceptor @Inject constructor(

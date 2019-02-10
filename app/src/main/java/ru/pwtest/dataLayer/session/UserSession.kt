@@ -1,9 +1,9 @@
 package ru.pwtest.dataLayer.session
 
-import andrey.murzin.travelmate.domain.entity.AuthEntity
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import ru.pwtest.delegate.SharedPrefDelegate
+import ru.pwtest.domainLayer.entity.AuthEntity
 import ru.pwtest.pwapp.di.PerApplication
 import javax.inject.Inject
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="110dp">
+
+
+    <TextView android:id="@+id/transaction_date"
+              style="@style/ListTextViewStyle"
+              android:gravity="center"
+              android:layout_height="match_parent"
+              android:layout_width="60dp"
+              tools:text="date"/>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:gravity="center"
+                  android:orientation="vertical">
+
+        <TextView android:id="@+id/transaction_user_name"
+                  style="@style/ListTextViewStyle"
+                  tools:text="User name"/>
+
+        <TextView android:id="@+id/transaction_amount"
+                  style="@style/ListTextViewStyle"
+                  tools:text="amount"/>
+
+
+        <TextView android:id="@+id/transaction_balance"
+                  style="@style/ListTextViewStyle"
+                  tools:text="balance"/>
+
+        <TextView android:id="@+id/transaction_identifier"
+                  style="@style/ListTextViewStyle"
+                  tools:text="identifier"/>
+    </LinearLayout>
+
+</LinearLayout>

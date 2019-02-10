@@ -1,5 +1,6 @@
 package ru.pwtest.pwapp.base
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.v4.app.Fragment
@@ -9,7 +10,8 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.layout_toolbar.*
+import ru.pwtest.pwapp.feature.main.view.MainActivity
 import javax.inject.Inject
 
 abstract class BaseActivity : MvpAppCompatActivity(), HasSupportFragmentInjector {
@@ -29,17 +31,13 @@ abstract class BaseActivity : MvpAppCompatActivity(), HasSupportFragmentInjector
         viewCreated()
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         disposable.clear()
+    }
+
+    fun runMainActivity() {
+        startActivity(Intent(this, MainActivity::class.java))
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = supportFragmentInjector

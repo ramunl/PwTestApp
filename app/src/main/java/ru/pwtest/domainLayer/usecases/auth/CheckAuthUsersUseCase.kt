@@ -1,8 +1,8 @@
 package ru.pwtest.domainLayer.usecases.auth
 
+import io.reactivex.Single
 import ru.pwtest.domainLayer.repository.AuthRepo
 import ru.pwtest.domainLayer.usecases.base.SingleUseCase
-import io.reactivex.Single
 import javax.inject.Inject
 
 class CheckAuthUsersUseCase @Inject constructor(

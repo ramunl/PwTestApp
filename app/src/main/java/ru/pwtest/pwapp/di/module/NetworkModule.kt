@@ -1,9 +1,5 @@
 package ru.pwtest.pwapp.di.module
 
-import ru.pwtest.dataLayer.network.AppApi
-import ru.pwtest.dataLayer.network.AuthorizeInterceptor
-import ru.pwtest.dataLayer.session.UserSession
-
 import dagger.Module
 import dagger.Provides
 import io.reactivex.schedulers.Schedulers
@@ -12,6 +8,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.pwtest.dataLayer.network.AppApi
+import ru.pwtest.dataLayer.network.AuthorizeInterceptor
+import ru.pwtest.dataLayer.session.UserSession
 import ru.pwtest.pwapp.di.PerApplication
 
 @Module

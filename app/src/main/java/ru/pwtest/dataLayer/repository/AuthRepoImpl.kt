@@ -1,10 +1,10 @@
 package ru.pwtest.dataLayer.repository
 
-import ru.pwtest.dataLayer.network.AppApi
-import ru.pwtest.dataLayer.session.UserSession
-import andrey.murzin.travelmate.domain.entity.AuthEntity
 import io.reactivex.Completable
 import io.reactivex.Single
+import ru.pwtest.dataLayer.network.AppApi
+import ru.pwtest.dataLayer.session.UserSession
+import ru.pwtest.domainLayer.entity.AuthEntity
 import ru.pwtest.domainLayer.repository.AuthRepo
 import javax.inject.Inject
 

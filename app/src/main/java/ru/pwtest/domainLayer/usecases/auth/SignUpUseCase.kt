@@ -1,8 +1,8 @@
 package ru.pwtest.domainLayer.usecases.auth
 
-import ru.pwtest.domainLayer.usecases.base.CompletableUseCase
 import io.reactivex.Completable
 import ru.pwtest.domainLayer.repository.AuthRepo
+import ru.pwtest.domainLayer.usecases.base.CompletableUseCase
 import javax.inject.Inject
 
 class SignUpUseCase @Inject constructor(
