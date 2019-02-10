@@ -31,11 +31,10 @@ class ErrorHandler @Inject constructor(
                 is HttpException -> {
                     val errorString = throwable.response().errorBody()?.string()
                     httpException.parseCode(errorBody = errorString)
-                            ?: resRepo.getString(R.string.error)
+                            ?: resRepo.getString(R.string.network_error)
                 }
                 else -> {
-                    resRepo.getString(R.string.error)
+                    resRepo.getString(R.string.network_error)
                 }
-
             }
 }

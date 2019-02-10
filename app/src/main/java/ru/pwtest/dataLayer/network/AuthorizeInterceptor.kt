@@ -12,8 +12,7 @@ class AuthorizeInterceptor @Inject constructor(
     override fun intercept(chain: Interceptor.Chain): Response {
         val builder = chain.request().newBuilder()
         if (userSession.isLoggedIn()) {
-            builder.addHeader("token_type", "bearer")
-            builder.addHeader("access_token", "${userSession.authEntity?.token}")
+            builder.addHeader("Authorization", "Bearer ${userSession.authEntity?.token}")
             return chain.proceed(builder.build())
         }
 

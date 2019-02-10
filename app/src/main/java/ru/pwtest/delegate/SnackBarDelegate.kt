@@ -14,7 +14,7 @@ class SnackBarDelegate @Inject constructor(
     fun showSuccess(view: View, text: String, onDismiss: (() -> Unit)? = null) {
         val snackBar: Snackbar = Snackbar.make(view, text, Snackbar.LENGTH_LONG)
         val snackBarView: View = snackBar.view
-        snackBarView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent))
+        snackBarView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary))
         onDismiss?.let {
             snackBar.addCallback(object : Snackbar.Callback() {
                 override fun onShown(sb: Snackbar?) { }
@@ -29,7 +29,7 @@ class SnackBarDelegate @Inject constructor(
     fun showError(view: View, text: String) {
         val snackBar: Snackbar = Snackbar.make(view, text, Snackbar.LENGTH_LONG)
         val snackBarView: View = snackBar.view
-        snackBarView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary))
+        snackBarView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent))
         snackBar.show()
     }
 

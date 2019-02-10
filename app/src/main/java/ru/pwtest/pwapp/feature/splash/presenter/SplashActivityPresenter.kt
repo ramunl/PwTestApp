@@ -1,16 +1,11 @@
 package ru.pwtest.pwapp.feature.splash.presenter
 
-import android.content.Context
-import android.content.Intent
-import android.view.View
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
-import ru.pwtest.dataLayer.repository.ResRepo
 import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.domainLayer.provider.SchedulersProvider
-import ru.pwtest.domainLayer.repository.AuthRepo
 import ru.pwtest.domainLayer.usecases.auth.CheckAuthUsersUseCase
 import ru.pwtest.pwapp.base.BasePresenter
 import ru.pwtest.pwapp.feature.splash.view.SplashView
@@ -42,9 +37,11 @@ class SplashActivityPresenter @Inject constructor(
     }
 
     private fun startSplashTimer() {
-        Single.timer(timerTime,
+        Single.timer(
+            timerTime,
             TimeUnit.MILLISECONDS,
-            schedulersProvider.ui())
+            schedulersProvider.ui()
+        )
             .subscribeBy(
                 onSuccess = { onNextScreen() },
                 onError = {
@@ -60,20 +57,22 @@ class SplashActivityPresenter @Inject constructor(
             .observeOn(schedulersProvider.ui())
             .subscribeBy(
                 onSuccess = { isAuth ->
-                    if (isAuth) goMain() else goAuth()
+                    if (isAuth) {
+                        goMain()
+                    } else {
+                        goAuth()
+                    }
                 },
-                onError = {
-
-                })
+                onError = { Timber.e(it) })
             .also { disposable.add(it) }
     }
 
     private fun goAuth() {
-        viewState.runMainActivity()
+        viewState.runSignInActivity()
     }
 
     private fun goMain() {
-        viewState.runSignInActivity()
+        viewState.runMainActivity()
     }
 
 }

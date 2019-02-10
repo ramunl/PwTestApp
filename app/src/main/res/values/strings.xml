@@ -7,8 +7,9 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="success">success</string>
-    <string name="sign_up_success">Account created! You can login now.</string>
-    <string name="error">Error!</string>
+    <string name="sign_up_success">Account created!</string>
+    <string name="sign_in_success">Login success!</string>
+    <string name="network_error">Please check your internet connection and try again.</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_up">Sign up</string>
 
@@ -28,4 +29,7 @@
     <string name="history_list_of_transactions">History (list of transactions)</string>
     <string name="users_list">Users list</string>
     <string name="logout">Logout</string>
+    <string name="user_name_s">User name: %s</string>
+    <string name="pw_balance_s">PW balance: %s</string>
+    <string name="logout_success">You Have successfully Logged Out Of Your Account</string>
 </resources>

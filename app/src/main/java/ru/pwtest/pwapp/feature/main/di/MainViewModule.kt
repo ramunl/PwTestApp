@@ -6,6 +6,8 @@ import dagger.android.ContributesAndroidInjector
 import ru.pwtest.delegate.toolbar.ToolbarDelegate
 import ru.pwtest.pwapp.di.PerActivity
 import ru.pwtest.pwapp.di.PerFragment
+import ru.pwtest.pwapp.feature.usersList.di.UsersListViewModule
+import ru.pwtest.pwapp.feature.usersList.view.UsersListFragment
 import ru.pwtest.pwapp.feature.history.di.TransactionViewModule
 import ru.pwtest.pwapp.feature.history.view.TransactionFragment
 import ru.pwtest.pwapp.feature.main.view.MainActivity
@@ -25,5 +27,9 @@ abstract class MainViewModule {
     @ContributesAndroidInjector(modules = [TransactionViewModule::class])
     abstract fun provideTransactionFragmentFactory(): TransactionFragment
 
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = [UsersListViewModule::class])
+    abstract fun provideFriendFragmentFactory(): UsersListFragment
 
 }

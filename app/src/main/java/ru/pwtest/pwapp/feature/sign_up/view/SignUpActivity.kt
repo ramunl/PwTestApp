@@ -1,6 +1,5 @@
 package ru.pwtest.pwapp.feature.sign_up.view
 
-import android.content.Intent
 import android.support.annotation.LayoutRes
 import android.view.MenuItem
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -13,8 +12,6 @@ import ru.pwtest.delegate.SnackBarDelegate
 import ru.pwtest.domainLayer.provider.SchedulersProvider
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseActivity
-import ru.pwtest.pwapp.feature.main.view.MainActivity
-import ru.pwtest.pwapp.feature.sign_in.view.SignInActivity
 import ru.pwtest.pwapp.feature.sign_up.presenter.SignUpPresenter
 import ru.pwtest.pwapp.utils.ext.changeVisibility
 import ru.pwtest.pwapp.utils.hideKeyboard

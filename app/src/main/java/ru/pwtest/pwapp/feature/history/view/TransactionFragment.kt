@@ -5,7 +5,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
-import kotlinx.android.synthetic.main.fragment_transactions.*
+import kotlinx.android.synthetic.main.fragment_recyclerview.*
 import kotlinx.android.synthetic.main.layout_progressbar.*
 import ru.pwtest.delegate.SnackBarDelegate
 import ru.pwtest.delegate.toolbar.ToolbarDelegate
@@ -47,7 +47,7 @@ class TransactionFragment : BaseFragment(), TransactionView {
         }
     }
 
-    override fun layoutRes() = R.layout.fragment_transactions
+    override fun layoutRes() = R.layout.fragment_recyclerview
 
 
     override fun showErrorMessage(text: String) {

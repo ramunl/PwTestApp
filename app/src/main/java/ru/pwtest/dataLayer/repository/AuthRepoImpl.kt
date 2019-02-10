@@ -21,6 +21,7 @@ class AuthRepoImpl @Inject constructor(
         )
     }
 
+    override fun logOut() = userSession.clearAllData()
 
     override fun login(email: String, password: String) =
             apiApp.login(email, password)
@@ -28,6 +29,8 @@ class AuthRepoImpl @Inject constructor(
                     .ignoreElement()
 
 
-    override fun isAuth(): Single<Boolean> = Single.fromCallable { userSession.isLoggedIn() }
+    override fun isAuth(): Single<Boolean> = Single.fromCallable {
+        userSession.isLoggedIn()
+    }
 
 }

@@ -12,5 +12,6 @@ class GetTransactionUseCase @Inject constructor(
 
     override fun build(parameters: Param): Single<List<TransactionEntity>> = transactionRepo.getTransaction()
 
-    data class Param(val count: Int)
+    data class Param(val count: Int = 0)
+
 }

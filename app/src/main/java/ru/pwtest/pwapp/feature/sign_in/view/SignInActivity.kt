@@ -69,7 +69,7 @@ class SignInActivity : BaseActivity(), SignInView {
     }
 
     override fun showSuccessMessage(text: String) {
-        snackBarDelegate.showSuccess(rootView, text)
+        snackBarDelegate.showSuccess(rootView, text, ::runMainActivity)
     }
 
 

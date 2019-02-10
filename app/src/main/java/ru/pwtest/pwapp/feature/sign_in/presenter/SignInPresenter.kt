@@ -8,6 +8,7 @@ import ru.pwtest.dataLayer.repository.ResRepo
 import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.domainLayer.provider.SchedulersProvider
 import ru.pwtest.domainLayer.usecases.auth.SignInUseCase
+import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BasePresenter
 import ru.pwtest.pwapp.feature.sign_in.view.SignInView
 import ru.pwtest.pwapp.feature.sign_up.view.SignUpActivity
@@ -21,10 +22,6 @@ class SignInPresenter @Inject constructor(
     private val errorHandler: ErrorHandler,
     private val resRepo: ResRepo
 ) : BasePresenter<SignInView>() {
-
-    companion object {
-        const val RESULT_CODE_REGISTRATION = 11
-    }
 
     override fun attachView(view: SignInView?) {
         super.attachView(view)
@@ -48,7 +45,7 @@ class SignInPresenter @Inject constructor(
             .doOnSubscribe { viewState.showLoading(true) }
             .doFinally { viewState.showLoading(false) }
             .subscribe(
-                { /*router.navigateTo(Screen.Main)*/ },
+                { viewState.showSuccessMessage(resRepo.getString(R.string.sign_in_success)) },
                 { errorHandler.handleError(it) }
             ).also { disposable.add(it) }
     }
@@ -56,19 +53,4 @@ class SignInPresenter @Inject constructor(
     fun goRegistration(context: Context) {
         context.startActivity(Intent(context, SignUpActivity::class.java))
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        // router.removeResultListener(RESULT_CODE_REGISTRATION)
-    }
-
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
-        /* router.setResultListener(RESULT_CODE_REGISTRATION) {
-             if (it is Submit) {
-                 viewState.showSuccessMessage(resRepo.getString(R.string.success))
-             }
-         }*/
-    }
-
 }
