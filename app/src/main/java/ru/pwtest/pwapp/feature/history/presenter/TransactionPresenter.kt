@@ -2,7 +2,6 @@ package ru.pwtest.pwapp.feature.history.presenter
 
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.domainLayer.provider.SchedulersProvider
 import ru.pwtest.domainLayer.usecases.transaction.GetTransactionUseCase
@@ -12,11 +11,12 @@ import ru.pwtest.pwapp.mapper.EntityViewModelMapper
 import javax.inject.Inject
 
 @InjectViewState
-class TransactionPresenter @Inject constructor(override val disposable: CompositeDisposable,
-                                               private val getTransactionUseCase: GetTransactionUseCase,
-                                               private val schedulersProvider: SchedulersProvider,
-                                               private val errorHandler: ErrorHandler,
-                                               private val viewModelMapper: EntityViewModelMapper
+class TransactionPresenter @Inject constructor(
+    override val compositeDisposable: CompositeDisposable,
+    private val getUserTransactionsUseCase: GetTransactionUseCase,
+    private val schedulersProvider: SchedulersProvider,
+    private val errorHandler: ErrorHandler,
+    private val viewModelMapper: EntityViewModelMapper
 ) : BasePresenter<TransactionView>() {
 
     override fun attachView(view: TransactionView?) {
@@ -27,25 +27,25 @@ class TransactionPresenter @Inject constructor(override val disposable: Composit
     override fun detachView(view: TransactionView) {
         super.detachView(view)
         errorHandler.onDetach()
+        compositeDisposable.clear()
     }
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        getTransactions().let {
-            disposable.add(it)
-        }
+        getTransactions()
     }
 
-    private fun getTransactions(): Disposable? {
-        return getTransactionUseCase.build(GetTransactionUseCase.Param(10))
-                .flattenAsObservable { it }
-                .map { viewModelMapper.mapToViewModel(it) }
-                .toList()
-                .subscribeOn(schedulersProvider.io())
-                .observeOn(schedulersProvider.ui())
-                .doOnSubscribe { viewState.showLoading(true) }
-                .doFinally { viewState.showLoading(false) }
-                .subscribe({ viewState.displayTransaction(it) }, { errorHandler.handleError(it) })
+    fun getTransactions() {
+        getUserTransactionsUseCase.build(GetTransactionUseCase.Param())
+            .flattenAsObservable { it }
+            .map { viewModelMapper.mapToViewModel(it) }
+            .toList()
+            .subscribeOn(schedulersProvider.io())
+            .observeOn(schedulersProvider.ui())
+            .doOnSubscribe { viewState.showLoading(true) }
+            .doFinally { viewState.showLoading(false) }
+            .subscribe({ viewState.displayTransaction(it) }, { errorHandler.handleError(it) })
+            .also { compositeDisposable.add(it) }
     }
 
 }

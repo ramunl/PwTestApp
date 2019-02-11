@@ -142,7 +142,7 @@ class SignUpActivity : BaseActivity(), SignUpView {
         progressBar.changeVisibility(flag)
     }
 
-    override fun showErrorMessage(text: String) {
+    override fun showErrorMessage(text: String, errCode: Int?) {
         snackBarDelegate.showError(rootView, text)
     }
 

@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @InjectViewState
 class SignInPresenter @Inject constructor(
-    override val disposable: CompositeDisposable,
+    override val compositeDisposable: CompositeDisposable,
     private val signInUseCase: SignInUseCase,
     private val schedulersProvider: SchedulersProvider,
     private val errorHandler: ErrorHandler,
@@ -31,6 +31,7 @@ class SignInPresenter @Inject constructor(
     override fun detachView(view: SignInView) {
         super.detachView(view)
         errorHandler.onDetach()
+        compositeDisposable.clear()
     }
 
     fun auth(email: String, password: String) {
@@ -47,7 +48,7 @@ class SignInPresenter @Inject constructor(
             .subscribe(
                 { viewState.showSuccessMessage(resRepo.getString(R.string.sign_in_success)) },
                 { errorHandler.handleError(it) }
-            ).also { disposable.add(it) }
+            ).also { compositeDisposable.add(it) }
     }
 
     fun goRegistration(context: Context) {

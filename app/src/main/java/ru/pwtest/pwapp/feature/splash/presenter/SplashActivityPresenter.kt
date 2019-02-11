@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @InjectViewState
 class SplashActivityPresenter @Inject constructor(
-    override val disposable: CompositeDisposable,
+    override val compositeDisposable: CompositeDisposable,
     private val schedulersProvider: SchedulersProvider,
     private val errorHandler: ErrorHandler,
     private val checkAuthUsersUseCase: CheckAuthUsersUseCase
@@ -47,7 +47,7 @@ class SplashActivityPresenter @Inject constructor(
                 onError = {
                     Timber.e(it)
                 })
-            .also { disposable.add(it) }
+            .also { compositeDisposable.add(it) }
     }
 
     private fun onNextScreen() {
@@ -64,7 +64,7 @@ class SplashActivityPresenter @Inject constructor(
                     }
                 },
                 onError = { Timber.e(it) })
-            .also { disposable.add(it) }
+            .also { compositeDisposable.add(it) }
     }
 
     private fun goAuth() {

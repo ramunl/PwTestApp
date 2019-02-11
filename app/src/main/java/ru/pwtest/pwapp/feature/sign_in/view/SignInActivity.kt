@@ -66,14 +66,13 @@ class SignInActivity : BaseActivity(), SignInView {
         signInButton.isEnabled = false
     }
 
-    override fun showErrorMessage(text: String) {
+    override fun showErrorMessage(text: String, errCode: Int?) {
         snackBarDelegate.showError(rootView, text)
     }
 
     override fun showSuccessMessage(text: String) {
         snackBarDelegate.showSuccess(rootView, text, ::runMainActivity)
     }
-
 
 
     override fun showLoading(flag: Boolean) {

@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 @InjectViewState
 class MainPresenter @Inject constructor(
-    override val disposable: CompositeDisposable,
+    override val compositeDisposable: CompositeDisposable,
     private val checkAuthUsersUseCase: CheckAuthUsersUseCase
 ) : BasePresenter<MainView>() {
 

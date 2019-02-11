@@ -15,6 +15,7 @@ import ru.pwtest.pwapp.feature.history.adapter.TransactionAdapter
 import ru.pwtest.pwapp.feature.history.presenter.TransactionPresenter
 import ru.pwtest.pwapp.model.TransactionViewModel
 import ru.pwtest.pwapp.utils.ext.changeVisibility
+import java.net.HttpURLConnection
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -40,6 +41,7 @@ class TransactionFragment : BaseFragment(), TransactionView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        emptyListTextView.text = getString(R.string.transactions_not_found)
         toolbarDelegate.changeTitle(resources.getString(R.string.history_list_of_transactions))
         with(recyclerView) {
             val manager = LinearLayoutManager(context).apply { orientation = LinearLayoutManager.VERTICAL }
@@ -52,16 +54,30 @@ class TransactionFragment : BaseFragment(), TransactionView {
     override fun layoutRes() = R.layout.fragment_recyclerview
 
 
-    override fun showErrorMessage(text: String) {
-        snackBarDelegate.showError(rootView, text)
+    override fun showErrorMessage(text: String, errCode: Int?) {
+        if (errCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
+            snackBarDelegate.showError(
+                rootView,
+                text,
+                getString(R.string.sign_in),
+                View.OnClickListener { runSignInActivity() })
+        } else {
+            snackBarDelegate.showError(
+                rootView,
+                text,
+                getString(R.string.try_again),
+                View.OnClickListener { presenter.getTransactions() })
+        }
     }
 
     override fun showSuccessMessage(text: String) {
         snackBarDelegate.showSuccess(rootView, text)
     }
 
-    override fun showLoading(flag: Boolean) {
-        progressBar.changeVisibility(flag)
+    override fun showLoading(isLoading: Boolean) {
+        progressBar.changeVisibility(isLoading)
+        emptyListTextView.changeVisibility(transactionAdapter.itemCount == 0 && !isLoading)
+
     }
 
     override fun displayTransaction(transactionList: List<TransactionViewModel>) {

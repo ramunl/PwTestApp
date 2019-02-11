@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @InjectViewState
 class UsersListPresenter @Inject constructor(
-    override val disposable: CompositeDisposable,
+    override val compositeDisposable: CompositeDisposable,
     private val userCase: GetFilteredUserListUseCase,
     private val schedulersProvider: SchedulersProvider,
     private val errorHandler: ErrorHandler,
@@ -29,22 +29,22 @@ class UsersListPresenter @Inject constructor(
     override fun detachView(view: UsersListView) {
         super.detachView(view)
         errorHandler.onDetach()
+        compositeDisposable.clear()
     }
 
     fun onSearchViewClosed() {
         viewState.submitLastQuery("")
     }
 
-    fun getFilteredUserList(query: String?): Disposable? {
+    fun getFilteredUserList(query: String?){
         if(!query.isNullOrEmpty()) {
             viewState.submitLastQuery(query)
-            return doGetFilteredUserList(query)
+            doGetFilteredUserList(query)
         }
-        return null
     }
 
-    private fun doGetFilteredUserList(filter: String?): Disposable? {
-       return userCase.build(GetFilteredUserListUseCase.Param(filter))
+    private fun doGetFilteredUserList(filter: String?) {
+        userCase.build(GetFilteredUserListUseCase.Param(filter))
             .flattenAsObservable { it }
             .map { viewModelMapper.mapToViewModel(it)}.toList()
             .subscribeOn(schedulersProvider.io())
@@ -52,6 +52,7 @@ class UsersListPresenter @Inject constructor(
             .doOnSubscribe { viewState.showLoading(true) }
             .doFinally { viewState.showLoading(false) }
             .subscribe({ viewState.displayUsers(it) }, { errorHandler.handleError(it) })
+            .also { compositeDisposable.add(it)  }
     }
 
 }

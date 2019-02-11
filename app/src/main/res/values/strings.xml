@@ -33,4 +33,7 @@
     <string name="pw_balance_s">PW balance: %s</string>
     <string name="logout_success">You Have successfully Logged Out Of Your Account</string>
     <string name="type_user_name_please">Type user name please..</string>
+    <string name="try_again">Try again</string>
+    <string name="users_not_found">Users not found</string>
+    <string name="transactions_not_found">Transactions not found</string>
 </resources>

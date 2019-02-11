@@ -39,7 +39,7 @@ class SplashActivity : BaseActivity(), SplashView {
 
 
 
-    override fun showErrorMessage(text: String) {
+    override fun showErrorMessage(text: String, errCode: Int?) {
         snackBarDelegate.showError(rootView, text)
     }
 

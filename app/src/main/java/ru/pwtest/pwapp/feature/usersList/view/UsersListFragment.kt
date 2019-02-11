@@ -20,6 +20,7 @@ import ru.pwtest.pwapp.feature.usersList.adapter.FilteredUsersAdapter
 import ru.pwtest.pwapp.feature.usersList.presenter.UsersListPresenter
 import ru.pwtest.pwapp.model.UserViewModel
 import ru.pwtest.pwapp.utils.ext.changeVisibility
+import java.net.HttpURLConnection
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -45,12 +46,12 @@ class UsersListFragment : BaseFragment(), UsersListView {
     lateinit var toolbarDelegate: ToolbarDelegate
 
 
-
     override fun layoutRes() = ru.pwtest.pwapp.R.layout.fragment_recyclerview
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         toolbarDelegate.changeTitle("")
+        emptyListTextView.text = getString(R.string.users_not_found)
         setHasOptionsMenu(true)
         with(recyclerView) {
             layoutManager = LinearLayoutManager(context)
@@ -65,16 +66,29 @@ class UsersListFragment : BaseFragment(), UsersListView {
     }
 
 
-    override fun showErrorMessage(text: String) {
-        snackBarDelegate.showError(rootView, text)
+    override fun showErrorMessage(text: String, errCode: Int?) {
+        if (errCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
+            snackBarDelegate.showError(
+                rootView,
+                text,
+                getString(R.string.sign_in),
+                View.OnClickListener { runSignInActivity() })
+        } else {
+            snackBarDelegate.showError(
+                rootView,
+                text,
+                getString(R.string.try_again),
+                View.OnClickListener { presenter.getFilteredUserList(lastQuery)})
+        }
     }
 
     override fun showSuccessMessage(text: String) {
         snackBarDelegate.showSuccess(rootView, text)
     }
 
-    override fun showLoading(flag: Boolean) {
-        progressBar.changeVisibility(flag)
+    override fun showLoading(isLoading: Boolean) {
+        progressBar.changeVisibility(isLoading)
+        emptyListTextView.changeVisibility(filteredUsersAdapter.itemCount == 0 && !isLoading)
     }
 
     override fun displayUsers(itemList: List<UserViewModel>) {
@@ -90,7 +104,7 @@ class UsersListFragment : BaseFragment(), UsersListView {
 
 
     /**
-     * we get last query form presenter if device is rotated
+     * if the screen rotates we get last query from our presenter
      */
     private var lastQuery: String? = null
     override fun submitLastQuery(query: String?) {
@@ -106,11 +120,11 @@ class UsersListFragment : BaseFragment(), UsersListView {
                 return true
             }
             override fun onQueryTextChange(newText: String?): Boolean {
-                addDisposable(presenter.getFilteredUserList(newText))
+                presenter.getFilteredUserList(newText)
                 return true
             }
         })
         searchView.setOnCloseListener { presenter.onSearchViewClosed(); false }
-        searchView.setQuery(lastQuery, true)
+        //searchView.setQuery(lastQuery, true)
     }
 }

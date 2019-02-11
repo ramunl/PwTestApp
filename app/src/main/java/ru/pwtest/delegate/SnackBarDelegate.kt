@@ -2,9 +2,7 @@ package ru.pwtest.delegate
 
 import android.content.Context
 import android.support.design.widget.Snackbar
-import android.support.v4.content.ContextCompat
 import android.view.View
-import ru.pwtest.pwapp.R
 import javax.inject.Inject
 
 class SnackBarDelegate @Inject constructor(
@@ -13,11 +11,9 @@ class SnackBarDelegate @Inject constructor(
 
     fun showSuccess(view: View, text: String, onDismiss: (() -> Unit)? = null) {
         val snackBar: Snackbar = Snackbar.make(view, text, Snackbar.LENGTH_LONG)
-        val snackBarView: View = snackBar.view
-        snackBarView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary))
         onDismiss?.let {
             snackBar.addCallback(object : Snackbar.Callback() {
-                override fun onShown(sb: Snackbar?) { }
+                override fun onShown(sb: Snackbar?) {}
                 override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                     it.invoke()
                 }
@@ -26,10 +22,12 @@ class SnackBarDelegate @Inject constructor(
         snackBar.show()
     }
 
-    fun showError(view: View, text: String) {
-        val snackBar: Snackbar = Snackbar.make(view, text, Snackbar.LENGTH_LONG)
-        val snackBarView: View = snackBar.view
-        snackBarView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent))
+    fun showError(view: View, text: String, actionText: String? = null, listener: View.OnClickListener? = null) {
+        val snackBar: Snackbar =
+            Snackbar.make(view, text, if (listener == null) Snackbar.LENGTH_LONG else Snackbar.LENGTH_INDEFINITE)
+        listener?.let {
+            snackBar.setAction(actionText, listener)
+        }
         snackBar.show()
     }
 

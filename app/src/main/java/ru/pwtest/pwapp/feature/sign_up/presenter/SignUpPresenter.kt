@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @InjectViewState
 class SignUpPresenter @Inject constructor(
-    override val disposable: CompositeDisposable,
+    override val compositeDisposable: CompositeDisposable,
     private val authValidator: AuthValidator,
     private val resRepo: ResRepo,
     private val signUpUseCase: SignUpUseCase,
@@ -30,6 +30,7 @@ class SignUpPresenter @Inject constructor(
     override fun detachView(view: SignUpView) {
         super.detachView(view)
         errorHandler.onDetach()
+        compositeDisposable.clear()
     }
 
 
@@ -47,6 +48,7 @@ class SignUpPresenter @Inject constructor(
     }
 
     fun signUp(email: String, password: String, username: String) {
+        compositeDisposable.add(
         signUpUseCase.build(
             SignUpUseCase.Param(
                 email = email,
@@ -60,6 +62,7 @@ class SignUpPresenter @Inject constructor(
             .doFinally { viewState.showLoading(false) }
             .subscribe({ viewState.showSuccessMessage(resRepo.getString(R.string.sign_up_success)) },
                 { errorHandler.handleError(it) })
+        )
     }
 
 }
