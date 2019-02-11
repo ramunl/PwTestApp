@@ -1,7 +1,7 @@
 package ru.pwtest.pwapp.feature.history.view
 
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
@@ -42,8 +42,10 @@ class TransactionFragment : BaseFragment(), TransactionView {
         super.onViewCreated(view, savedInstanceState)
         toolbarDelegate.changeTitle(resources.getString(R.string.history_list_of_transactions))
         with(recyclerView) {
+            val manager = LinearLayoutManager(context).apply { orientation = LinearLayoutManager.VERTICAL }
+            layoutManager = manager
+            setHasFixedSize(true)
             adapter = transactionAdapter
-            layoutManager = GridLayoutManager(context, 2)
         }
     }
 

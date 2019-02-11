@@ -3,38 +3,27 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="110dp">
+              android:layout_height="40dp">
 
 
-    <TextView android:id="@+id/transaction_date"
+    <TextView android:id="@+id/user_id"
               style="@style/ListTextViewStyle"
               android:gravity="center"
               android:textAlignment="center"
               android:layout_height="match_parent"
               android:layout_width="60dp"
-              tools:text="date"/>
+              tools:text="user_id"/>
 
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:gravity="center"
                   android:orientation="vertical">
 
-        <TextView android:id="@+id/transaction_user_name"
+        <TextView android:id="@+id/user_name"
+                  android:textStyle="bold"
                   style="@style/ListTextViewStyle"
                   tools:text="User name"/>
 
-        <TextView android:id="@+id/transaction_amount"
-                  style="@style/ListTextViewStyle"
-                  tools:text="amount"/>
-
-
-        <TextView android:id="@+id/transaction_balance"
-                  style="@style/ListTextViewStyle"
-                  tools:text="balance"/>
-
-        <TextView android:id="@+id/transaction_identifier"
-                  style="@style/ListTextViewStyle"
-                  tools:text="identifier"/>
     </LinearLayout>
 
 </LinearLayout>

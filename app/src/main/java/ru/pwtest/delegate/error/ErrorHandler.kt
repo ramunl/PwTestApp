@@ -2,12 +2,15 @@ package ru.pwtest.delegate.error
 
 import retrofit2.HttpException
 import ru.pwtest.dataLayer.repository.ResRepo
+import ru.pwtest.dataLayer.session.UserSession
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.CanShowMessage
 import java.lang.ref.WeakReference
+import java.net.HttpURLConnection
 import javax.inject.Inject
 
 class ErrorHandler @Inject constructor(
+    private val userSession: UserSession,
     private val resRepo: ResRepo,
     private val httpException: HttpErrorMessageParser
 ) {
@@ -27,14 +30,17 @@ class ErrorHandler @Inject constructor(
     }
 
     private fun getErrorMessage(throwable: Throwable) =
-            when (throwable) {
-                is HttpException -> {
-                    val errorString = throwable.response().errorBody()?.string()
-                    httpException.parseCode(errorBody = errorString)
-                            ?: resRepo.getString(R.string.network_error)
+        when (throwable) {
+            is HttpException -> {
+                if (throwable.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                    userSession.clearAllData()
                 }
-                else -> {
-                    resRepo.getString(R.string.network_error)
-                }
+                val errorString = throwable.response().errorBody()?.string()
+                httpException.parseCode(errorBody = errorString)
+                    ?: resRepo.getString(R.string.network_error)
             }
+            else -> {
+                resRepo.getString(R.string.network_error)
+            }
+        }
 }

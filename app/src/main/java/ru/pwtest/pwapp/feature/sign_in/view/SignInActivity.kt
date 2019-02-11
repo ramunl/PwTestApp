@@ -13,6 +13,7 @@ import ru.pwtest.delegate.SnackBarDelegate
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseActivity
 import ru.pwtest.pwapp.feature.sign_in.presenter.SignInPresenter
+import ru.pwtest.pwapp.utils.hideKeyboard
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -47,6 +48,7 @@ class SignInActivity : BaseActivity(), SignInView {
                 .also { disposable.add(it) }
 
         signInButton.setOnClickListener {
+            hideKeyboard(this)
             presenter.auth(
                     email = emailEdit.text.toString(),
                     password = passwordEdit.text.toString())

@@ -7,7 +7,5 @@ import javax.inject.Inject
 class ResRepo @Inject constructor(
         private val context: Context
 ) {
-
     fun getString(@StringRes id: Int) = context.resources.getString(id)
-
 }

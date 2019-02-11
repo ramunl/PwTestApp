@@ -1,0 +1,9 @@
+<android.widget.SearchView xmlns:android="http://schemas.android.com/apk/res/android"
+                           xmlns:app="http://schemas.android.com/apk/res-auto"
+                           style="@style/Widget.AppCompat.SearchView"
+                           android:queryHint="@string/type_user_name_please"
+                           android:layout_width="match_parent"
+                           app:iconifiedByDefault="false"
+                           android:maxWidth="10000dp"
+                           android:focusable="true"
+                           android:layout_height="match_parent"/>
