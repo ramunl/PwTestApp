@@ -3,7 +3,6 @@ package ru.pwtest.pwapp.feature.usersList.presenter
 
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.domainLayer.provider.SchedulersProvider
 import ru.pwtest.domainLayer.usecases.users.GetFilteredUserListUseCase
@@ -19,6 +18,7 @@ class UsersListPresenter @Inject constructor(
     private val schedulersProvider: SchedulersProvider,
     private val errorHandler: ErrorHandler,
     private val viewModelMapper: EntityViewModelMapper
+
 ) : BasePresenter<UsersListView>() {
 
     override fun attachView(view: UsersListView?) {
@@ -29,7 +29,6 @@ class UsersListPresenter @Inject constructor(
     override fun detachView(view: UsersListView) {
         super.detachView(view)
         errorHandler.onDetach()
-        compositeDisposable.clear()
     }
 
 

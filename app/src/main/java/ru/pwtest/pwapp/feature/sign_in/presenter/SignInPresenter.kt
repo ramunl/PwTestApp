@@ -4,10 +4,11 @@ import android.content.Context
 import android.content.Intent
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import ru.pwtest.dataLayer.repository.ResRepo
 import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.domainLayer.provider.SchedulersProvider
-import ru.pwtest.domainLayer.usecases.auth.SignInUseCase
+import ru.pwtest.domainLayer.usecases.auth.SignInSignOutUseCase
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BasePresenter
 import ru.pwtest.pwapp.feature.sign_in.view.SignInView
@@ -17,7 +18,7 @@ import javax.inject.Inject
 @InjectViewState
 class SignInPresenter @Inject constructor(
     override val compositeDisposable: CompositeDisposable,
-    private val signInUseCase: SignInUseCase,
+    private val signInUseCase: SignInSignOutUseCase,
     private val schedulersProvider: SchedulersProvider,
     private val errorHandler: ErrorHandler,
     private val resRepo: ResRepo
@@ -31,12 +32,11 @@ class SignInPresenter @Inject constructor(
     override fun detachView(view: SignInView) {
         super.detachView(view)
         errorHandler.onDetach()
-        compositeDisposable.clear()
     }
 
     fun auth(email: String, password: String) {
         signInUseCase.build(
-            SignInUseCase.Param(
+            SignInSignOutUseCase.Param(
                 email = email,
                 password = password
             )
@@ -48,7 +48,7 @@ class SignInPresenter @Inject constructor(
             .subscribe(
                 { viewState.showSuccessMessage(resRepo.getString(R.string.sign_in_success)) },
                 { errorHandler.handleError(it) }
-            ).also { compositeDisposable.add(it) }
+            ).addTo(compositeDisposable)
     }
 
     fun goRegistration(context: Context) {

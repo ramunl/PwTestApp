@@ -5,9 +5,9 @@ import ru.pwtest.domainLayer.repository.AuthRepo
 import ru.pwtest.domainLayer.usecases.base.CompletableUseCase
 import javax.inject.Inject
 
-class SignInUseCase @Inject constructor(
+class SignInSignOutUseCase @Inject constructor(
         private val authRepo: AuthRepo
-) : CompletableUseCase<SignInUseCase.Param>() {
+) : CompletableUseCase<SignInSignOutUseCase.Param>() {
 
 
     override fun build(parameters: Param): Completable = authRepo.login(
@@ -17,4 +17,8 @@ class SignInUseCase @Inject constructor(
     data class Param(
             val email: String,
             val password: String)
+
+    fun logout() {
+        authRepo.logOut()
+    }
 }

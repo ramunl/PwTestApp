@@ -11,7 +11,9 @@
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="@dimen/user_balance_layout_height">
     <TextView style="@style/LoggedUserTextViewStyle"
-              android:text="@string/user_name_s"/>
+              android:id="@+id/loggedUserName"
+              android:text="@string/user_name_format"/>
     <TextView style="@style/LoggedUserTextViewStyle"
-              android:text="@string/pw_balance_s"/>
+              android:id="@+id/loggedUserBalance"
+              android:text="@string/pw_balance_format"/>
 </LinearLayout>

@@ -1,6 +1,5 @@
 package ru.pwtest.pwapp.base
 
-import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import ru.pwtest.delegate.toolbar.ToolbarManager
 

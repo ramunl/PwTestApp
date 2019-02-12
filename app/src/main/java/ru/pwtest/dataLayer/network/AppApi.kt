@@ -39,7 +39,6 @@ interface AppApi {
 
     //Logged user info
     @GET ("/api/protected/user-info")
-    @FormUrlEncoded
     fun loggedUserInfo(): Single<UserModel>
 
 

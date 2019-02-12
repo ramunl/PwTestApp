@@ -3,6 +3,7 @@ package ru.pwtest.pwapp.feature.splash.presenter
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.domainLayer.provider.SchedulersProvider
@@ -47,7 +48,7 @@ class SplashActivityPresenter @Inject constructor(
                 onError = {
                     Timber.e(it)
                 })
-            .also { compositeDisposable.add(it) }
+            .addTo(compositeDisposable)
     }
 
     private fun onNextScreen() {
@@ -64,7 +65,7 @@ class SplashActivityPresenter @Inject constructor(
                     }
                 },
                 onError = { Timber.e(it) })
-            .also { compositeDisposable.add(it) }
+            .addTo(compositeDisposable)
     }
 
     private fun goAuth() {

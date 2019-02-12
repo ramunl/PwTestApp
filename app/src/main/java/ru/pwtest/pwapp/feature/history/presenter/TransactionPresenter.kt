@@ -2,6 +2,7 @@ package ru.pwtest.pwapp.feature.history.presenter
 
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.domainLayer.provider.SchedulersProvider
 import ru.pwtest.domainLayer.usecases.transaction.GetTransactionUseCase
@@ -27,7 +28,6 @@ class TransactionPresenter @Inject constructor(
     override fun detachView(view: TransactionView) {
         super.detachView(view)
         errorHandler.onDetach()
-        compositeDisposable.clear()
     }
 
     override fun onFirstViewAttach() {
@@ -45,7 +45,7 @@ class TransactionPresenter @Inject constructor(
             .doOnSubscribe { viewState.showLoading(true) }
             .doFinally { viewState.showLoading(false) }
             .subscribe({ viewState.displayTransaction(it) }, { errorHandler.handleError(it) })
-            .also { compositeDisposable.add(it) }
+            .addTo(compositeDisposable)
     }
 
 }

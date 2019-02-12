@@ -30,7 +30,6 @@ class SignUpPresenter @Inject constructor(
     override fun detachView(view: SignUpView) {
         super.detachView(view)
         errorHandler.onDetach()
-        compositeDisposable.clear()
     }
 
 

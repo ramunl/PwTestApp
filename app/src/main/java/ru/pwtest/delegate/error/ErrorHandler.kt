@@ -2,7 +2,6 @@ package ru.pwtest.delegate.error
 
 import retrofit2.HttpException
 import ru.pwtest.dataLayer.repository.ResRepo
-import ru.pwtest.dataLayer.session.UserSession
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.CanShowMessage
 import java.lang.ref.WeakReference
