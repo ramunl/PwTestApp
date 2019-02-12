@@ -3,13 +3,12 @@ package ru.pwtest.pwapp.feature.main.view
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
-import android.view.Menu
 import android.view.MenuItem
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.layout_toolbar.*
 import ru.pwtest.delegate.SnackBarDelegate
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseToolbarActivity
@@ -72,6 +71,6 @@ class MainActivity : BaseToolbarActivity(), MainView, NavigationView.OnNavigatio
     }
 
     override fun logoutAccount() {
-        snackBarDelegate.showSuccess(rootView,getString(R.string.logout_success), ::finish)
+        snackBarDelegate.showSuccess(coordinatorLayout,getString(R.string.logout_success), ::finish)
     }
 }

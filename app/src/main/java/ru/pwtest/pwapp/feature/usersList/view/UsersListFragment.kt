@@ -91,8 +91,15 @@ class UsersListFragment : BaseFragment(), UsersListView {
         emptyListTextView.changeVisibility(filteredUsersAdapter.itemCount == 0 && !isLoading)
     }
 
-    override fun displayUsers(itemList: List<UserViewModel>) {
+
+    /**
+     * if the screen rotates we get last query from our presenter
+     */
+    private var lastQuery: String = ""
+
+    override fun displayUsers(itemList: List<UserViewModel>, query: String) {
         filteredUsersAdapter.setData(itemList)
+        lastQuery = query
     }
 
 
@@ -103,28 +110,25 @@ class UsersListFragment : BaseFragment(), UsersListView {
     }
 
 
-    /**
-     * if the screen rotates we get last query from our presenter
-     */
-    private var lastQuery: String? = null
-    override fun submitLastQuery(query: String?) {
-        lastQuery = query
-    }
-
     private fun initSearchView(menu: Menu) {
         val searchViewMenuItem = menu.findItem(R.id.action_search)
         val searchView = searchViewMenuItem.actionView as SearchView
+        searchView.setQuery(lastQuery, false)
         searchView.setIconifiedByDefault(false)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
+            override fun onQueryTextSubmit(query: String): Boolean {
                 return true
             }
-            override fun onQueryTextChange(newText: String?): Boolean {
+            override fun onQueryTextChange(newText: String): Boolean {
                 presenter.getFilteredUserList(newText)
                 return true
             }
         })
-        searchView.setOnCloseListener { presenter.onSearchViewClosed(); false }
-        //searchView.setQuery(lastQuery, true)
+        //searchView.setOnCloseListener { presenter.onSearchViewClosed(); false }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        snackBarDelegate.dismiss()
     }
 }

@@ -84,4 +84,9 @@ class TransactionFragment : BaseFragment(), TransactionView {
         transactionAdapter.setData(transactionList)
     }
 
+
+    override fun onDetach() {
+        super.onDetach()
+        snackBarDelegate.dismiss()
+    }
 }

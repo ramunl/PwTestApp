@@ -12,8 +12,5 @@ import ru.pwtest.pwapp.model.UserViewModel
 interface UsersListView : MvpView, CanShowMessage, CanShowLoading {
 
     @StateStrategyType(SingleStateStrategy::class)
-    fun displayUsers(itemList: List<UserViewModel>)
-
-    @StateStrategyType(SingleStateStrategy::class)
-    fun submitLastQuery(query: String?)
+    fun displayUsers(itemList: List<UserViewModel>, query: String)
 }

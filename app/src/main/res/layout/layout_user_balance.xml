@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@color/colorPrimary"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingStart="@dimen/activity_padding"
+        android:paddingEnd="@dimen/activity_padding"
+        android:gravity="end"
+        android:id="@+id/userDataContainer"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="@dimen/user_balance_layout_height">
+    <TextView style="@style/LoggedUserTextViewStyle"
+              android:text="@string/user_name_s"/>
+    <TextView style="@style/LoggedUserTextViewStyle"
+              android:text="@string/pw_balance_s"/>
+</LinearLayout>

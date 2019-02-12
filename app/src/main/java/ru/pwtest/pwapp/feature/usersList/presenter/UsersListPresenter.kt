@@ -32,27 +32,22 @@ class UsersListPresenter @Inject constructor(
         compositeDisposable.clear()
     }
 
-    fun onSearchViewClosed() {
-        viewState.submitLastQuery("")
-    }
 
-    fun getFilteredUserList(query: String?){
-        if(!query.isNullOrEmpty()) {
-            viewState.submitLastQuery(query)
-            doGetFilteredUserList(query)
+
+    fun getFilteredUserList(query: String){
+        if(!query.isEmpty()) {
+            userCase.build(GetFilteredUserListUseCase.Param(query))
+                .flattenAsObservable { it }
+                .map { viewModelMapper.mapToViewModel(it)}.toList()
+                .subscribeOn(schedulersProvider.io())
+                .observeOn(schedulersProvider.ui())
+                .doOnSubscribe { viewState.showLoading(true) }
+                .doFinally { viewState.showLoading(false) }
+                .subscribe({ viewState.displayUsers(it, query) }, { errorHandler.handleError(it) })
+                .also { compositeDisposable.add(it)  }
+        } else {
+            viewState.displayUsers(emptyList(), query)
+            viewState.showLoading(false)
         }
     }
-
-    private fun doGetFilteredUserList(filter: String?) {
-        userCase.build(GetFilteredUserListUseCase.Param(filter))
-            .flattenAsObservable { it }
-            .map { viewModelMapper.mapToViewModel(it)}.toList()
-            .subscribeOn(schedulersProvider.io())
-            .observeOn(schedulersProvider.ui())
-            .doOnSubscribe { viewState.showLoading(true) }
-            .doFinally { viewState.showLoading(false) }
-            .subscribe({ viewState.displayUsers(it) }, { errorHandler.handleError(it) })
-            .also { compositeDisposable.add(it)  }
-    }
-
 }

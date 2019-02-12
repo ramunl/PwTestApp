@@ -29,8 +29,8 @@
     <string name="history_list_of_transactions">History (list of transactions)</string>
     <string name="users_list">Users list</string>
     <string name="logout">Logout</string>
-    <string name="user_name_s">User name: %s</string>
-    <string name="pw_balance_s">PW balance: %s</string>
+    <string name="user_name_s">Your name: %s</string>
+    <string name="pw_balance_s">Your PW balance: %s</string>
     <string name="logout_success">You Have successfully Logged Out Of Your Account</string>
     <string name="type_user_name_please">Type user name please..</string>
     <string name="try_again">Try again</string>
