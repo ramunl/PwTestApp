@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @InjectViewState
 class UsersListPresenter @Inject constructor(
-    override val compositeDisposable: CompositeDisposable,
+
     private val userCase: GetFilteredUserListUseCase,
     private val schedulersProvider: SchedulersProvider,
     private val errorHandler: ErrorHandler,
@@ -30,7 +30,6 @@ class UsersListPresenter @Inject constructor(
         super.detachView(view)
         errorHandler.onDetach()
     }
-
 
 
     fun getFilteredUserList(query: String){

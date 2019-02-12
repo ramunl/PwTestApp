@@ -9,7 +9,6 @@ import java.util.regex.Pattern
 @Module
 abstract class SignUpViewModule {
 
-
     @Module
     companion object {
         private const val PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^?&+=!])(?=\\S+$).{4,}$"

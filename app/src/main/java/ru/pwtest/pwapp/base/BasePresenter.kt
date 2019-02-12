@@ -6,7 +6,7 @@ import io.reactivex.disposables.CompositeDisposable
 
 abstract class BasePresenter<View : MvpView> : MvpPresenter<View>() {
 
-    abstract val compositeDisposable: CompositeDisposable
+    val compositeDisposable = CompositeDisposable()
 
     override fun detachView(view: View) {
         super.detachView(view)

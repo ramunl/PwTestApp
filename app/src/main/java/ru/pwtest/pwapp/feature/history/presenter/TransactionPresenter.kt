@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @InjectViewState
 class TransactionPresenter @Inject constructor(
-    override val compositeDisposable: CompositeDisposable,
+
     private val getUserTransactionsUseCase: GetTransactionUseCase,
     private val schedulersProvider: SchedulersProvider,
     private val errorHandler: ErrorHandler,
@@ -23,16 +23,12 @@ class TransactionPresenter @Inject constructor(
     override fun attachView(view: TransactionView?) {
         super.attachView(view)
         view?.let { errorHandler.attachView(it) }
+
     }
 
     override fun detachView(view: TransactionView) {
         super.detachView(view)
         errorHandler.onDetach()
-    }
-
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
-        getTransactions()
     }
 
     fun getTransactions() {

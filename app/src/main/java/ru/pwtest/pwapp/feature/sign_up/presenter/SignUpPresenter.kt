@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @InjectViewState
 class SignUpPresenter @Inject constructor(
-    override val compositeDisposable: CompositeDisposable,
+
     private val authValidator: AuthValidator,
     private val resRepo: ResRepo,
     private val signUpUseCase: SignUpUseCase,

@@ -10,7 +10,7 @@ class GetTransactionUseCase @Inject constructor(
         private val transactionRepo: TransactionRepo
 ) : SingleUseCase<GetTransactionUseCase.Param, List<TransactionEntity>>() {
 
-    override fun build(parameters: Param): Single<List<TransactionEntity>> = transactionRepo.getTransaction()
+    override fun build(parameters: Param): Single<List<TransactionEntity>> = transactionRepo.getTransactions()
 
     data class Param(val count: Int = 0)
 

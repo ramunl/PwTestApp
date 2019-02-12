@@ -14,23 +14,13 @@ class TransactionRepoImpl @Inject constructor(
     private val dateDelegate: DateDelegate
 ) : TransactionRepo {
 
-    override fun getTransaction(): Single<List<TransactionEntity>> =
+    override fun getTransactions(): Single<List<TransactionEntity>> =
             getNetworkTransactions().toFlowable()
             .filter { it.isNotEmpty() }
             .first(emptyList())
 
 
     private fun getNetworkTransactions(): Single<List<TransactionEntity>> {
-       return api.getTransactions()
-            .flattenAsObservable { it }
-            .map { modelMapper.mapToEntity(it) }
-            .toList()
+       return api.getTransactions().map { modelMapper.mapToEntity(it) }
     }
-
-
-    /*private fun getUserTransactions(): Single<MutableList<TransactionEntity>>?{
-        return api.getTransactions()
-            .map { model -> model.transactions?.forEach { modelMapper.mapToEntity(it) } }
-            .cast()
-    }*/
 }

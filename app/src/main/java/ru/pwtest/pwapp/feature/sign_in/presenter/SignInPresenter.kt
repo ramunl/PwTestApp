@@ -17,11 +17,12 @@ import javax.inject.Inject
 
 @InjectViewState
 class SignInPresenter @Inject constructor(
-    override val compositeDisposable: CompositeDisposable,
+
     private val signInUseCase: SignInSignOutUseCase,
     private val schedulersProvider: SchedulersProvider,
     private val errorHandler: ErrorHandler,
     private val resRepo: ResRepo
+
 ) : BasePresenter<SignInView>() {
 
     override fun attachView(view: SignInView?) {

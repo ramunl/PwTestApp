@@ -25,7 +25,7 @@ class SplashActivity : BaseActivity(), SplashView {
 
     override fun layoutRes() = R.layout.activity_splash
 
-    override fun viewCreated() {
+    override fun viewCreated(isRestoring:Boolean) {
     }
 
     @Inject

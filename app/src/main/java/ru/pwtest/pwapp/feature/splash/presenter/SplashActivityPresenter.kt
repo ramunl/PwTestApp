@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @InjectViewState
 class SplashActivityPresenter @Inject constructor(
-    override val compositeDisposable: CompositeDisposable,
+
     private val schedulersProvider: SchedulersProvider,
     private val errorHandler: ErrorHandler,
     private val checkAuthUsersUseCase: CheckAuthUsersUseCase
@@ -42,12 +42,9 @@ class SplashActivityPresenter @Inject constructor(
             timerTime,
             TimeUnit.MILLISECONDS,
             schedulersProvider.ui()
-        )
-            .subscribeBy(
+        ).subscribeBy(
                 onSuccess = { onNextScreen() },
-                onError = {
-                    Timber.e(it)
-                })
+                onError = {Timber.e(it) })
             .addTo(compositeDisposable)
     }
 

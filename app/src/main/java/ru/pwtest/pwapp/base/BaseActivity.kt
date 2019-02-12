@@ -28,7 +28,7 @@ abstract class BaseActivity : MvpAppCompatActivity(), HasSupportFragmentInjector
         disposable = CompositeDisposable()
         setContentView(layoutRes())
         setSupportActionBar(toolbar)
-        viewCreated()
+        viewCreated(savedInstanceState != null)
     }
 
     override fun onDestroy() {
@@ -45,5 +45,5 @@ abstract class BaseActivity : MvpAppCompatActivity(), HasSupportFragmentInjector
     @LayoutRes
     protected abstract fun layoutRes(): Int
 
-    protected abstract fun viewCreated()
+    protected abstract fun viewCreated(isRestoring:Boolean)
 }

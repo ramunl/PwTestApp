@@ -4,5 +4,5 @@ import ru.pwtest.domainLayer.entity.TransactionEntity
 
 interface TransactionRepo {
 
-    fun getTransaction(): Single<List<TransactionEntity>>
+    fun getTransactions(): Single<List<TransactionEntity>>
 }

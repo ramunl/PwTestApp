@@ -36,7 +36,7 @@ class SignInActivity : BaseActivity(), SignInView {
     @LayoutRes
     override fun layoutRes() = R.layout.activity_sign_in
 
-    override fun viewCreated() {
+    override fun viewCreated(isRestoring:Boolean) {
         Observables.combineLatest(RxTextView.textChanges(emailEdit).skipInitialValue(),
                 RxTextView.textChanges(passwordEdit).skipInitialValue())
         { email: CharSequence, password: CharSequence -> email.isNotEmpty() && password.isNotEmpty() }

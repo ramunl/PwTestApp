@@ -28,7 +28,7 @@ android {
     }
 }
 
-ext.retrofitVersion = '2.4.0'
+ext.retrofitVersion = '2.5.0'
 ext.loggingInterceptorVersion = '3.10.0'
 ext.daggerVersion = '2.17'
 ext.rxJavaVersion = '2.1.12'

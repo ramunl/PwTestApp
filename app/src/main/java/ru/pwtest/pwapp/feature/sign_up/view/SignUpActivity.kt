@@ -46,7 +46,7 @@ class SignUpActivity : BaseActivity(), SignUpView {
     @LayoutRes
     override fun layoutRes() = R.layout.activity_sign_up
 
-    override fun viewCreated() {
+    override fun viewCreated(isRestoring:Boolean) {
         supportActionBar?.run {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)

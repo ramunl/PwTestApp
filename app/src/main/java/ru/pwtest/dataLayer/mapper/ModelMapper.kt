@@ -1,5 +1,7 @@
 package ru.pwtest.dataLayer.mapper
 
+import ru.pwtest.dataLayer.model.LoggedUserModel
+import ru.pwtest.dataLayer.model.LoggedUserTransactionsModel
 import ru.pwtest.dataLayer.model.TransactionModel
 import ru.pwtest.dataLayer.model.UserModel
 import ru.pwtest.delegate.date.DateDelegate
@@ -26,4 +28,18 @@ class ModelMapper @Inject constructor(
         balance = from.balance,
         email = from.email
     )
+
+
+    fun mapToEntity(from: LoggedUserModel) = UserEntity(
+        id = from.loggedUser.id,
+        name = from.loggedUser.username,
+        balance = from.loggedUser.balance,
+        email = from.loggedUser.email
+    )
+
+    fun mapToEntity(loggedUserTransactionsModel: LoggedUserTransactionsModel): MutableList<TransactionEntity> {
+        val transactionEntities = mutableListOf<TransactionEntity>()
+        loggedUserTransactionsModel.transactions?.forEach { transactionEntities.add(mapToEntity(it)) }
+        return transactionEntities
+    }
 }

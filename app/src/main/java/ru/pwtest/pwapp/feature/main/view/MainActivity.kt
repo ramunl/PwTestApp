@@ -7,10 +7,10 @@ import android.view.MenuItem
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import kotlinx.android.synthetic.main.layout_user_balance.*
-import kotlinx.android.synthetic.main.nav_header_main.*
 import ru.pwtest.delegate.SnackBarDelegate
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseToolbarActivity
@@ -21,7 +21,6 @@ import ru.pwtest.pwapp.model.UserViewModel
 import ru.pwtest.pwapp.utils.replaceFragment
 import javax.inject.Inject
 import javax.inject.Provider
-
 
 
 class MainActivity : BaseToolbarActivity(), MainView, NavigationView.OnNavigationItemSelectedListener {
@@ -42,7 +41,7 @@ class MainActivity : BaseToolbarActivity(), MainView, NavigationView.OnNavigatio
         return R.layout.activity_main
     }
 
-    override fun viewCreated() {
+    override fun viewCreated(isRestoring: Boolean) {
         val toggle = ActionBarDrawerToggle(
             this, drawer_layout, toolbar,
             R.string.navigation_drawer_open,
@@ -51,6 +50,13 @@ class MainActivity : BaseToolbarActivity(), MainView, NavigationView.OnNavigatio
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         nav_view.setNavigationItemSelectedListener(this)
+
+        if (!isRestoring) {
+            presenter.refreshLoggedUserInfo()
+            val defaultSelectedMenuItem = R.id.nav_history
+            setDefaultSelectedMenuItem(defaultSelectedMenuItem)
+            setDefaultSelectedMenuItem(R.id.nav_history)
+        }
     }
 
     override fun onBackPressed() {
@@ -62,30 +68,39 @@ class MainActivity : BaseToolbarActivity(), MainView, NavigationView.OnNavigatio
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        presenter.navigateTo(item.itemId)
+        navigateTo(item.itemId)
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
 
-    override fun showUsersListFragment() {
+    private fun navigateTo(itemId: Int) {
+        when (itemId) {
+            R.id.nav_history -> showTransactionsHistoryFragment()
+            R.id.nav_logout -> {
+                presenter.logout()
+                logoutAccount()
+            }
+            R.id.nav_users -> showUsersListFragment()
+        }
+    }
+
+    private fun showUsersListFragment() {
         replaceFragment(R.id.container, UsersListFragment(), FragmentId.USERS_LIST_FRAGMENT_ID)
     }
 
-    override fun setDefaultSelectedMenuItem(menuId:Int) {
-        val item = nav_view.menu.findItem(menuId)
+    override fun setDefaultSelectedMenuItem(itemId: Int) {
+        navigateTo(itemId)
+        val item = nav_view.menu.findItem(itemId)
         item.isCheckable = true
         item.isChecked = true
     }
 
-    override  fun showTransactionsHistoryFragment() {
-        val item = nav_view.menu.findItem(R.id.nav_history)
-        item.isCheckable = true
-        item.isChecked = true
+    private fun showTransactionsHistoryFragment() {
         replaceFragment(R.id.container, TransactionFragment(), FragmentId.TRANSACTIONS_LIST_FRAGMENT_ID)
     }
 
     override fun logoutAccount() {
-        snackBarDelegate.showSuccess(coordinatorLayout,getString(R.string.logout_success), ::finish)
+        snackBarDelegate.showSuccess(coordinatorLayout, getString(R.string.logout_success), ::finish)
     }
 
 
@@ -93,15 +108,23 @@ class MainActivity : BaseToolbarActivity(), MainView, NavigationView.OnNavigatio
         val dataUnknown = getString(R.string.data_unknown)
         loggedUserName.text = String.format(getString(R.string.user_name_format), dataUnknown)
         loggedUserBalance.text = String.format(getString(R.string.pw_balance_format), dataUnknown)
-        navHeaderTitle.text = String.format(getString(R.string.user_id_format), dataUnknown)
-        navHeaderSubTitle.text = String.format(getString(R.string.user_email_format), dataUnknown)
+        // navHeaderTitle.text = String.format(getString(R.string.user_id_format), dataUnknown)
+        // navHeaderSubTitle.text = String.format(getString(R.string.user_email_format), dataUnknown)
     }
 
     override fun updateLoggedUserInfo(userViewModel: UserViewModel) {
         loggedUserName.text = String.format(getString(R.string.user_name_format), userViewModel.name)
         loggedUserBalance.text = String.format(getString(R.string.pw_balance_format), userViewModel.balance.toString())
-        navHeaderTitle.text = String.format(getString(R.string.user_id_format), userViewModel.id.toString())
-        navHeaderSubTitle.text = String.format(getString(R.string.user_email_format), userViewModel.email)
+        // navHeaderTitle.text = String.format(getString(R.string.user_id_format), userViewModel.id.toString())
+        // navHeaderSubTitle.text = String.format(getString(R.string.user_email_format), userViewModel.email)
+    }
+
+    override fun showErrorMessage(text: String, errCode: Int?) {
+        snackBarDelegate.showError(rootView, text)
+    }
+
+    override fun showSuccessMessage(text: String) {
+        //not used here
     }
 
 }

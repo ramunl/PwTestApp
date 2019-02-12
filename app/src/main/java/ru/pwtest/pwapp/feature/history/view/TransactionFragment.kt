@@ -49,6 +49,9 @@ class TransactionFragment : BaseFragment(), TransactionView {
             setHasFixedSize(true)
             adapter = transactionAdapter
         }
+        if(savedInstanceState == null) {
+            presenter.getTransactions()
+        }
     }
 
     override fun layoutRes() = R.layout.fragment_recyclerview

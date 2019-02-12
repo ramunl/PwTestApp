@@ -6,10 +6,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
-import ru.pwtest.dataLayer.model.AuthModel
-import ru.pwtest.dataLayer.model.TransactionModel
-import ru.pwtest.dataLayer.model.UserModel
-import ru.pwtest.dataLayer.model.UserTransactionsModel
+import ru.pwtest.dataLayer.model.*
 
 interface AppApi {
 
@@ -29,7 +26,7 @@ interface AppApi {
 
     //List of logged user transactions
     @GET("api/protected/transactions")
-    fun getTransactions(): Single<List<TransactionModel>>
+    fun getTransactions(): Single<LoggedUserTransactionsModel>
 
 
     //Filtered User list
@@ -39,12 +36,12 @@ interface AppApi {
 
     //Logged user info
     @GET ("/api/protected/user-info")
-    fun loggedUserInfo(): Single<UserModel>
+    fun loggedUserInfo(): Single<LoggedUserModel>
 
 
     //Create a transaction
     @POST("/api/protected/transactions")
     @FormUrlEncoded
     fun createTransaction(@Field("name") name: String,
-               @Field("amount") amount: Int): Single<UserTransactionsModel>
+               @Field("amount") amount: Int): Single<LoggedUserTransactionsModel>
 }
