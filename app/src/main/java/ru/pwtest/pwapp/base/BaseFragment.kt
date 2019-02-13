@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.arellomobile.mvp.MvpAppCompatFragment
 import dagger.android.support.AndroidSupportInjection
-import ru.pwtest.pwapp.feature.sign_in.view.SignInActivity
+import ru.pwtest.pwapp.feature.signIn.view.SignInActivity
 
 abstract class BaseFragment : MvpAppCompatFragment() {
 

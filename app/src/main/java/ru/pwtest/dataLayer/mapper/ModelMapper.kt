@@ -1,9 +1,6 @@
 package ru.pwtest.dataLayer.mapper
 
-import ru.pwtest.dataLayer.model.LoggedUserModel
-import ru.pwtest.dataLayer.model.LoggedUserTransactionsModel
-import ru.pwtest.dataLayer.model.TransactionModel
-import ru.pwtest.dataLayer.model.UserModel
+import ru.pwtest.dataLayer.model.*
 import ru.pwtest.delegate.date.DateDelegate
 import ru.pwtest.domainLayer.entity.TransactionEntity
 import ru.pwtest.domainLayer.entity.UserEntity
@@ -41,5 +38,9 @@ class ModelMapper @Inject constructor(
         val transactionEntities = mutableListOf<TransactionEntity>()
         loggedUserTransactionsModel.transactions?.forEach { transactionEntities.add(mapToEntity(it)) }
         return transactionEntities
+    }
+
+    fun mapToEntity(transactionRespModel: CreateTransactionRespModel): TransactionEntity {
+        return transactionRespModel.transaction.let {  mapToEntity(it) }
     }
 }

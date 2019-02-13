@@ -3,12 +3,14 @@ package ru.pwtest.pwapp.di.module
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import ru.pwtest.pwapp.di.PerActivity
+import ru.pwtest.pwapp.feature.createTransaction.di.CreateTransactionViewModule
+import ru.pwtest.pwapp.feature.createTransaction.view.CreateTransactionActivity
 import ru.pwtest.pwapp.feature.main.di.MainViewModule
 import ru.pwtest.pwapp.feature.main.view.MainActivity
-import ru.pwtest.pwapp.feature.sign_in.di.SignInViewModule
-import ru.pwtest.pwapp.feature.sign_in.view.SignInActivity
-import ru.pwtest.pwapp.feature.sign_up.di.SignUpViewModule
-import ru.pwtest.pwapp.feature.sign_up.view.SignUpActivity
+import ru.pwtest.pwapp.feature.signIn.di.SignInViewModule
+import ru.pwtest.pwapp.feature.signIn.view.SignInActivity
+import ru.pwtest.pwapp.feature.signUp.di.SignUpViewModule
+import ru.pwtest.pwapp.feature.signUp.view.SignUpActivity
 import ru.pwtest.pwapp.feature.splash.di.SplashViewModule
 import ru.pwtest.pwapp.feature.splash.view.SplashActivity
 
@@ -30,4 +32,9 @@ interface AppBuilderModule {
     @PerActivity
     @ContributesAndroidInjector(modules = [SplashViewModule::class])
     fun provideSplashActivityFactory(): SplashActivity
+
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = [CreateTransactionViewModule::class])
+    fun provideCreateTransactionActivityFactory(): CreateTransactionActivity
 }

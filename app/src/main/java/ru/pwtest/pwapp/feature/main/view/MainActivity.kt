@@ -4,6 +4,7 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
+import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.activity_main.*
@@ -19,6 +20,7 @@ import ru.pwtest.pwapp.feature.main.presenter.MainPresenter
 import ru.pwtest.pwapp.feature.usersList.view.UsersListFragment
 import ru.pwtest.pwapp.model.UserViewModel
 import ru.pwtest.pwapp.utils.replaceFragment
+import ru.pwtest.pwapp.utils.setLoggedUserInfoFromModel
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -42,6 +44,7 @@ class MainActivity : BaseToolbarActivity(), MainView, NavigationView.OnNavigatio
     }
 
     override fun viewCreated(isRestoring: Boolean) {
+        userDataContainer.visibility = View.VISIBLE
         val toggle = ActionBarDrawerToggle(
             this, drawer_layout, toolbar,
             R.string.navigation_drawer_open,
@@ -104,17 +107,9 @@ class MainActivity : BaseToolbarActivity(), MainView, NavigationView.OnNavigatio
     }
 
 
-    override fun loggedUserInfoNotFetched() {
-        val dataUnknown = getString(R.string.data_unknown)
-        loggedUserName.text = String.format(getString(R.string.user_name_format), dataUnknown)
-        loggedUserBalance.text = String.format(getString(R.string.pw_balance_format), dataUnknown)
-        // navHeaderTitle.text = String.format(getString(R.string.user_id_format), dataUnknown)
-        // navHeaderSubTitle.text = String.format(getString(R.string.user_email_format), dataUnknown)
-    }
 
     override fun updateLoggedUserInfo(userViewModel: UserViewModel) {
-        loggedUserName.text = String.format(getString(R.string.user_name_format), userViewModel.name)
-        loggedUserBalance.text = String.format(getString(R.string.pw_balance_format), userViewModel.balance.toString())
+        setLoggedUserInfoFromModel(loggedUserName, loggedUserBalance, userViewModel)
         // navHeaderTitle.text = String.format(getString(R.string.user_id_format), userViewModel.id.toString())
         // navHeaderSubTitle.text = String.format(getString(R.string.user_email_format), userViewModel.email)
     }

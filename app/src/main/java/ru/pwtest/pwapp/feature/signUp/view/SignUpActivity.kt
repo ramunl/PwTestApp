@@ -1,4 +1,4 @@
-package ru.pwtest.pwapp.feature.sign_up.view
+package ru.pwtest.pwapp.feature.signUp.view
 
 import android.support.annotation.LayoutRes
 import android.view.MenuItem
@@ -12,7 +12,7 @@ import ru.pwtest.delegate.SnackBarDelegate
 import ru.pwtest.domainLayer.provider.SchedulersProvider
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseActivity
-import ru.pwtest.pwapp.feature.sign_up.presenter.SignUpPresenter
+import ru.pwtest.pwapp.feature.signUp.presenter.SignUpPresenter
 import ru.pwtest.pwapp.utils.ext.changeVisibility
 import ru.pwtest.pwapp.utils.hideKeyboard
 import java.util.concurrent.TimeUnit
@@ -98,7 +98,7 @@ class SignUpActivity : BaseActivity(), SignUpView {
                 .subscribe({
                     if (it) enableSignUp()
                     else disableSignUp()
-                }, {}).also { disposable.add(it) }
+                }, {}).also { compositeDisposable.add(it) }
 
         signUpButton.setOnClickListener {
             hideKeyboard(this)

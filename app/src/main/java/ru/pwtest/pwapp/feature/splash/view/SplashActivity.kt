@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.layout_progressbar.*
 import ru.pwtest.delegate.SnackBarDelegate
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseActivity
-import ru.pwtest.pwapp.feature.sign_in.view.SignInActivity
+import ru.pwtest.pwapp.feature.signIn.view.SignInActivity
 import ru.pwtest.pwapp.feature.splash.presenter.SplashActivityPresenter
 import javax.inject.Inject
 import javax.inject.Provider

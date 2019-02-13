@@ -1,4 +1,4 @@
-package ru.pwtest.pwapp.feature.sign_in.view
+package ru.pwtest.pwapp.feature.signUp.view
 
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
@@ -7,6 +7,9 @@ import ru.pwtest.pwapp.base.CanShowLoading
 import ru.pwtest.pwapp.base.CanShowMessage
 
 @StateStrategyType(AddToEndSingleStrategy::class)
-interface SignInView : MvpView, CanShowMessage, CanShowLoading {
-
+interface SignUpView : MvpView, CanShowLoading, CanShowMessage {
+    fun emailValid()
+    fun emailNotValid()
+    fun passwordNotValid(error: String)
+    fun passwordValid()
 }

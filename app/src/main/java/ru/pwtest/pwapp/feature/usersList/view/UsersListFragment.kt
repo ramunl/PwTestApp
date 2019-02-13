@@ -46,7 +46,7 @@ class UsersListFragment : BaseFragment(), UsersListView {
     lateinit var toolbarDelegate: ToolbarDelegate
 
 
-    override fun layoutRes() = ru.pwtest.pwapp.R.layout.fragment_recyclerview
+    override fun layoutRes() = R.layout.fragment_recyclerview
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

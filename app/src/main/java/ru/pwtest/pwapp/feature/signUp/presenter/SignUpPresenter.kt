@@ -1,14 +1,13 @@
-package ru.pwtest.pwapp.feature.sign_up.presenter
+package ru.pwtest.pwapp.feature.signUp.presenter
 
 import com.arellomobile.mvp.InjectViewState
-import io.reactivex.disposables.CompositeDisposable
 import ru.pwtest.dataLayer.repository.ResRepo
 import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.domainLayer.provider.SchedulersProvider
 import ru.pwtest.domainLayer.usecases.auth.SignUpUseCase
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BasePresenter
-import ru.pwtest.pwapp.feature.sign_up.view.SignUpView
+import ru.pwtest.pwapp.feature.signUp.view.SignUpView
 import ru.pwtest.pwapp.utils.AuthValidator
 import javax.inject.Inject
 

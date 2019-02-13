@@ -43,5 +43,5 @@ interface AppApi {
     @POST("/api/protected/transactions")
     @FormUrlEncoded
     fun createTransaction(@Field("name") name: String,
-               @Field("amount") amount: Int): Single<LoggedUserTransactionsModel>
+               @Field("amount") amount: Int): Single<CreateTransactionRespModel>
 }

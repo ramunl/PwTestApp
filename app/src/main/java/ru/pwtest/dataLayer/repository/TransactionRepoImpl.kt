@@ -1,6 +1,7 @@
 package ru.pwtest.dataLayer.repository
 
 import io.reactivex.Single
+import retrofit2.http.Field
 import ru.pwtest.dataLayer.mapper.ModelMapper
 import ru.pwtest.dataLayer.network.AppApi
 import ru.pwtest.delegate.date.DateDelegate
@@ -14,6 +15,10 @@ class TransactionRepoImpl @Inject constructor(
     private val dateDelegate: DateDelegate
 ) : TransactionRepo {
 
+    override fun createTransaction(name: String, amount: Int): Single<TransactionEntity> {
+        return api.createTransaction(name, amount).map {  modelMapper.mapToEntity(it)}
+    }
+
     override fun getTransactions(): Single<List<TransactionEntity>> =
             getNetworkTransactions().toFlowable()
             .filter { it.isNotEmpty() }
@@ -23,4 +28,5 @@ class TransactionRepoImpl @Inject constructor(
     private fun getNetworkTransactions(): Single<List<TransactionEntity>> {
        return api.getTransactions().map { modelMapper.mapToEntity(it) }
     }
+
 }

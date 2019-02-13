@@ -1,4 +1,4 @@
-package ru.pwtest.pwapp.feature.sign_up.di
+package ru.pwtest.pwapp.feature.signUp.di
 
 import dagger.Module
 import dagger.Provides

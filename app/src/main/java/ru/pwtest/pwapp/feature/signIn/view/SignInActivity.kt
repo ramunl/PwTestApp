@@ -1,4 +1,4 @@
-package ru.pwtest.pwapp.feature.sign_in.view
+package ru.pwtest.pwapp.feature.signIn.view
 
 import android.support.annotation.LayoutRes
 import android.view.View.GONE
@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.layout_progressbar.*
 import ru.pwtest.delegate.SnackBarDelegate
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseActivity
-import ru.pwtest.pwapp.feature.sign_in.presenter.SignInPresenter
+import ru.pwtest.pwapp.feature.signIn.presenter.SignInPresenter
 import ru.pwtest.pwapp.utils.hideKeyboard
 import javax.inject.Inject
 import javax.inject.Provider
@@ -45,7 +45,7 @@ class SignInActivity : BaseActivity(), SignInView {
                         { if (it) enableLogin() else disableLogin() },
                         { disableLogin() }
                 )
-                .also { disposable.add(it) }
+                .also { compositeDisposable.add(it) }
 
         signInButton.setOnClickListener {
             hideKeyboard(this)

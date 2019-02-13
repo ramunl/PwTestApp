@@ -37,12 +37,7 @@ class MainPresenter @Inject constructor(
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.ui())
             .map { viewModelMapper.mapToViewModel(it) }
-            .subscribe(
-                { viewState.updateLoggedUserInfo(it) },
-                {
-                    errorHandler.handleError(it)
-                    viewState.loggedUserInfoNotFetched()
-                })
+            .subscribe({ viewState.updateLoggedUserInfo(it) }, { errorHandler.handleError(it) })
             .addTo(compositeDisposable)
     }
 

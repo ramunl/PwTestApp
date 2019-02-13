@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
         android:background="@color/colorPrimary"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:paddingStart="@dimen/activity_padding"
         android:paddingEnd="@dimen/activity_padding"
-        android:gravity="end"
+        android:gravity="center"
+        android:visibility="gone"
         android:id="@+id/userDataContainer"
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="@dimen/user_balance_layout_height">
     <TextView style="@style/LoggedUserTextViewStyle"
               android:id="@+id/loggedUserName"
-              android:text="@string/user_name_format"/>
+              tools:text="@string/user_name_format"/>
     <TextView style="@style/LoggedUserTextViewStyle"
               android:id="@+id/loggedUserBalance"
-              android:text="@string/pw_balance_format"/>
+              tools:text="@string/pw_balance_format"/>
 </LinearLayout>

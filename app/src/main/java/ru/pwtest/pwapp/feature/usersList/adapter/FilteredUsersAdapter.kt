@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.list_item_user.view.*
 import ru.pwtest.pwapp.R
+import ru.pwtest.pwapp.feature.createTransaction.view.CreateTransactionActivity
 import ru.pwtest.pwapp.model.UserViewModel
 import ru.pwtest.pwapp.utils.ext.inflate
 import javax.inject.Inject
@@ -35,6 +36,9 @@ class FilteredUsersAdapter @Inject constructor() : RecyclerView.Adapter<Filtered
             with(itemView) {
                 user_name.text = UserViewModel.name
                 user_id.text = UserViewModel.id.toString()
+                UserViewModel.name?.let {
+                    setOnClickListener {  CreateTransactionActivity.start(context, UserViewModel.name)}
+                }
             }
         }
     }

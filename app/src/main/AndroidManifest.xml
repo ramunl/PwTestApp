@@ -22,14 +22,22 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+
         <activity
-                android:name=".feature.sign_up.view.SignUpActivity"
+                android:name=".feature.createTransaction.view.CreateTransactionActivity"
+                android:label="@string/create_transaction"
+                android:windowSoftInputMode="stateUnchanged|adjustResize"
+                android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+                android:name=".feature.signUp.view.SignUpActivity"
                 android:label="@string/sign_up"
                 android:windowSoftInputMode="stateUnchanged|adjustResize"
                 android:theme="@style/AppTheme.NoActionBar"/>
         <activity
                 android:label="@string/sign_in"
-                android:name=".feature.sign_in.view.SignInActivity"
+                android:name=".feature.signIn.view.SignInActivity"
                 android:theme="@style/AppTheme.NoActionBar"/>
         <activity
                 android:name=".feature.main.view.MainActivity"

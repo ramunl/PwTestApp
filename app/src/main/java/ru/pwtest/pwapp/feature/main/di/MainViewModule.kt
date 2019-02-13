@@ -23,6 +23,7 @@ abstract class MainViewModule {
         @PerActivity
         fun provideToolbarDelegate(activity: MainActivity) = ToolbarDelegate(activity)
 
+
         @PerActivity
         @JvmStatic
         @Provides
