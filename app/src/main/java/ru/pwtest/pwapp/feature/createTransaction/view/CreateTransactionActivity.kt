@@ -68,6 +68,7 @@ class CreateTransactionActivity : BaseActivity(), CreateTransactionView {
         recipientNameTextView.text = String.format(getString(R.string.recipient), recipientName)
         makeTransactionButton.setOnClickListener { presenter.createTransaction(recipientName, getPwAmountFromEdit()) }
         RxTextView.textChangeEvents(pwAmountEditText)
+            .skipInitialValue()
             .debounce(SignUpActivity.DEBOUNCE_MAX_TIME, TimeUnit.MILLISECONDS)
             .observeOn(schedulersProvider.ui())
             .doOnNext {
