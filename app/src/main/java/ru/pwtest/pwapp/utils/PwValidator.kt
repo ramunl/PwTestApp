@@ -1,12 +1,20 @@
 package ru.pwtest.pwapp.utils
 
+import timber.log.Timber
 
-fun isPwFormatValid(target: String): Boolean {
-    return try {
-        target.toInt()
-        true
-    } catch (e: NumberFormatException) {
-        false
+class PwValidator(wpAmount: String) {
+
+    var isValid: Boolean = false
+    var wpAmountVal: Int = 0
+
+    init {
+        isValid = try {
+            wpAmountVal = Integer.parseInt(wpAmount)
+            true
+        } catch (e: Exception) {
+            Timber.e(e)
+            false
+        }
     }
 }
 

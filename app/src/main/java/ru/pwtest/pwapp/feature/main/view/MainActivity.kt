@@ -20,7 +20,7 @@ import ru.pwtest.pwapp.feature.main.presenter.MainPresenter
 import ru.pwtest.pwapp.feature.usersList.view.UsersListFragment
 import ru.pwtest.pwapp.model.UserViewModel
 import ru.pwtest.pwapp.utils.replaceFragment
-import ru.pwtest.pwapp.utils.setLoggedUserInfoFromModel
+import ru.pwtest.pwapp.utils.updateLoggedUserInfoFromViewModel
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -108,8 +108,8 @@ class MainActivity : BaseToolbarActivity(), MainView, NavigationView.OnNavigatio
 
 
 
-    override fun updateLoggedUserInfo(userViewModel: UserViewModel) {
-        setLoggedUserInfoFromModel(loggedUserName, loggedUserBalance, userViewModel)
+    override fun refreshLoggedUserInfoViews(userViewModel: UserViewModel) {
+        updateLoggedUserInfoFromViewModel(userDataContainer, userViewModel)
         // navHeaderTitle.text = String.format(getString(R.string.user_id_format), userViewModel.id.toString())
         // navHeaderSubTitle.text = String.format(getString(R.string.user_email_format), userViewModel.email)
     }

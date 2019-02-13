@@ -45,5 +45,6 @@
     <string name="amount_hint">Amount, PW</string>
     <string name="send_money">Send money</string>
     <string name="default_amount">0</string>
-    <string name="wrong_amount_format">Wrong format</string>
+    <string name="wrong_amount_format">Please enter correct amount</string>
+    <string name="transaction_success">Transaction successful!</string>
 </resources>

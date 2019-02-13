@@ -33,8 +33,10 @@ class TransactionAdapter @Inject constructor() : RecyclerView.Adapter<Transactio
 
         fun bind(transactionViewModel: TransactionViewModel) {
             with(itemView) {
+                transaction_amount.text = transactionViewModel.amount.toString()
+                transaction_balance.text = transactionViewModel.balance.toString()
                 transaction_user_name.text = transactionViewModel.username
-                transaction_date.text = transactionViewModel.date.toString()
+                transaction_date.text = transactionViewModel.date
             }
         }
     }

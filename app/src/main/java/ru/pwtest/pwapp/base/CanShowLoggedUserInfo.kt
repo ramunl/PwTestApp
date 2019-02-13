@@ -4,5 +4,5 @@ import ru.pwtest.pwapp.model.UserViewModel
 
 interface CanShowLoggedUserInfo {
 
-    fun updateLoggedUserInfo(userViewModel: UserViewModel)
+    fun refreshLoggedUserInfoViews(userViewModel: UserViewModel)
 }

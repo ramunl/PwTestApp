@@ -32,12 +32,12 @@ class FilteredUsersAdapter @Inject constructor() : RecyclerView.Adapter<Filtered
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(UserViewModel: UserViewModel) {
+        fun bind(userViewModel: UserViewModel) {
             with(itemView) {
-                user_name.text = UserViewModel.name
-                user_id.text = UserViewModel.id.toString()
-                UserViewModel.name?.let {
-                    setOnClickListener {  CreateTransactionActivity.start(context, UserViewModel.name)}
+                user_name.text = userViewModel.name
+                user_id.text = userViewModel.id.toString()
+                userViewModel.name?.let {
+                    setOnClickListener {  CreateTransactionActivity.start(context, userViewModel.name)}
                 }
             }
         }

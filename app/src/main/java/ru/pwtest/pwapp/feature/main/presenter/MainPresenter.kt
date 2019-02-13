@@ -6,7 +6,6 @@ import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.domainLayer.provider.SchedulersProvider
 import ru.pwtest.domainLayer.usecases.auth.SignInSignOutUseCase
 import ru.pwtest.domainLayer.usecases.users.GetLoggedUserInfoUseCase
-import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BasePresenter
 import ru.pwtest.pwapp.feature.main.view.MainView
 import ru.pwtest.pwapp.mapper.EntityViewModelMapper
@@ -37,7 +36,7 @@ class MainPresenter @Inject constructor(
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.ui())
             .map { viewModelMapper.mapToViewModel(it) }
-            .subscribe({ viewState.updateLoggedUserInfo(it) }, { errorHandler.handleError(it) })
+            .subscribe({ viewState.refreshLoggedUserInfoViews(it) }, { errorHandler.handleError(it) })
             .addTo(compositeDisposable)
     }
 

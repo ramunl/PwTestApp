@@ -9,5 +9,7 @@ import ru.pwtest.pwapp.base.CanShowMessage
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface CreateTransactionView : MvpView, CanShowMessage, CanShowLoading, CanShowLoggedUserInfo {
-
+    fun setPwAmountWrongFormatErrorMessage(error:String? = null)
+    fun setPwAmount(wpAmountVal: Int)
+    fun enableMakeTransactionButton(enable: Boolean)
 }

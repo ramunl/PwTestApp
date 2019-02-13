@@ -11,6 +11,7 @@ import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BasePresenter
 import ru.pwtest.pwapp.feature.createTransaction.view.CreateTransactionView
 import ru.pwtest.pwapp.mapper.EntityViewModelMapper
+import ru.pwtest.pwapp.utils.PwValidator
 import javax.inject.Inject
 
 @InjectViewState
@@ -39,27 +40,40 @@ class CreateTransactionPresenter @Inject constructor(
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.ui())
             .map { viewModelMapper.mapToViewModel(it) }
-            .subscribe({ viewState.updateLoggedUserInfo(it) },
-                { errorHandler.handleError(it) })
+            .subscribe({ model ->
+                viewState.refreshLoggedUserInfoViews(model)
+            }, { errorHandler.handleError(it) })
             .addTo(compositeDisposable)
     }
 
-    fun createTransaction(name: String, amount:Int) {
+    fun createTransaction(name: String, amount: Int) {
         createTransactionUseCase.build(
             CreateTransactionUseCase.Param(
                 name = name,
-                amount = amount
-            ))
+                amount = amount))
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.ui())
             .doOnSubscribe { viewState.showLoading(true) }
             .doFinally {
                 refreshLoggedUserInfo()
-                viewState.showLoading(false) }
+                viewState.showLoading(false)
+            }
             .subscribe(
-                { viewState.showSuccessMessage(resRepo.getString(R.string.sign_in_success)) },
+                { viewState.showSuccessMessage(resRepo.getString(R.string.transaction_success)) },
                 { errorHandler.handleError(it) }
             ).addTo(compositeDisposable)
+    }
+
+    fun validatePwAmount(text: String) {
+        var pwValidator = PwValidator(text)
+        if (pwValidator.isValid) {
+            viewState.setPwAmount(pwValidator.wpAmountVal)
+            viewState.enableMakeTransactionButton(pwValidator.wpAmountVal > 0)
+            viewState.setPwAmountWrongFormatErrorMessage(null)
+        } else {
+            viewState.enableMakeTransactionButton(false)
+            viewState.setPwAmountWrongFormatErrorMessage(resRepo.getString(R.string.wrong_amount_format))
+        }
     }
 
 }

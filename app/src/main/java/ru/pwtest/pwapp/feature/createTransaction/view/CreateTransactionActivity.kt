@@ -19,10 +19,8 @@ import ru.pwtest.pwapp.base.BaseActivity
 import ru.pwtest.pwapp.feature.createTransaction.presenter.CreateTransactionPresenter
 import ru.pwtest.pwapp.feature.signUp.view.SignUpActivity
 import ru.pwtest.pwapp.model.UserViewModel
-import ru.pwtest.pwapp.utils.isPwFormatValid
-import ru.pwtest.pwapp.utils.setLoggedUserInfoFromModel
+import ru.pwtest.pwapp.utils.updateLoggedUserInfoFromViewModel
 import timber.log.Timber
-import java.lang.Exception
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Provider
@@ -32,10 +30,11 @@ class CreateTransactionActivity : BaseActivity(), CreateTransactionView {
 
     companion object {
         const val recipientNameParam = "name"
+        const val loggedUserModelParam = "loggedUserModel"
         @JvmStatic
-        fun start(context: Context, name: String) {
+        fun start(context: Context, recipientName: String) {
             val intent = Intent(context, CreateTransactionActivity::class.java).apply {
-                putExtra(recipientNameParam, name)
+                putExtra(recipientNameParam, recipientName)
             }
             context.startActivity(intent)
         }
@@ -62,22 +61,17 @@ class CreateTransactionActivity : BaseActivity(), CreateTransactionView {
 
     override fun viewCreated(isRestoring: Boolean) {
         if (!isRestoring) {
-            amountSendingEditText.setText(getString(R.string.default_amount))
-            amountSendingEditText.requestFocus()
+            pwAmountEditText.requestFocus()
+            presenter.refreshLoggedUserInfo()
         }
-        userDataContainer.visibility = VISIBLE
         val recipientName = intent.getStringExtra(recipientNameParam)
         recipientNameTextView.text = String.format(getString(R.string.recipient), recipientName)
-        makeTransactionButton.setOnClickListener { presenter.createTransaction(recipientName, getSendingAmount()) }
-        RxTextView.textChanges(amountSendingEditText)
+        makeTransactionButton.setOnClickListener { presenter.createTransaction(recipientName, getPwAmountFromEdit()) }
+        RxTextView.textChangeEvents(pwAmountEditText)
             .debounce(SignUpActivity.DEBOUNCE_MAX_TIME, TimeUnit.MILLISECONDS)
             .observeOn(schedulersProvider.ui())
             .doOnNext {
-                if(isPwFormatValid(amountSendingEditText.text.toString())) {
-                    enableMakeTransactionButton(getSendingAmount() > 0)
-                } else {
-                    enableMakeTransactionButton(false)
-                }
+                presenter.validatePwAmount(it.text().toString())
             }
             .doOnError {
                 Timber.e(it)
@@ -87,19 +81,25 @@ class CreateTransactionActivity : BaseActivity(), CreateTransactionView {
 
     }
 
-    private fun getSendingAmount() = amountSendingEditText.text.toString().toInt()
 
-    fun enterAmountErrorShow(showError: Boolean) {
-        if (showError) {
-            amountSendingTextInput.isErrorEnabled = true
-            amountSendingTextInput.error = getString(R.string.wrong_amount_format)
+    private fun getPwAmountFromEdit() = pwAmountEditText.text.toString().toInt()
+
+    override fun setPwAmountWrongFormatErrorMessage(error:String?) {
+        if(error != null) {
+            pwAmountTextInput.isErrorEnabled = true
+            pwAmountTextInput.error = error
         } else {
-            amountSendingTextInput.isErrorEnabled = false
-            amountSendingTextInput.error = ""
+            pwAmountTextInput.isErrorEnabled = false
         }
     }
 
-    private fun enableMakeTransactionButton(enable: Boolean) {
+    override fun setPwAmount(wpAmountVal: Int) {
+        if(pwAmountEditText.text.toString() != wpAmountVal.toString()) {
+            pwAmountEditText.setText(wpAmountVal.toString())
+        }
+    }
+
+    override fun enableMakeTransactionButton(enable: Boolean) {
         makeTransactionButton.isEnabled = enable
     }
 
@@ -108,7 +108,7 @@ class CreateTransactionActivity : BaseActivity(), CreateTransactionView {
     }
 
     override fun showSuccessMessage(text: String) {
-        snackBarDelegate.showSuccess(rootView, text, ::runMainActivity)
+        snackBarDelegate.showSuccess(rootView, text)
     }
 
 
@@ -118,8 +118,8 @@ class CreateTransactionActivity : BaseActivity(), CreateTransactionView {
         }
     }
 
-    override fun updateLoggedUserInfo(userViewModel: UserViewModel) {
-        setLoggedUserInfoFromModel(loggedUserName, loggedUserBalance, userViewModel)
+    override fun refreshLoggedUserInfoViews(userViewModel: UserViewModel) {
+        updateLoggedUserInfoFromViewModel(userDataContainer, userViewModel)
     }
 
 
