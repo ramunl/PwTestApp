@@ -2,6 +2,8 @@ package ru.pwtest.pwapp.feature.main.view
 
 import android.support.design.widget.AppBarLayout
 import android.support.v4.view.ViewCompat
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
@@ -14,6 +16,7 @@ import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseToolbarActivity
 import ru.pwtest.pwapp.feature.history.view.LoggedUserTransactionsFragment
 import ru.pwtest.pwapp.feature.main.presenter.MainPresenter
+import ru.pwtest.pwapp.feature.usersList.view.UserListActivity
 import ru.pwtest.pwapp.feature.usersList.view.UsersListFragment
 import ru.pwtest.pwapp.model.UserViewModel
 import ru.pwtest.pwapp.utils.ext.changeVisibility
@@ -23,19 +26,20 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 
-class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChangedListener  {
-
-
-    override fun showLoading(flag: Boolean) {
-        progressBar.run {
-            visibility = if(flag) View.VISIBLE else View.GONE
-        }
-    }
+class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChangedListener {
 
     private var mMaxScrollSize: Int = 0
     private val percentageToShow = 20
     private var mIsImageHidden: Boolean = false
     private val maxScale = 1.1f
+
+
+    override fun showLoading(flag: Boolean) {
+        progressBar.run {
+            visibility = if (flag) View.VISIBLE else View.GONE
+        }
+    }
+
 
     @Inject
     lateinit var snackBarDelegate: SnackBarDelegate
@@ -61,7 +65,8 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
             toolbarUserInfoCollapsing.scaleX = maxScale
             toolbarUserInfoCollapsing.scaleY = maxScale
         }
-        createTransaction.setOnClickListener {  }
+
+        createTransaction.setOnClickListener { UserListActivity.start(this) }
         appBarLayout.addOnOffsetChangedListener(this)
     }
 
@@ -70,21 +75,24 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
         noServiceAvailableView.changeVisibility(!isEnabled)
     }
 
-    private fun navigateTo(itemId: Int) {
-        when (itemId) {
-            R.id.nav_history -> showTransactionsHistoryFragment()
-            R.id.nav_logout -> {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        when (item.itemId) {
+            R.id.logout -> {
                 presenter.logout()
                 logoutAccount()
+                return true
             }
-            R.id.nav_users -> showUsersListFragment()
+            else -> return super.onOptionsItemSelected(item)
         }
     }
-
-    private fun showUsersListFragment() {
-        replaceFragment(R.id.container, UsersListFragment(), FragmentId.USERS_LIST_FRAGMENT_ID)
-    }
-
 
     override fun showTransactionsHistoryFragment() {
         replaceFragment(R.id.container, LoggedUserTransactionsFragment(), FragmentId.TRANSACTIONS_LIST_FRAGMENT_ID)
@@ -95,7 +103,6 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
     }
 
 
-
     override fun refreshLoggedUserInfoViews(userViewModel: UserViewModel) {
         updateLoggedUserInfoFromViewModel(toolbarUserInfo, userViewModel)
         updateLoggedUserInfoFromViewModel(toolbarUserInfoCollapsing, userViewModel)
@@ -104,7 +111,7 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
     }
 
     override fun showErrorMessage(errorParam: ErrorHandler.Param) {
-        snackBarDelegate.showError(rootView, errorParam)
+        snackBarDelegate.showError(rootView, errorParam) { presenter.refreshLoggedUserInfo() }
     }
 
     override fun showSuccessMessage(text: String) {
