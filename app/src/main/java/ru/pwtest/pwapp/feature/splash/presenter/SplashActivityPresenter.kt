@@ -26,14 +26,9 @@ class SplashActivityPresenter @Inject constructor(
         const val timerTime: Long = 400
     }
 
-    override fun detachView(view: SplashView) {
-        super.detachView(view)
-        errorHandler.onDetach()
-    }
 
     override fun attachView(view: SplashView?) {
         super.attachView(view)
-        view?.let { errorHandler.attachView(it) }
         startSplashTimer()
     }
 

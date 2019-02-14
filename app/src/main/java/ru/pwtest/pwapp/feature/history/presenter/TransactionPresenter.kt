@@ -19,16 +19,6 @@ class TransactionPresenter @Inject constructor(
     private val viewModelMapper: EntityViewModelMapper
 ) : BasePresenter<TransactionView>() {
 
-    override fun attachView(view: TransactionView?) {
-        super.attachView(view)
-        view?.let { errorHandler.attachView(it) }
-
-    }
-
-    override fun detachView(view: TransactionView) {
-        super.detachView(view)
-        errorHandler.onDetach()
-    }
 
     fun getTransactions() {
         getUserTransactionsUseCase.build(GetLoggedUserTransactionsUseCase.Param())
@@ -39,7 +29,8 @@ class TransactionPresenter @Inject constructor(
             .observeOn(schedulersProvider.ui())
             .doOnSubscribe { viewState.showLoading(true) }
             .doFinally { viewState.showLoading(false) }
-            .subscribe({ viewState.displayTransaction(it) }, { errorHandler.handleError(it) })
+            .subscribe({ viewState.displayTransaction(it) }, {
+                viewState.showErrorMessage(errorHandler.getError(it)) })
             .addTo(compositeDisposable)
     }
 

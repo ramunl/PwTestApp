@@ -7,6 +7,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.layout_progressbar.*
 import ru.pwtest.delegate.SnackBarDelegate
+import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseActivity
 import ru.pwtest.pwapp.feature.signIn.view.SignInActivity
@@ -39,8 +40,8 @@ class SplashActivity : BaseActivity(), SplashView {
 
 
 
-    override fun showErrorMessage(text: String, errCode: Int?) {
-        snackBarDelegate.showError(rootView, text)
+    override fun showErrorMessage(errorParam: ErrorHandler.Param) {
+        snackBarDelegate.showError(rootView, errorParam)
     }
 
     override fun showSuccessMessage(text: String) {

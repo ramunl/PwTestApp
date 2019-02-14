@@ -21,17 +21,6 @@ class UsersListPresenter @Inject constructor(
 
 ) : BasePresenter<UsersListView>() {
 
-    override fun attachView(view: UsersListView?) {
-        super.attachView(view)
-        view?.let { errorHandler.attachView(it) }
-    }
-
-    override fun detachView(view: UsersListView) {
-        super.detachView(view)
-        errorHandler.onDetach()
-    }
-
-
     fun getFilteredUserList(query: String){
         if(!query.isEmpty()) {
             userCase.build(GetFilteredUserListUseCase.Param(query))
@@ -41,7 +30,7 @@ class UsersListPresenter @Inject constructor(
                 .observeOn(schedulersProvider.ui())
                 .doOnSubscribe { viewState.showLoading(true) }
                 .doFinally { viewState.showLoading(false) }
-                .subscribe({ viewState.displayUsers(it, query) }, { errorHandler.handleError(it) })
+                .subscribe({ viewState.displayUsers(it, query) }, { viewState.showErrorMessage(errorHandler.getError(it)) })
                 .also { compositeDisposable.add(it)  }
         } else {
             viewState.displayUsers(emptyList(), query)

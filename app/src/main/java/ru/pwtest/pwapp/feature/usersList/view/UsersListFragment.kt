@@ -13,6 +13,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.fragment_recyclerview.*
 import kotlinx.android.synthetic.main.layout_progressbar.*
 import ru.pwtest.delegate.SnackBarDelegate
+import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.delegate.toolbar.ToolbarDelegate
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseFragment
@@ -20,7 +21,6 @@ import ru.pwtest.pwapp.feature.usersList.adapter.FilteredUsersAdapter
 import ru.pwtest.pwapp.feature.usersList.presenter.UsersListPresenter
 import ru.pwtest.pwapp.model.UserViewModel
 import ru.pwtest.pwapp.utils.ext.changeVisibility
-import java.net.HttpURLConnection
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -45,6 +45,7 @@ class UsersListFragment : BaseFragment(), UsersListView {
     @Inject
     lateinit var toolbarDelegate: ToolbarDelegate
 
+    var searchView: SearchView? = null
 
     override fun layoutRes() = R.layout.fragment_recyclerview
 
@@ -65,21 +66,12 @@ class UsersListFragment : BaseFragment(), UsersListView {
 
     }
 
+    override fun showErrorMessage(errorParam: ErrorHandler.Param) {
+        snackBarDelegate.showError(rootView, errorParam, ::tryAgain)
+    }
 
-    override fun showErrorMessage(text: String, errCode: Int?) {
-        if (errCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-            snackBarDelegate.showError(
-                rootView,
-                text,
-                getString(R.string.sign_in),
-                View.OnClickListener { runSignInActivity() })
-        } else {
-            snackBarDelegate.showError(
-                rootView,
-                text,
-                getString(R.string.try_again),
-                View.OnClickListener { presenter.getFilteredUserList(lastQuery)})
-        }
+    private fun tryAgain() {
+        searchView?.let { presenter.getFilteredUserList(it.query.toString()) }
     }
 
     override fun showSuccessMessage(text: String) {
@@ -119,11 +111,13 @@ class UsersListFragment : BaseFragment(), UsersListView {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return true
             }
+
             override fun onQueryTextChange(newText: String): Boolean {
                 presenter.getFilteredUserList(newText)
                 return true
             }
         })
+        this.searchView = searchView
         //searchView.setOnCloseListener { presenter.onSearchViewClosed(); false }
     }
 

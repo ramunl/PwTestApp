@@ -8,7 +8,7 @@ import ru.pwtest.delegate.toolbar.ToolbarDelegate
 import ru.pwtest.pwapp.di.PerActivity
 import ru.pwtest.pwapp.di.PerFragment
 import ru.pwtest.pwapp.feature.history.di.TransactionViewModule
-import ru.pwtest.pwapp.feature.history.view.TransactionFragment
+import ru.pwtest.pwapp.feature.history.view.LoggedUserTransactionsFragment
 import ru.pwtest.pwapp.feature.main.view.MainActivity
 import ru.pwtest.pwapp.feature.usersList.di.UserViewModule
 import ru.pwtest.pwapp.feature.usersList.view.UsersListFragment
@@ -32,7 +32,7 @@ abstract class MainViewModule {
 
     @PerFragment
     @ContributesAndroidInjector(modules = [TransactionViewModule::class])
-    abstract fun provideTransactionFragmentFactory(): TransactionFragment
+    abstract fun provideTransactionFragmentFactory(): LoggedUserTransactionsFragment
 
 
     @PerFragment

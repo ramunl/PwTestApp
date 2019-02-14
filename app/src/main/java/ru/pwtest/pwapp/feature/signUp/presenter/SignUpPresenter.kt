@@ -21,15 +21,6 @@ class SignUpPresenter @Inject constructor(
     private val errorHandler: ErrorHandler
 ) : BasePresenter<SignUpView>() {
 
-    override fun attachView(view: SignUpView?) {
-        super.attachView(view)
-        view?.let { errorHandler.attachView(it) }
-    }
-
-    override fun detachView(view: SignUpView) {
-        super.detachView(view)
-        errorHandler.onDetach()
-    }
 
 
     fun validateEmail(email: CharSequence) {
@@ -59,7 +50,7 @@ class SignUpPresenter @Inject constructor(
             .doOnSubscribe { viewState.showLoading(true) }
             .doFinally { viewState.showLoading(false) }
             .subscribe({ viewState.showSuccessMessage(resRepo.getString(R.string.sign_up_success)) },
-                { errorHandler.handleError(it) })
+                { viewState.showErrorMessage(errorHandler.getError(it)) })
         )
     }
 

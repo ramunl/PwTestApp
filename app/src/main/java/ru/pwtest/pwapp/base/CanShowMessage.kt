@@ -1,12 +1,12 @@
 package ru.pwtest.pwapp.base
 
-import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
+import ru.pwtest.delegate.error.ErrorHandler
 
 interface CanShowMessage {
-    @StateStrategyType(OneExecutionStateStrategy::class)
-    fun showErrorMessage(text: String, errCode: Int? = null)
 
-    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun showErrorMessage(errorParam: ErrorHandler.Param)
     fun showSuccessMessage(text: String)
+
+
+
 }

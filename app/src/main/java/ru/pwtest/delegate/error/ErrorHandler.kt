@@ -12,28 +12,18 @@ class ErrorHandler @Inject constructor(
     private val httpException: HttpErrorMessageParser
 ) {
 
-    private var errorView: WeakReference<CanShowMessage>? = null
+    data class Param(
+        val errCode: Int,
+        val errorMsg: String)
 
-    fun attachView(view: CanShowMessage) {
-        errorView = WeakReference(view)
-    }
-
-    fun onDetach() {
-        errorView = null
-    }
-
-    fun handleError(throwable: Throwable?) {
+    fun getError(throwable: Throwable?): Param {
+        var errCode = 0
         throwable?.let {
-            var errCode = 0
             if (it is HttpException) {
                 errCode = it.code()
             }
-            errorView?.get()?.showErrorMessage(getErrorMessage(it), errCode)
         }
-    }
-
-    private fun getErrorMessage(throwable: Throwable) =
-        when (throwable) {
+        var errorMsg = when (throwable) {
             is HttpException -> {
                 val errorString = throwable.response().errorBody()?.string()
                 httpException.parseCode(errorBody = errorString)
@@ -43,4 +33,7 @@ class ErrorHandler @Inject constructor(
                 resRepo.getString(R.string.network_error)
             }
         }
+        return Param(errCode, errorMsg)
+    }
+
 }

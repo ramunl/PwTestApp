@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+    <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbarLayout"
+            app:expandedTitleGravity="center"
+            app:title="@string/recent_transactions"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:expandedTitleTextAppearance="@style/CollapsingTextAppearance.Inverse"
+            app:contentScrim="?colorPrimary">
+
+        <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
+                                           app:popupTheme="@style/AppTheme.PopupOverlay"
+                                           android:layout_width="match_parent"
+                                           android:layout_height="?actionBarSize"
+                                           app:layout_collapseMode="pin"
+                                           android:background="@color/colorPrimary">
+
+            <include layout="@layout/layout_user_balance"
+                     android:layout_gravity="end"
+                     android:id="@+id/toolbarUserInfo"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:padding="8dp"/>
+
+        </android.support.v7.widget.Toolbar>
+
+        <Button
+                android:layout_marginEnd="@dimen/activity_padding"
+                android:layout_marginStart="@dimen/activity_padding"
+                android:id="@+id/createTransaction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:layout_gravity="end|bottom"
+                android:text="@string/create_transaction_button"/>
+
+        <include layout="@layout/layout_user_balance"
+                 android:layout_marginBottom="8dp"
+                 android:layout_gravity="bottom|center"
+                 android:id="@+id/toolbarUserInfoCollapsing"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:padding="8dp"/>
+
+    </android.support.design.widget.CollapsingToolbarLayout>
+
+</android.support.design.widget.AppBarLayout>

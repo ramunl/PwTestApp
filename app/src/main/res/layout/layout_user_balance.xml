@@ -7,8 +7,7 @@
         android:paddingStart="@dimen/activity_padding"
         android:paddingEnd="@dimen/activity_padding"
         android:gravity="center"
-        android:visibility="gone"
-        android:id="@+id/userDataContainer"
+        android:visibility="visible"
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="@dimen/user_balance_layout_height">
     <TextView style="@style/LoggedUserTextViewStyle"

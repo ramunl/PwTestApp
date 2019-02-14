@@ -9,6 +9,7 @@ import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.android.synthetic.main.layout_progressbar.*
 import ru.pwtest.delegate.SnackBarDelegate
+import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.domainLayer.provider.SchedulersProvider
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseActivity
@@ -142,8 +143,8 @@ class SignUpActivity : BaseActivity(), SignUpView {
         progressBar.changeVisibility(flag)
     }
 
-    override fun showErrorMessage(text: String, errCode: Int?) {
-        snackBarDelegate.showError(rootView, text)
+    override fun showErrorMessage(errorParam: ErrorHandler.Param) {
+        snackBarDelegate.showError(rootView, errorParam)
     }
 
     override fun showSuccessMessage(text: String) {

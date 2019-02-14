@@ -1,27 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
+
+<android.support.design.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/drawer_layout"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rootView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:openDrawer="start">
+        tools:ignore="RtlHardcoded">
 
-    <include
-            layout="@layout/app_bar_main"
+
+    <include layout="@layout/layout_toolbar_collapsing"/>
+
+    <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    <android.support.design.widget.NavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:headerLayout="@layout/nav_header_main"
-            app:menu="@menu/activity_main_drawer"/>
+            android:scrollbars="none"
+            app:behavior_overlapTop="0dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <FrameLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_height="0dp"/>
 
-</android.support.v4.widget.DrawerLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <include layout="@layout/layout_progressbar"
+             android:layout_gravity="center"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"/>
+
+    <TextView style="@style/ListTextViewStyle"
+              android:layout_gravity="center"
+              android:text="@string/no_service_available"
+              android:id="@+id/noServiceAvailableView"/>
+
+</android.support.design.widget.CoordinatorLayout>

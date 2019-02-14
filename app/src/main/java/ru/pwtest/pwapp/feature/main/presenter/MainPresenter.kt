@@ -21,22 +21,23 @@ class MainPresenter @Inject constructor(
 
 ) : BasePresenter<MainView>() {
 
-    override fun attachView(view: MainView?) {
-        super.attachView(view)
-        view?.let { errorHandler.attachView(it) }
-    }
-
-    override fun detachView(view: MainView) {
-        super.detachView(view)
-        errorHandler.onDetach()
-    }
 
     fun refreshLoggedUserInfo() {
         loggedUserInfoUseCase.build(GetLoggedUserInfoUseCase.Param())
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.ui())
             .map { viewModelMapper.mapToViewModel(it) }
-            .subscribe({ viewState.refreshLoggedUserInfoViews(it) }, { errorHandler.handleError(it) })
+            .doOnSubscribe { viewState.showLoading(true) }
+            .doFinally { viewState.showLoading(false) }
+            .subscribe({
+                viewState.refreshLoggedUserInfoViews(it)
+                viewState.showTransactionsHistoryFragment()
+                viewState.enableUserControls(true)
+            },
+                {
+                    viewState.showErrorMessage(errorHandler.getError(it))
+                    viewState.enableUserControls(false)
+                })
             .addTo(compositeDisposable)
     }
 

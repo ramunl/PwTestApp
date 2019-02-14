@@ -3,6 +3,7 @@ package ru.pwtest.pwapp.feature.createTransaction.view
 import android.content.Context
 import android.content.Intent
 import android.support.annotation.LayoutRes
+import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -11,15 +12,14 @@ import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.activity_create_transaction.*
 import kotlinx.android.synthetic.main.layout_progressbar.*
-import kotlinx.android.synthetic.main.layout_user_balance.*
 import ru.pwtest.delegate.SnackBarDelegate
+import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.domainLayer.provider.SchedulersProvider
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseActivity
 import ru.pwtest.pwapp.feature.createTransaction.presenter.CreateTransactionPresenter
 import ru.pwtest.pwapp.feature.signUp.view.SignUpActivity
 import ru.pwtest.pwapp.model.UserViewModel
-import ru.pwtest.pwapp.utils.updateLoggedUserInfoFromViewModel
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -60,6 +60,12 @@ class CreateTransactionActivity : BaseActivity(), CreateTransactionView {
     override fun layoutRes() = R.layout.activity_create_transaction
 
     override fun viewCreated(isRestoring: Boolean) {
+        supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            setDisplayShowTitleEnabled(true)
+            setHomeButtonEnabled(true)
+        }
         if (!isRestoring) {
             pwAmountEditText.requestFocus()
             presenter.refreshLoggedUserInfo()
@@ -104,8 +110,8 @@ class CreateTransactionActivity : BaseActivity(), CreateTransactionView {
         makeTransactionButton.isEnabled = enable
     }
 
-    override fun showErrorMessage(text: String, errCode: Int?) {
-        snackBarDelegate.showError(rootView, text)
+    override fun showErrorMessage(errorParam: ErrorHandler.Param) {
+        snackBarDelegate.showError(rootView, errorParam)
     }
 
     override fun showSuccessMessage(text: String) {
@@ -120,9 +126,19 @@ class CreateTransactionActivity : BaseActivity(), CreateTransactionView {
     }
 
     override fun refreshLoggedUserInfoViews(userViewModel: UserViewModel) {
-        updateLoggedUserInfoFromViewModel(userDataContainer, userViewModel)
+        //updateLoggedUserInfoFromViewModel(userDataContainer, userViewModel)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        when (id) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
 }
 

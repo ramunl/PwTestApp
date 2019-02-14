@@ -1,31 +1,41 @@
 package ru.pwtest.pwapp.feature.main.view
 
-import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
-import android.view.MenuItem
+import android.support.design.widget.AppBarLayout
+import android.support.v4.view.ViewCompat
 import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_sign_in.*
-import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.layout_toolbar.*
-import kotlinx.android.synthetic.main.layout_user_balance.*
+import kotlinx.android.synthetic.main.layout_progressbar.*
+import kotlinx.android.synthetic.main.layout_toolbar_collapsing.*
 import ru.pwtest.delegate.SnackBarDelegate
+import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseToolbarActivity
-import ru.pwtest.pwapp.feature.history.view.TransactionFragment
+import ru.pwtest.pwapp.feature.history.view.LoggedUserTransactionsFragment
 import ru.pwtest.pwapp.feature.main.presenter.MainPresenter
 import ru.pwtest.pwapp.feature.usersList.view.UsersListFragment
 import ru.pwtest.pwapp.model.UserViewModel
+import ru.pwtest.pwapp.utils.ext.changeVisibility
 import ru.pwtest.pwapp.utils.replaceFragment
 import ru.pwtest.pwapp.utils.updateLoggedUserInfoFromViewModel
 import javax.inject.Inject
 import javax.inject.Provider
 
 
-class MainActivity : BaseToolbarActivity(), MainView, NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChangedListener  {
+
+
+    override fun showLoading(flag: Boolean) {
+        progressBar.run {
+            visibility = if(flag) View.VISIBLE else View.GONE
+        }
+    }
+
+    private var mMaxScrollSize: Int = 0
+    private val percentageToShow = 20
+    private var mIsImageHidden: Boolean = false
+    private val maxScale = 1.1f
 
     @Inject
     lateinit var snackBarDelegate: SnackBarDelegate
@@ -44,36 +54,20 @@ class MainActivity : BaseToolbarActivity(), MainView, NavigationView.OnNavigatio
     }
 
     override fun viewCreated(isRestoring: Boolean) {
-        userDataContainer.visibility = View.VISIBLE
-        val toggle = ActionBarDrawerToggle(
-            this, drawer_layout, toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        )
-        drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
-        nav_view.setNavigationItemSelectedListener(this)
-
         if (!isRestoring) {
             presenter.refreshLoggedUserInfo()
-            val defaultSelectedMenuItem = R.id.nav_history
-            setDefaultSelectedMenuItem(defaultSelectedMenuItem)
-            setDefaultSelectedMenuItem(R.id.nav_history)
+            toolbarUserInfo.scaleX = 0f
+            toolbarUserInfo.scaleY = 0f
+            toolbarUserInfoCollapsing.scaleX = maxScale
+            toolbarUserInfoCollapsing.scaleY = maxScale
         }
+        createTransaction.setOnClickListener {  }
+        appBarLayout.addOnOffsetChangedListener(this)
     }
 
-    override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        navigateTo(item.itemId)
-        drawer_layout.closeDrawer(GravityCompat.START)
-        return true
+    override fun enableUserControls(isEnabled: Boolean) {
+        createTransaction.isEnabled = isEnabled
+        noServiceAvailableView.changeVisibility(!isEnabled)
     }
 
     private fun navigateTo(itemId: Int) {
@@ -91,35 +85,55 @@ class MainActivity : BaseToolbarActivity(), MainView, NavigationView.OnNavigatio
         replaceFragment(R.id.container, UsersListFragment(), FragmentId.USERS_LIST_FRAGMENT_ID)
     }
 
-    override fun setDefaultSelectedMenuItem(itemId: Int) {
-        navigateTo(itemId)
-        val item = nav_view.menu.findItem(itemId)
-        item.isCheckable = true
-        item.isChecked = true
-    }
 
-    private fun showTransactionsHistoryFragment() {
-        replaceFragment(R.id.container, TransactionFragment(), FragmentId.TRANSACTIONS_LIST_FRAGMENT_ID)
+    override fun showTransactionsHistoryFragment() {
+        replaceFragment(R.id.container, LoggedUserTransactionsFragment(), FragmentId.TRANSACTIONS_LIST_FRAGMENT_ID)
     }
 
     override fun logoutAccount() {
-        snackBarDelegate.showSuccess(coordinatorLayout, getString(R.string.logout_success), ::finish)
+        snackBarDelegate.showSuccess(rootView, getString(R.string.logout_success), ::finish)
     }
 
 
 
     override fun refreshLoggedUserInfoViews(userViewModel: UserViewModel) {
-        updateLoggedUserInfoFromViewModel(userDataContainer, userViewModel)
+        updateLoggedUserInfoFromViewModel(toolbarUserInfo, userViewModel)
+        updateLoggedUserInfoFromViewModel(toolbarUserInfoCollapsing, userViewModel)
         // navHeaderTitle.text = String.format(getString(R.string.user_id_format), userViewModel.id.toString())
         // navHeaderSubTitle.text = String.format(getString(R.string.user_email_format), userViewModel.email)
     }
 
-    override fun showErrorMessage(text: String, errCode: Int?) {
-        snackBarDelegate.showError(rootView, text)
+    override fun showErrorMessage(errorParam: ErrorHandler.Param) {
+        snackBarDelegate.showError(rootView, errorParam)
     }
 
     override fun showSuccessMessage(text: String) {
-        //not used here
+    }
+
+
+    override fun onOffsetChanged(appBarLayout: AppBarLayout, p1: Int) {
+        if (mMaxScrollSize == 0)
+            mMaxScrollSize = appBarLayout.totalScrollRange
+
+        val currentScrollPercentage = Math.abs(p1) * 100 / mMaxScrollSize
+
+        if (currentScrollPercentage >= percentageToShow) {
+            if (!mIsImageHidden) {
+                mIsImageHidden = true
+                ViewCompat.animate(toolbarUserInfo).scaleY(1f).scaleX(1f).start()
+                ViewCompat.animate(toolbarUserInfoCollapsing).scaleY(0f).scaleX(0f).start()
+                ViewCompat.animate(createTransaction).scaleY(0f).scaleX(0f).start()
+            }
+        }
+
+        if (currentScrollPercentage < percentageToShow) {
+            if (mIsImageHidden) {
+                mIsImageHidden = false
+                ViewCompat.animate(toolbarUserInfo).scaleY(0f).scaleX(0f).start()
+                ViewCompat.animate(toolbarUserInfoCollapsing).scaleY(maxScale).scaleX(maxScale).start()
+                ViewCompat.animate(createTransaction).scaleY(1f).scaleX(1f).start()
+            }
+        }
     }
 
 }

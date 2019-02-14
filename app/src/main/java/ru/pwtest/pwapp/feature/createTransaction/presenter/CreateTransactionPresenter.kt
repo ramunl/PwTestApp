@@ -25,15 +25,6 @@ class CreateTransactionPresenter @Inject constructor(
 
 ) : BasePresenter<CreateTransactionView>() {
 
-    override fun attachView(view: CreateTransactionView?) {
-        super.attachView(view)
-        view?.let { errorHandler.attachView(it) }
-    }
-
-    override fun detachView(view: CreateTransactionView) {
-        super.detachView(view)
-        errorHandler.onDetach()
-    }
 
     fun refreshLoggedUserInfo() {
         loggedUserInfoUseCase.build(GetLoggedUserInfoUseCase.Param())
@@ -42,7 +33,7 @@ class CreateTransactionPresenter @Inject constructor(
             .map { viewModelMapper.mapToViewModel(it) }
             .subscribe({ model ->
                 viewState.refreshLoggedUserInfoViews(model)
-            }, { errorHandler.handleError(it) })
+            }, { viewState.showErrorMessage(errorHandler.getError(it))})
             .addTo(compositeDisposable)
     }
 
@@ -60,7 +51,7 @@ class CreateTransactionPresenter @Inject constructor(
             }
             .subscribe(
                 { viewState.showSuccessMessage(resRepo.getString(R.string.transaction_success)) },
-                { errorHandler.handleError(it) }
+                { viewState.showErrorMessage(errorHandler.getError(it)) }
             ).addTo(compositeDisposable)
     }
 

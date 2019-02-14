@@ -24,15 +24,6 @@ class SignInPresenter @Inject constructor(
 
 ) : BasePresenter<SignInView>() {
 
-    override fun attachView(view: SignInView?) {
-        super.attachView(view)
-        view?.let { errorHandler.attachView(it) }
-    }
-
-    override fun detachView(view: SignInView) {
-        super.detachView(view)
-        errorHandler.onDetach()
-    }
 
     fun auth(email: String, password: String) {
         signInUseCase.build(
@@ -47,7 +38,7 @@ class SignInPresenter @Inject constructor(
             .doFinally { viewState.showLoading(false) }
             .subscribe(
                 { viewState.showSuccessMessage(resRepo.getString(R.string.sign_in_success)) },
-                { errorHandler.handleError(it) }
+                { viewState.showErrorMessage(errorHandler.getError(it)) }
             ).addTo(compositeDisposable)
     }
 
