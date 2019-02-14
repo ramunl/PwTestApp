@@ -1,4 +1,4 @@
-package ru.pwtest.pwapp.feature.main.view
+package ru.pwtest.pwapp.feature
 
 enum class FragmentId {
     USERS_LIST_FRAGMENT_ID,

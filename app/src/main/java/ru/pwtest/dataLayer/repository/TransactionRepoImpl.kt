@@ -1,7 +1,6 @@
 package ru.pwtest.dataLayer.repository
 
 import io.reactivex.Single
-import retrofit2.http.Field
 import ru.pwtest.dataLayer.mapper.ModelMapper
 import ru.pwtest.dataLayer.network.AppApi
 import ru.pwtest.delegate.date.DateDelegate

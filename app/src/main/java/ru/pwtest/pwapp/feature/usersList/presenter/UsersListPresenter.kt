@@ -2,7 +2,6 @@ package ru.pwtest.pwapp.feature.usersList.presenter
 
 
 import com.arellomobile.mvp.InjectViewState
-import io.reactivex.disposables.CompositeDisposable
 import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.domainLayer.provider.SchedulersProvider
 import ru.pwtest.domainLayer.usecases.users.GetFilteredUserListUseCase

@@ -12,6 +12,6 @@
                                        android:layout_width="match_parent"
                                        android:layout_height="?actionBarSize"
                                        android:background="@color/colorPrimary"/>
-    <include layout="@layout/layout_user_balance" android:visibility="gone"/>
+    <include layout="@layout/layout_user_balance"/>
 
 </android.support.design.widget.AppBarLayout>

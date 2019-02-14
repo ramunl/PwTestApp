@@ -2,7 +2,6 @@ package ru.pwtest.pwapp.feature.splash.presenter
 
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.Single
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import ru.pwtest.delegate.error.ErrorHandler

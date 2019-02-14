@@ -5,8 +5,10 @@ import dagger.android.ContributesAndroidInjector
 import ru.pwtest.pwapp.di.PerActivity
 import ru.pwtest.pwapp.feature.createTransaction.di.CreateTransactionViewModule
 import ru.pwtest.pwapp.feature.createTransaction.view.CreateTransactionActivity
-import ru.pwtest.pwapp.feature.main.di.MainViewModule
-import ru.pwtest.pwapp.feature.main.view.MainActivity
+import ru.pwtest.pwapp.feature.mainActivity.di.MainViewModule
+import ru.pwtest.pwapp.feature.mainActivity.view.MainActivity
+import ru.pwtest.pwapp.feature.selectUserActivity.di.SelectUserViewModule
+import ru.pwtest.pwapp.feature.selectUserActivity.view.SelectUserActivity
 import ru.pwtest.pwapp.feature.signIn.di.SignInViewModule
 import ru.pwtest.pwapp.feature.signIn.view.SignInActivity
 import ru.pwtest.pwapp.feature.signUp.di.SignUpViewModule
@@ -37,4 +39,9 @@ interface AppBuilderModule {
     @PerActivity
     @ContributesAndroidInjector(modules = [CreateTransactionViewModule::class])
     fun provideCreateTransactionActivityFactory(): CreateTransactionActivity
+
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = [SelectUserViewModule::class])
+    fun provideSelectUserActivityFactory(): SelectUserActivity
 }

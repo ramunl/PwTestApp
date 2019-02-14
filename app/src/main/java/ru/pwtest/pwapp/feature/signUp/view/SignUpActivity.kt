@@ -13,6 +13,7 @@ import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.domainLayer.provider.SchedulersProvider
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseActivity
+import ru.pwtest.pwapp.base.BaseToolbarActivity
 import ru.pwtest.pwapp.feature.signUp.presenter.SignUpPresenter
 import ru.pwtest.pwapp.utils.ext.changeVisibility
 import ru.pwtest.pwapp.utils.hideKeyboard
@@ -21,7 +22,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 
-class SignUpActivity : BaseActivity(), SignUpView {
+class SignUpActivity : BaseToolbarActivity(), SignUpView {
 
 
     companion object {
@@ -48,12 +49,7 @@ class SignUpActivity : BaseActivity(), SignUpView {
     override fun layoutRes() = R.layout.activity_sign_up
 
     override fun viewCreated(isRestoring:Boolean) {
-        supportActionBar?.run {
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
-            setDisplayShowTitleEnabled(true)
-            setHomeButtonEnabled(true)
-        }
+        setupActionBar(true)
 
         val firstNameEd = RxTextView.textChanges(emailEdit)
                 .skipInitialValue()
@@ -149,17 +145,6 @@ class SignUpActivity : BaseActivity(), SignUpView {
 
     override fun showSuccessMessage(text: String) {
         snackBarDelegate.showSuccess(rootView, text, ::runMainActivity)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        when (id) {
-            android.R.id.home -> {
-                finish()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
 }

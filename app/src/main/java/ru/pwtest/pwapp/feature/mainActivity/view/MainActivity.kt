@@ -1,4 +1,4 @@
-package ru.pwtest.pwapp.feature.main.view
+package ru.pwtest.pwapp.feature.mainActivity.view
 
 import android.support.design.widget.AppBarLayout
 import android.support.v4.view.ViewCompat
@@ -10,14 +10,15 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_progressbar.*
 import kotlinx.android.synthetic.main.layout_toolbar_collapsing.*
+import kotlinx.android.synthetic.main.layout_user_balance.*
 import ru.pwtest.delegate.SnackBarDelegate
 import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseToolbarActivity
+import ru.pwtest.pwapp.feature.FragmentId
 import ru.pwtest.pwapp.feature.history.view.LoggedUserTransactionsFragment
-import ru.pwtest.pwapp.feature.main.presenter.MainPresenter
-import ru.pwtest.pwapp.feature.usersList.view.UserListActivity
-import ru.pwtest.pwapp.feature.usersList.view.UsersListFragment
+import ru.pwtest.pwapp.feature.mainActivity.presenter.MainPresenter
+import ru.pwtest.pwapp.feature.selectUserActivity.view.SelectUserActivity
 import ru.pwtest.pwapp.model.UserViewModel
 import ru.pwtest.pwapp.utils.ext.changeVisibility
 import ru.pwtest.pwapp.utils.replaceFragment
@@ -58,6 +59,7 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
     }
 
     override fun viewCreated(isRestoring: Boolean) {
+        setupActionBar(false)
         if (!isRestoring) {
             presenter.refreshLoggedUserInfo()
             toolbarUserInfo.scaleX = 0f
@@ -66,7 +68,7 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
             toolbarUserInfoCollapsing.scaleY = maxScale
         }
 
-        createTransaction.setOnClickListener { UserListActivity.start(this) }
+        createTransaction.setOnClickListener { SelectUserActivity.start(this) }
         appBarLayout.addOnOffsetChangedListener(this)
     }
 
@@ -106,8 +108,6 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
     override fun refreshLoggedUserInfoViews(userViewModel: UserViewModel) {
         updateLoggedUserInfoFromViewModel(toolbarUserInfo, userViewModel)
         updateLoggedUserInfoFromViewModel(toolbarUserInfoCollapsing, userViewModel)
-        // navHeaderTitle.text = String.format(getString(R.string.user_id_format), userViewModel.id.toString())
-        // navHeaderSubTitle.text = String.format(getString(R.string.user_email_format), userViewModel.email)
     }
 
     override fun showErrorMessage(errorParam: ErrorHandler.Param) {

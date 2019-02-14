@@ -1,4 +1,4 @@
-package ru.pwtest.pwapp.feature.main.presenter
+package ru.pwtest.pwapp.feature.mainActivity.presenter
 
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.rxkotlin.addTo
@@ -7,7 +7,7 @@ import ru.pwtest.domainLayer.provider.SchedulersProvider
 import ru.pwtest.domainLayer.usecases.auth.SignInSignOutUseCase
 import ru.pwtest.domainLayer.usecases.users.GetLoggedUserInfoUseCase
 import ru.pwtest.pwapp.base.BasePresenter
-import ru.pwtest.pwapp.feature.main.view.MainView
+import ru.pwtest.pwapp.feature.mainActivity.view.MainView
 import ru.pwtest.pwapp.mapper.EntityViewModelMapper
 import javax.inject.Inject
 

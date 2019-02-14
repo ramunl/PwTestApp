@@ -2,8 +2,6 @@ package ru.pwtest.delegate.toolbar
 
 import android.app.Activity
 import android.content.Context
-import ru.pwtest.pwapp.R
-import ru.pwtest.pwapp.model.UserViewModel
 import javax.inject.Inject
 
 class ToolbarDelegate @Inject constructor(activity: Activity) {

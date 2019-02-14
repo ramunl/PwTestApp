@@ -28,11 +28,11 @@
     <string name="create_account">Create account</string>
     <string name="recent_transactions">Recent transactions</string>
     <string name="users_list">Users list</string>
-    <string name="logout">Logout</string>
+    <string name="logout_menu_item">Logout</string>
     <string name="user_email_format">E-mail: %s</string>
     <string name="user_id_format">Identifier: %s</string>
-    <string name="user_name_format">Your name: %s</string>
-    <string name="pw_balance_format">Your balance: %d %s</string>
+    <string name="user_name_format">Name: %s</string>
+    <string name="pw_balance_format">Balance: %d %s</string>
     <string name="logout_success">You Have successfully Logged Out Of Your Account</string>
     <string name="type_user_name_please">Type user name please..</string>
     <string name="try_again">Try again</string>

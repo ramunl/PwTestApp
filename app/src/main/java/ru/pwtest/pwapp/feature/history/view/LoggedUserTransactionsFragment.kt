@@ -16,7 +16,6 @@ import ru.pwtest.pwapp.feature.history.adapter.TransactionAdapter
 import ru.pwtest.pwapp.feature.history.presenter.TransactionPresenter
 import ru.pwtest.pwapp.model.TransactionViewModel
 import ru.pwtest.pwapp.utils.ext.changeVisibility
-import java.net.HttpURLConnection
 import javax.inject.Inject
 import javax.inject.Provider
 
