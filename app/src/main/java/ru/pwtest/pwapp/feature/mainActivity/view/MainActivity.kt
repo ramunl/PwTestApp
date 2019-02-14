@@ -1,5 +1,7 @@
 package ru.pwtest.pwapp.feature.mainActivity.view
 
+import android.app.Activity
+import android.content.Intent
 import android.support.design.widget.AppBarLayout
 import android.support.v4.view.ViewCompat
 import android.view.Menu
@@ -16,6 +18,7 @@ import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseToolbarActivity
 import ru.pwtest.pwapp.feature.FragmentId
+import ru.pwtest.pwapp.feature.createTransaction.view.CreateTransactionActivity.Companion.senderParam
 import ru.pwtest.pwapp.feature.history.view.LoggedUserTransactionsFragment
 import ru.pwtest.pwapp.feature.mainActivity.presenter.MainPresenter
 import ru.pwtest.pwapp.feature.selectUserActivity.view.SelectUserActivity
@@ -28,11 +31,15 @@ import javax.inject.Provider
 
 
 class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChangedListener {
+    companion object {
+        const val requestCodeMakePayment = 1
+    }
 
-    private var mMaxScrollSize: Int = 0
     private val percentageToShow = 20
     private var mIsImageHidden: Boolean = false
     private val maxScale = 1.1f
+
+    private var mMaxScrollSize: Int = 0
 
 
     override fun showLoading(flag: Boolean) {
@@ -68,7 +75,6 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
             toolbarUserInfoCollapsing.scaleY = maxScale
         }
 
-        createTransaction.setOnClickListener { SelectUserActivity.start(this) }
         appBarLayout.addOnOffsetChangedListener(this)
     }
 
@@ -108,6 +114,7 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
     override fun refreshLoggedUserInfoViews(userViewModel: UserViewModel) {
         updateLoggedUserInfoFromViewModel(toolbarUserInfo, userViewModel)
         updateLoggedUserInfoFromViewModel(toolbarUserInfoCollapsing, userViewModel)
+        createTransaction.setOnClickListener { SelectUserActivity.start(this, userViewModel, requestCodeMakePayment) }
     }
 
     override fun showErrorMessage(errorParam: ErrorHandler.Param) {
@@ -115,6 +122,7 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
     }
 
     override fun showSuccessMessage(text: String) {
+
     }
 
 
@@ -143,4 +151,9 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK && requestCode == requestCodeMakePayment) {
+            data?.let { refreshLoggedUserInfoViews(it.getParcelableExtra(senderParam)) }
+        }
+    }
 }

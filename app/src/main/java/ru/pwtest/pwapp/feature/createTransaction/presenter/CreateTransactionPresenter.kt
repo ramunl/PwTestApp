@@ -11,6 +11,7 @@ import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BasePresenter
 import ru.pwtest.pwapp.feature.createTransaction.view.CreateTransactionView
 import ru.pwtest.pwapp.mapper.EntityViewModelMapper
+import ru.pwtest.pwapp.model.UserViewModel
 import ru.pwtest.pwapp.utils.PwValidator
 import javax.inject.Inject
 
@@ -26,7 +27,11 @@ class CreateTransactionPresenter @Inject constructor(
 ) : BasePresenter<CreateTransactionView>() {
 
 
-    fun refreshLoggedUserInfo() {
+    fun initLoggedUserInfo(viewModel: UserViewModel) {
+        viewState.refreshLoggedUserInfoViews(viewModel)
+    }
+
+    private fun refreshLoggedUserInfo() {
         loggedUserInfoUseCase.build(GetLoggedUserInfoUseCase.Param())
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.ui())

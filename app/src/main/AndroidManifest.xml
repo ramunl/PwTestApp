@@ -44,7 +44,6 @@
 
         <activity
                 android:name=".feature.selectUserActivity.view.SelectUserActivity"
-                android:noHistory="true"
                 android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity

@@ -3,7 +3,7 @@ package ru.pwtest.pwapp.feature.createTransaction.view
 import android.content.Context
 import android.content.Intent
 import android.support.annotation.LayoutRes
-import android.view.MenuItem
+import android.support.v7.app.AppCompatActivity
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -17,7 +17,6 @@ import ru.pwtest.delegate.SnackBarDelegate
 import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.domainLayer.provider.SchedulersProvider
 import ru.pwtest.pwapp.R
-import ru.pwtest.pwapp.base.BaseActivity
 import ru.pwtest.pwapp.base.BaseToolbarActivity
 import ru.pwtest.pwapp.feature.createTransaction.presenter.CreateTransactionPresenter
 import ru.pwtest.pwapp.feature.signUp.view.SignUpActivity
@@ -32,13 +31,15 @@ import javax.inject.Provider
 class CreateTransactionActivity : BaseToolbarActivity(), CreateTransactionView {
 
     companion object {
-        const val recipientNameParam = "name"
+        const val senderParam = "senderParam"
+        const val recipientParam = "recipientParam"
         @JvmStatic
-        fun start(context: Context, recipientName: String) {
+        fun start(context: AppCompatActivity, senderModel: UserViewModel, recipientModel: UserViewModel, requestCode:Int) {
             val intent = Intent(context, CreateTransactionActivity::class.java).apply {
-                putExtra(recipientNameParam, recipientName)
+                putExtra(recipientParam, recipientModel)
+                putExtra(senderParam, senderModel)
             }
-            context.startActivity(intent)
+            context.startActivityForResult(intent, requestCode)
         }
     }
 
@@ -65,11 +66,16 @@ class CreateTransactionActivity : BaseToolbarActivity(), CreateTransactionView {
         setupActionBar(true)
         if (!isRestoring) {
             pwAmountEditText.requestFocus()
-            presenter.refreshLoggedUserInfo()
+            presenter.initLoggedUserInfo(intent.getParcelableExtra(senderParam))
         }
-        val recipientName = intent.getStringExtra(recipientNameParam)
-        recipientNameTextView.text = String.format(getString(R.string.recipient), recipientName)
-        makeTransactionButton.setOnClickListener { presenter.createTransaction(recipientName, getPwAmountFromEdit()) }
+        val recipientModel: UserViewModel = intent.getParcelableExtra(recipientParam)
+        recipientNameTextView.text = String.format(getString(R.string.recipient), recipientModel.name)
+        makeTransactionButton.setOnClickListener {
+            presenter.createTransaction(
+                recipientModel.name,
+                getPwAmountFromEdit()
+            )
+        }
         RxTextView.textChangeEvents(pwAmountEditText)
             .skipInitialValue()
             .debounce(SignUpActivity.DEBOUNCE_MAX_TIME, TimeUnit.MILLISECONDS)
@@ -88,8 +94,8 @@ class CreateTransactionActivity : BaseToolbarActivity(), CreateTransactionView {
 
     private fun getPwAmountFromEdit() = pwAmountEditText.text.toString().toInt()
 
-    override fun setPwAmountWrongFormatErrorMessage(error:String?) {
-        if(error != null) {
+    override fun setPwAmountWrongFormatErrorMessage(error: String?) {
+        if (error != null) {
             pwAmountTextInput.isErrorEnabled = true
             pwAmountTextInput.error = error
         } else {
@@ -98,7 +104,7 @@ class CreateTransactionActivity : BaseToolbarActivity(), CreateTransactionView {
     }
 
     override fun setPwAmount(wpAmountVal: Int) {
-        if(pwAmountEditText.text.toString() != wpAmountVal.toString()) {
+        if (pwAmountEditText.text.toString() != wpAmountVal.toString()) {
             pwAmountEditText.setText(wpAmountVal.toString())
         }
     }
@@ -124,8 +130,11 @@ class CreateTransactionActivity : BaseToolbarActivity(), CreateTransactionView {
 
     override fun refreshLoggedUserInfoViews(userViewModel: UserViewModel) {
         updateLoggedUserInfoFromViewModel(toolbarUserInfo, userViewModel)
+        val intent = Intent().apply {
+            putExtra(senderParam, userViewModel)
+        }
+        setResult(RESULT_OK, intent)
     }
-
 }
 
 

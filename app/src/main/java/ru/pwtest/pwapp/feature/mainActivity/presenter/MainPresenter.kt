@@ -22,6 +22,9 @@ class MainPresenter @Inject constructor(
 ) : BasePresenter<MainView>() {
 
 
+    fun getLoggedUserInfo() {
+
+    }
     fun refreshLoggedUserInfo() {
         loggedUserInfoUseCase.build(GetLoggedUserInfoUseCase.Param())
             .subscribeOn(schedulersProvider.io())
