@@ -4,17 +4,17 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.list_item_user.view.*
+import ru.pwtest.delegate.clickListener.UserClickListenerDelegate
 import ru.pwtest.pwapp.R
-import ru.pwtest.pwapp.feature.createTransaction.view.CreateTransactionActivity
-import ru.pwtest.pwapp.feature.usersList.view.UsersListFragment
 import ru.pwtest.pwapp.model.UserViewModel
 import ru.pwtest.pwapp.utils.ext.inflate
 import javax.inject.Inject
 
-class FilteredUsersAdapter (var userClickListener: UsersListFragment.UserClickListener)
+class FilteredUsersAdapter @Inject constructor(val userClickListenerDelegate: UserClickListenerDelegate)
     : RecyclerView.Adapter<FilteredUsersAdapter.ViewHolder>() {
 
     private var itemList: MutableList<UserViewModel> = mutableListOf()
+    //lateinit var userClickListener: UsersListFragment.UserClickListener
 
     fun setData(transactionList: List<UserViewModel>) {
         this.itemList.clear()
@@ -38,7 +38,7 @@ class FilteredUsersAdapter (var userClickListener: UsersListFragment.UserClickLi
             with(itemView) {
                 user_name.text = userViewModel.name
                 user_id.text = userViewModel.id.toString()
-                setOnClickListener { userClickListener.onUserClicked(userViewModel) }
+                setOnClickListener { userClickListenerDelegate.onUserClicked(userViewModel) }
             }
         }
     }

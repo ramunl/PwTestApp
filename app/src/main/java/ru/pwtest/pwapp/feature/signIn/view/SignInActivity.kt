@@ -1,8 +1,6 @@
 package ru.pwtest.pwapp.feature.signIn.view
 
 import android.support.annotation.LayoutRes
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -14,6 +12,7 @@ import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseActivity
 import ru.pwtest.pwapp.feature.signIn.presenter.SignInPresenter
+import ru.pwtest.pwapp.utils.ext.changeVisibility
 import ru.pwtest.pwapp.utils.hideKeyboard
 import javax.inject.Inject
 import javax.inject.Provider
@@ -76,10 +75,8 @@ class SignInActivity : BaseActivity(), SignInView {
     }
 
 
-    override fun showLoading(flag: Boolean) {
-        progressBar.run {
-            visibility = if(flag) VISIBLE else GONE
-        }
+    override fun showLoading(isLoading: Boolean) {
+        progressBar?.changeVisibility(isLoading)
     }
 
 }

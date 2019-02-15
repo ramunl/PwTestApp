@@ -1,6 +1,5 @@
 package ru.pwtest.dataLayer.network
 
-import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded

@@ -1,6 +1,5 @@
 package ru.pwtest.dataLayer.repository
 
-import io.reactivex.Completable
 import io.reactivex.Single
 import ru.pwtest.dataLayer.network.AppApi
 import ru.pwtest.dataLayer.session.UserSession

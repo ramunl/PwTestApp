@@ -1,9 +1,7 @@
 package ru.pwtest.pwapp.feature.selectUserActivity.view
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.v7.app.AppCompatActivity
 import ru.pwtest.pwapp.R
@@ -33,10 +31,7 @@ class SelectUserActivity : BaseToolbarActivity() {
     }
 
     private fun showUsersListFragment() {
-        val fragment = UsersListFragment().apply {
-            arguments = intent.extras
-        }
-        replaceFragment(R.id.container, fragment, FragmentId.USERS_LIST_FRAGMENT_ID)
+        replaceFragment(R.id.container, UsersListFragment(), FragmentId.USERS_LIST_FRAGMENT_ID)
     }
 
     override fun viewCreated(isRestoring: Boolean) {
@@ -50,7 +45,7 @@ class SelectUserActivity : BaseToolbarActivity() {
     override fun layoutRes() = R.layout.activity_select_user
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK && requestCode == MainActivity.requestCodeMakePayment) {
+        if (resultCode == Activity.RESULT_OK && requestCode == MainActivity.CreateNewTransactionReqCode) {
             setResult(RESULT_OK, data)
             finish()
         }

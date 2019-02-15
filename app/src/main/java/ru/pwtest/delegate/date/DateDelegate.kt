@@ -1,25 +1,19 @@
 package ru.pwtest.delegate.date
 
+import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
 class DateDelegate @Inject constructor() {
 
-    private var cacheTime: Date? = null
-
-    fun getCurrentDate(): Date? {
-        if (cacheTime == null) {
-            cacheTime = Calendar.getInstance().time
-        }
-        return cacheTime
+    private var format = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault())
+    fun parseDate(date:String): Date {
+        return  format.parse(date)
     }
 
-    fun isNotObsoleteDate(current: Date?): Boolean {
-        current?.let {
-            return (Calendar.getInstance().timeInMillis - it.time) / (24 * 60 * 60 * 1000) < 1
-        }
-        return false
+    fun formatDate(date: Date): String {
+        var timeFormat = "hh:mm:ss dd.MM.yy"
+        val sdf = SimpleDateFormat(timeFormat, Locale.getDefault())
+        return sdf.format(date)
     }
-
-
 }

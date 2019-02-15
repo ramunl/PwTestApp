@@ -50,11 +50,20 @@ class SnackBarDelegate @Inject constructor(private val resRepo: ResRepo) {
     fun showError(rootView: View, param: ErrorHandler.Param, tryAgainAction: (() -> Unit)? = null) {
         val context = rootView.context
         if (param.errCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-            showError(
-                rootView,
-                param,
-                resRepo.getString(R.string.sign_in)
-            ) {context.startActivity(Intent(context, SignInActivity::class.java))}
+            val msg = resRepo.getString(R.string.sign_in)
+            if(context is SignInActivity) {
+                showError(
+                    rootView,
+                    param,
+                    msg,
+                    tryAgainAction)
+            } else {
+                showError(
+                    rootView,
+                    param,
+                    msg
+                ) { context.startActivity(Intent(context, SignInActivity::class.java)) }
+            }
         } else {
             showError(rootView, param, resRepo.getString(R.string.try_again), tryAgainAction)
         }

@@ -1,4 +1,4 @@
-package ru.pwtest.pwapp.feature.history.view
+package ru.pwtest.pwapp.feature.transactions.view
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -9,18 +9,22 @@ import kotlinx.android.synthetic.main.fragment_recyclerview.*
 import kotlinx.android.synthetic.main.layout_progressbar.*
 import ru.pwtest.delegate.SnackBarDelegate
 import ru.pwtest.delegate.error.ErrorHandler
+import ru.pwtest.delegate.itemDecorator.RecyclerViewItemDecorator
 import ru.pwtest.delegate.toolbar.ToolbarDelegate
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseFragment
-import ru.pwtest.pwapp.feature.history.adapter.TransactionAdapter
-import ru.pwtest.pwapp.feature.history.presenter.TransactionPresenter
+import ru.pwtest.pwapp.feature.transactions.adapter.TransactionAdapter
+import ru.pwtest.pwapp.feature.transactions.presenter.TransactionPresenter
 import ru.pwtest.pwapp.model.TransactionViewModel
 import ru.pwtest.pwapp.utils.ext.changeVisibility
 import javax.inject.Inject
 import javax.inject.Provider
 
-class LoggedUserTransactionsFragment : BaseFragment(), TransactionView {
+class TransactionsFragment : BaseFragment(), TransactionsView {
 
+
+    @Inject
+    lateinit var recyclerViewItemDecoration: RecyclerViewItemDecorator
 
     @Inject
     lateinit var providerPresenter: Provider<TransactionPresenter>
@@ -49,10 +53,15 @@ class LoggedUserTransactionsFragment : BaseFragment(), TransactionView {
             layoutManager = manager
             setHasFixedSize(true)
             adapter = transactionAdapter
+            addItemDecoration(recyclerViewItemDecoration.horizontalDecoration)
         }
         if(savedInstanceState == null) {
-            presenter.getTransactions()
+            updateRecentTransactionsList()
         }
+    }
+
+    fun updateRecentTransactionsList() {
+        presenter.getTransactions()
     }
 
     override fun layoutRes() = R.layout.fragment_recyclerview

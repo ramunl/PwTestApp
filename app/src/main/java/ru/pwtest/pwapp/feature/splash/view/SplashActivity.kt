@@ -1,7 +1,6 @@
 package ru.pwtest.pwapp.feature.splash.view
 
 import android.content.Intent
-import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -12,6 +11,7 @@ import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseActivity
 import ru.pwtest.pwapp.feature.signIn.view.SignInActivity
 import ru.pwtest.pwapp.feature.splash.presenter.SplashActivityPresenter
+import ru.pwtest.pwapp.utils.ext.changeVisibility
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -39,7 +39,6 @@ class SplashActivity : BaseActivity(), SplashView {
     fun providePresenter(): SplashActivityPresenter = providerPresenter.get()
 
 
-
     override fun showErrorMessage(errorParam: ErrorHandler.Param) {
         snackBarDelegate.showError(rootView, errorParam)
     }
@@ -48,11 +47,10 @@ class SplashActivity : BaseActivity(), SplashView {
         snackBarDelegate.showSuccess(rootView, text, ::runMainActivity)
     }
 
-    override fun showLoading(flag: Boolean) {
-        progressBar.run {
-            visibility = if(flag) View.VISIBLE else View.GONE
-        }
+    override fun showLoading(isLoading: Boolean) {
+        progressBar?.changeVisibility(isLoading)
     }
+
     override fun runSignInActivity() {
         startActivity(Intent(this, SignInActivity::class.java))
     }

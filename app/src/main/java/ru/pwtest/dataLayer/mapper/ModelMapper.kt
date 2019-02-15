@@ -1,14 +1,11 @@
 package ru.pwtest.dataLayer.mapper
 
 import ru.pwtest.dataLayer.model.*
-import ru.pwtest.delegate.date.DateDelegate
 import ru.pwtest.domainLayer.entity.TransactionEntity
 import ru.pwtest.domainLayer.entity.UserEntity
 import javax.inject.Inject
 
-class ModelMapper @Inject constructor(
-    private val dateDelegate: DateDelegate
-) {
+class ModelMapper @Inject constructor() {
 
 
     fun mapToEntity(from: TransactionModel) = TransactionEntity(

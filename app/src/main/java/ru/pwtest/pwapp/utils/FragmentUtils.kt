@@ -13,3 +13,7 @@ fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransa
 fun AppCompatActivity.replaceFragment(fragmentContainer:Int, fragment: Fragment, frameId: FragmentId) {
     supportFragmentManager.inTransaction { replace(fragmentContainer, fragment, frameId.name) }
 }
+
+fun AppCompatActivity.findFragment(frameId: FragmentId): Fragment? {
+    return supportFragmentManager.findFragmentByTag(frameId.name)
+}

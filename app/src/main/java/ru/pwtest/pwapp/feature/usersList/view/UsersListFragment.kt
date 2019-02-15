@@ -1,10 +1,6 @@
 package ru.pwtest.pwapp.feature.usersList.view
 
-import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuInflater
@@ -16,12 +12,10 @@ import kotlinx.android.synthetic.main.fragment_recyclerview.*
 import kotlinx.android.synthetic.main.layout_progressbar.*
 import ru.pwtest.delegate.SnackBarDelegate
 import ru.pwtest.delegate.error.ErrorHandler
+import ru.pwtest.delegate.itemDecorator.RecyclerViewItemDecorator
 import ru.pwtest.delegate.toolbar.ToolbarDelegate
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseFragment
-import ru.pwtest.pwapp.feature.createTransaction.view.CreateTransactionActivity
-import ru.pwtest.pwapp.feature.createTransaction.view.CreateTransactionActivity.Companion.senderParam
-import ru.pwtest.pwapp.feature.mainActivity.view.MainActivity.Companion.requestCodeMakePayment
 import ru.pwtest.pwapp.feature.usersList.adapter.FilteredUsersAdapter
 import ru.pwtest.pwapp.feature.usersList.presenter.UsersListPresenter
 import ru.pwtest.pwapp.model.UserViewModel
@@ -32,10 +26,8 @@ import javax.inject.Provider
 
 class UsersListFragment : BaseFragment(), UsersListView {
 
-    interface UserClickListener {
-        fun onUserClicked(userViewModel: UserViewModel)
-    }
 
+    @Inject
     lateinit var filteredUsersAdapter: FilteredUsersAdapter
 
     @Inject
@@ -53,6 +45,9 @@ class UsersListFragment : BaseFragment(), UsersListView {
     @Inject
     lateinit var toolbarDelegate: ToolbarDelegate
 
+    @Inject
+    lateinit var recyclerViewItemDecoration: RecyclerViewItemDecorator
+
     var searchView: SearchView? = null
 
     override fun layoutRes() = R.layout.fragment_recyclerview
@@ -62,32 +57,17 @@ class UsersListFragment : BaseFragment(), UsersListView {
         toolbarDelegate.changeTitle("")
         emptyListTextView.text = getString(R.string.users_not_found)
         setHasOptionsMenu(true)
-        filteredUsersAdapter = FilteredUsersAdapter(object : UserClickListener {
-            override fun onUserClicked(userViewModel: UserViewModel) {
-                arguments?.let { args ->
-                    val sender = args.getParcelable<UserViewModel>(senderParam)
-                    sender?.let {
-                        CreateTransactionActivity.start(
-                            context as AppCompatActivity,
-                            sender,
-                            userViewModel,
-                            requestCodeMakePayment
-                        )
-                    }
-                }
-            }
-        })
+
         with(recyclerView) {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             adapter = filteredUsersAdapter
-            val horizontalDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-            val horizontalDivider = ContextCompat.getDrawable(context, R.drawable.list_divider)
-            horizontalDecoration.setDrawable(horizontalDivider!!)
-            addItemDecoration(horizontalDecoration)
+            addItemDecoration(recyclerViewItemDecoration.horizontalDecoration)
         }
 
     }
+
+
 
     override fun showErrorMessage(errorParam: ErrorHandler.Param) {
         snackBarDelegate.showError(rootView, errorParam, ::tryAgain)

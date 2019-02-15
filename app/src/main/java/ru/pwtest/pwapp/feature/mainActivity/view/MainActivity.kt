@@ -6,9 +6,9 @@ import android.support.design.widget.AppBarLayout
 import android.support.v4.view.ViewCompat
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.jakewharton.processphoenix.ProcessPhoenix
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_progressbar.*
 import kotlinx.android.synthetic.main.layout_toolbar_collapsing.*
@@ -18,12 +18,14 @@ import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseToolbarActivity
 import ru.pwtest.pwapp.feature.FragmentId
+import ru.pwtest.pwapp.feature.createTransaction.view.CreateTransactionActivity
 import ru.pwtest.pwapp.feature.createTransaction.view.CreateTransactionActivity.Companion.senderParam
-import ru.pwtest.pwapp.feature.history.view.LoggedUserTransactionsFragment
 import ru.pwtest.pwapp.feature.mainActivity.presenter.MainPresenter
 import ru.pwtest.pwapp.feature.selectUserActivity.view.SelectUserActivity
+import ru.pwtest.pwapp.feature.transactions.view.TransactionsFragment
 import ru.pwtest.pwapp.model.UserViewModel
 import ru.pwtest.pwapp.utils.ext.changeVisibility
+import ru.pwtest.pwapp.utils.findFragment
 import ru.pwtest.pwapp.utils.replaceFragment
 import ru.pwtest.pwapp.utils.updateLoggedUserInfoFromViewModel
 import javax.inject.Inject
@@ -32,7 +34,8 @@ import javax.inject.Provider
 
 class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChangedListener {
     companion object {
-        const val requestCodeMakePayment = 1
+        const val CreateNewTransactionReqCode = 1
+        const val RepeatTransactionReqCode = 2
     }
 
     private val percentageToShow = 20
@@ -42,10 +45,8 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
     private var mMaxScrollSize: Int = 0
 
 
-    override fun showLoading(flag: Boolean) {
-        progressBar.run {
-            visibility = if (flag) View.VISIBLE else View.GONE
-        }
+    override fun showLoading(isLoading: Boolean) {
+        progressBar?.changeVisibility(isLoading)
     }
 
 
@@ -94,7 +95,6 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
             R.id.logout -> {
-                presenter.logout()
                 logoutAccount()
                 return true
             }
@@ -103,18 +103,20 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
     }
 
     override fun showTransactionsHistoryFragment() {
-        replaceFragment(R.id.container, LoggedUserTransactionsFragment(), FragmentId.TRANSACTIONS_LIST_FRAGMENT_ID)
+        replaceFragment(R.id.container, TransactionsFragment(), FragmentId.TRANSACTIONS_LIST_FRAGMENT_ID)
     }
 
     override fun logoutAccount() {
-        snackBarDelegate.showSuccess(rootView, getString(R.string.logout_success), ::finish)
+        presenter.logout()
+        snackBarDelegate.showSuccess(rootView, getString(R.string.logout_success)) {ProcessPhoenix.triggerRebirth(this)}
     }
 
 
     override fun refreshLoggedUserInfoViews(userViewModel: UserViewModel) {
         updateLoggedUserInfoFromViewModel(toolbarUserInfo, userViewModel)
         updateLoggedUserInfoFromViewModel(toolbarUserInfoCollapsing, userViewModel)
-        createTransaction.setOnClickListener { SelectUserActivity.start(this, userViewModel, requestCodeMakePayment) }
+        intent.putExtra(CreateTransactionActivity.senderParam, userViewModel)
+        createTransaction.setOnClickListener { SelectUserActivity.start(this, userViewModel, CreateNewTransactionReqCode) }
     }
 
     override fun showErrorMessage(errorParam: ErrorHandler.Param) {
@@ -150,8 +152,12 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK && requestCode == requestCodeMakePayment) {
-            data?.let { refreshLoggedUserInfoViews(it.getParcelableExtra(senderParam)) }
+        if (resultCode == Activity.RESULT_OK ) {
+            if(requestCode == CreateNewTransactionReqCode || requestCode == RepeatTransactionReqCode) {
+                data?.let { refreshLoggedUserInfoViews(it.getParcelableExtra(senderParam)) }
+                val transactionsFragment = findFragment(FragmentId.TRANSACTIONS_LIST_FRAGMENT_ID) as TransactionsFragment
+                transactionsFragment.updateRecentTransactionsList()
+            }
         }
     }
 }

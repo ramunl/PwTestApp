@@ -1,4 +1,4 @@
-package ru.pwtest.pwapp.feature.history.presenter
+package ru.pwtest.pwapp.feature.transactions.presenter
 
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.rxkotlin.addTo
@@ -6,7 +6,7 @@ import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.domainLayer.provider.SchedulersProvider
 import ru.pwtest.domainLayer.usecases.transaction.GetLoggedUserTransactionsUseCase
 import ru.pwtest.pwapp.base.BasePresenter
-import ru.pwtest.pwapp.feature.history.view.TransactionView
+import ru.pwtest.pwapp.feature.transactions.view.TransactionsView
 import ru.pwtest.pwapp.mapper.EntityViewModelMapper
 import javax.inject.Inject
 
@@ -17,7 +17,7 @@ class TransactionPresenter @Inject constructor(
     private val schedulersProvider: SchedulersProvider,
     private val errorHandler: ErrorHandler,
     private val viewModelMapper: EntityViewModelMapper
-) : BasePresenter<TransactionView>() {
+) : BasePresenter<TransactionsView>() {
 
 
     fun getTransactions() {

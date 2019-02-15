@@ -1,7 +1,6 @@
 package ru.pwtest.pwapp.feature.signUp.view
 
 import android.support.annotation.LayoutRes
-import android.view.MenuItem
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -12,7 +11,6 @@ import ru.pwtest.delegate.SnackBarDelegate
 import ru.pwtest.delegate.error.ErrorHandler
 import ru.pwtest.domainLayer.provider.SchedulersProvider
 import ru.pwtest.pwapp.R
-import ru.pwtest.pwapp.base.BaseActivity
 import ru.pwtest.pwapp.base.BaseToolbarActivity
 import ru.pwtest.pwapp.feature.signUp.presenter.SignUpPresenter
 import ru.pwtest.pwapp.utils.ext.changeVisibility
@@ -135,8 +133,8 @@ class SignUpActivity : BaseToolbarActivity(), SignUpView {
         passwordInput.isErrorEnabled = false
     }
 
-    override fun showLoading(flag: Boolean) {
-        progressBar.changeVisibility(flag)
+    override fun showLoading(isLoading: Boolean) {
+        progressBar.changeVisibility(isLoading)
     }
 
     override fun showErrorMessage(errorParam: ErrorHandler.Param) {

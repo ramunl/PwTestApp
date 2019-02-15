@@ -11,7 +11,6 @@ import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BasePresenter
 import ru.pwtest.pwapp.feature.createTransaction.view.CreateTransactionView
 import ru.pwtest.pwapp.mapper.EntityViewModelMapper
-import ru.pwtest.pwapp.model.UserViewModel
 import ru.pwtest.pwapp.utils.PwValidator
 import javax.inject.Inject
 
@@ -26,10 +25,6 @@ class CreateTransactionPresenter @Inject constructor(
 
 ) : BasePresenter<CreateTransactionView>() {
 
-
-    fun initLoggedUserInfo(viewModel: UserViewModel) {
-        viewState.refreshLoggedUserInfoViews(viewModel)
-    }
 
     private fun refreshLoggedUserInfo() {
         loggedUserInfoUseCase.build(GetLoggedUserInfoUseCase.Param())
@@ -58,6 +53,10 @@ class CreateTransactionPresenter @Inject constructor(
                 { viewState.showSuccessMessage(resRepo.getString(R.string.transaction_success)) },
                 { viewState.showErrorMessage(errorHandler.getError(it)) }
             ).addTo(compositeDisposable)
+    }
+
+    fun validatePwAmount(pwAmount: Int) {
+        validatePwAmount(pwAmount.toString())
     }
 
     fun validatePwAmount(text: String) {
