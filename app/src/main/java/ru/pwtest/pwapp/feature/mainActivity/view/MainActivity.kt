@@ -122,9 +122,7 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
     }
 
     override fun showSuccessMessage(text: String) {
-
     }
-
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout, p1: Int) {
         if (mMaxScrollSize == 0)

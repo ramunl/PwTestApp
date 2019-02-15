@@ -38,9 +38,7 @@ class FilteredUsersAdapter (var userClickListener: UsersListFragment.UserClickLi
             with(itemView) {
                 user_name.text = userViewModel.name
                 user_id.text = userViewModel.id.toString()
-                userViewModel.name?.let {
-                    setOnClickListener { userClickListener.onUserClicked(userViewModel) }
-                }
+                setOnClickListener { userClickListener.onUserClicked(userViewModel) }
             }
         }
     }

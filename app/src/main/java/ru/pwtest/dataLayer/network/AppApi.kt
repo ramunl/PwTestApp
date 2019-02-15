@@ -21,7 +21,7 @@ interface AppApi {
     @FormUrlEncoded
     fun signUp(@Field("email") email: String,
                @Field("password") password: String,
-               @Field("username") username: String): Completable
+               @Field("username") username: String):  Single<AuthModel>
 
 
     //List of logged user transactions

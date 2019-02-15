@@ -13,20 +13,20 @@ class AuthRepoImpl @Inject constructor(
     private val userSession: UserSession
 ) : AuthRepo {
 
-    override fun signUp(email: String, password: String, username: String): Completable {
-       return apiApp.signUp(
+    override fun signUp(email: String, password: String, username: String) = apiApp.signUp(
             email = email,
             password = password,
-            username = username
-        )
-    }
+            username = username)
+            .doAfterSuccess { userSession.authEntity = AuthEntity(it.token) }
+            .ignoreElement()
+
 
     override fun logOut() = userSession.clearAllData()
 
     override fun login(email: String, password: String) =
-            apiApp.login(email, password)
-                    .doAfterSuccess { userSession.authEntity = AuthEntity(it.token) }
-                    .ignoreElement()
+        apiApp.login(email, password)
+            .doAfterSuccess { userSession.authEntity = AuthEntity(it.token) }
+            .ignoreElement()
 
 
     override fun isAuth(): Single<Boolean> = Single.fromCallable {

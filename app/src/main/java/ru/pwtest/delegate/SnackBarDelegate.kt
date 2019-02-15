@@ -31,15 +31,18 @@ class SnackBarDelegate @Inject constructor(private val resRepo: ResRepo) {
         view: View,
         errParam: ErrorHandler.Param,
         actionText: String? = null,
-        listener: View.OnClickListener? = null) {
+        action: (() -> Unit)?
+    ) {
         snackBar = Snackbar.make(
             view,
             errParam.errorMsg,
-            if (listener == null) Snackbar.LENGTH_LONG else Snackbar.LENGTH_INDEFINITE
+            if (action == null) Snackbar.LENGTH_LONG else Snackbar.LENGTH_INDEFINITE
         )
-        listener?.let {
-            snackBar?.setAction(actionText, listener)
+        action?.let {
+            snackBar?.setAction(actionText) { action() }
         }
+
+
         snackBar?.show()
 
     }
@@ -50,10 +53,10 @@ class SnackBarDelegate @Inject constructor(private val resRepo: ResRepo) {
             showError(
                 rootView,
                 param,
-                resRepo.getString(R.string.sign_in),
-                View.OnClickListener { context.startActivity(Intent(context, SignInActivity::class.java)) })
+                resRepo.getString(R.string.sign_in)
+            ) {context.startActivity(Intent(context, SignInActivity::class.java))}
         } else {
-            showError(rootView, param, resRepo.getString(R.string.try_again), View.OnClickListener { tryAgainAction })
+            showError(rootView, param, resRepo.getString(R.string.try_again), tryAgainAction)
         }
     }
 
