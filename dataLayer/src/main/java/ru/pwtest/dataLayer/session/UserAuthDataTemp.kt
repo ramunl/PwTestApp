@@ -11,12 +11,8 @@ import javax.inject.Inject
 @PerApplication
 class UserAuthDataTemp @Inject constructor(
     sharedPreferences: SharedPreferences,
-    gson: Gson
-) {
-
+    gson: Gson) {
     var authModel: AuthModel? by SharedPrefDelegate(AuthModel::class.java, gson, sharedPreferences)
-
-
     fun isLoggedIn(): Boolean {
         Timber.d("authModel = $authModel")
         return authModel != null
