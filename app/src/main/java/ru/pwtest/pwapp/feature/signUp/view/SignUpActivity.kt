@@ -91,8 +91,7 @@ class SignUpActivity : BaseToolbarActivity(), SignUpView {
         Observables.combineLatest(firstNameEd, emailNameEd, combinePassword)
         { item1, item2, item3  -> item1.and(item2).and(item3) }
                 .subscribe({
-                    if (it) enableSignUp()
-                    else disableSignUp()
+                    enableSignUp(it)
                 }, {}).also { compositeDisposable.add(it) }
 
         signUpButton.setOnClickListener {
@@ -104,13 +103,10 @@ class SignUpActivity : BaseToolbarActivity(), SignUpView {
 
     }
 
-    private fun disableSignUp() {
-        signUpButton.isEnabled = false
+    private fun enableSignUp(isEnabled:Boolean) {
+        signUpButton.isEnabled = isEnabled
     }
 
-    private fun enableSignUp() {
-        signUpButton.isEnabled = true
-    }
 
 
     override fun emailValid() {
@@ -134,6 +130,7 @@ class SignUpActivity : BaseToolbarActivity(), SignUpView {
     }
 
     override fun showLoading(isLoading: Boolean) {
+        enableSignUp(!isLoading)
         progressBar.changeVisibility(isLoading)
     }
 

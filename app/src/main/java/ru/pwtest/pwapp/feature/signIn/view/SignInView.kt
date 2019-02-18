@@ -8,5 +8,6 @@ import ru.pwtest.pwapp.base.CanShowMessage
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface SignInView : MvpView, CanShowMessage, CanShowLoading {
-
+    fun enableCreateAccountButton(enabled:Boolean)
+    fun enableLoginButton(enabled:Boolean)
 }

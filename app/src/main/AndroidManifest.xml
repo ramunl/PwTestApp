@@ -39,7 +39,6 @@
                 android:theme="@style/AppTheme.NoActionBar"/>
         <activity
                 android:label="@string/sign_in"
-                android:noHistory="true"
                 android:name=".feature.signIn.view.SignInActivity"
                 android:theme="@style/AppTheme.NoActionBar"/>
 

@@ -41,10 +41,7 @@ class SignInActivity : BaseActivity(), SignInView {
                 RxTextView.textChanges(passwordEdit).skipInitialValue())
         { email: CharSequence, password: CharSequence -> email.isNotEmpty() && password.isNotEmpty() }
                 .distinctUntilChanged()
-                .subscribe(
-                        { if (it) enableLogin() else disableLogin() },
-                        { disableLogin() }
-                )
+                .subscribe({ enableLoginButton(it)}, {enableLoginButton(false)})
                 .also { compositeDisposable.add(it) }
 
         signInButton.setOnClickListener {
@@ -58,13 +55,6 @@ class SignInActivity : BaseActivity(), SignInView {
 
     }
 
-    private fun enableLogin() {
-        signInButton.isEnabled = true
-    }
-
-    private fun disableLogin() {
-        signInButton.isEnabled = false
-    }
 
     override fun showErrorMessage(errorParam: ErrorHandler.Param) {
         snackBarDelegate.showError(rootView, errorParam)
@@ -74,6 +64,13 @@ class SignInActivity : BaseActivity(), SignInView {
         snackBarDelegate.showSuccess(rootView, text, ::runMainActivity)
     }
 
+    override fun enableCreateAccountButton(enabled: Boolean) {
+        createAccount.isEnabled = enabled
+    }
+
+    override fun enableLoginButton(enabled: Boolean) {
+        signInButton.isEnabled = enabled
+    }
 
     override fun showLoading(isLoading: Boolean) {
         progressBar?.changeVisibility(isLoading)

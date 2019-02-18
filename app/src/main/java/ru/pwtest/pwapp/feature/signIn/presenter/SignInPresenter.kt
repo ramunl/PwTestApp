@@ -34,11 +34,17 @@ class SignInPresenter @Inject constructor(
         )
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.ui())
-            .doOnSubscribe { viewState.showLoading(true) }
+            .doOnSubscribe { viewState.showLoading(true)
+                viewState.enableCreateAccountButton(false)
+                viewState.enableLoginButton(false)}
             .doFinally { viewState.showLoading(false) }
             .subscribe(
                 { viewState.showSuccessMessage(resRepo.getString(R.string.sign_in_success)) },
-                { viewState.showErrorMessage(errorHandler.getError(it)) }
+                {
+                    viewState.showErrorMessage(errorHandler.getError(it))
+                    viewState.enableCreateAccountButton(true)
+                    viewState.enableLoginButton(true)
+                }
             ).addTo(compositeDisposable)
     }
 
