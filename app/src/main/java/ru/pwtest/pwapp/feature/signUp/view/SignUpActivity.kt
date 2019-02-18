@@ -7,9 +7,9 @@ import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.android.synthetic.main.layout_progressbar.*
-import ru.pwtest.delegate.SnackBarDelegate
-import ru.pwtest.delegate.error.ErrorHandler
-import ru.pwtest.domainLayer.provider.SchedulersProvider
+import ru.pwtest.pwapp.delegate.SnackBarDelegate
+import ru.pwtest.domain.error.ErrorHandler
+import ru.pwtest.domain.provider.SchedulersProvider
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseToolbarActivity
 import ru.pwtest.pwapp.feature.signUp.presenter.SignUpPresenter

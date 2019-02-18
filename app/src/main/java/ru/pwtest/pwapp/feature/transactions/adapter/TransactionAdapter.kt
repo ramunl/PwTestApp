@@ -4,8 +4,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.list_item_transaction.view.*
-import ru.pwtest.delegate.clickListener.TransactionClickListenerDelegate
-import ru.pwtest.delegate.date.DateDelegate
+import ru.pwtest.pwapp.delegate.clickListener.TransactionClickListenerDelegate
+import ru.pwtest.pwapp.delegate.date.DateDelegate
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.model.TransactionViewModel
 import ru.pwtest.pwapp.utils.ext.inflate

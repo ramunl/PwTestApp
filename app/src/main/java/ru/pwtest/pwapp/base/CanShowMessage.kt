@@ -1,6 +1,6 @@
 package ru.pwtest.pwapp.base
 
-import ru.pwtest.delegate.error.ErrorHandler
+import ru.pwtest.domain.error.ErrorHandler
 
 interface CanShowMessage {
 

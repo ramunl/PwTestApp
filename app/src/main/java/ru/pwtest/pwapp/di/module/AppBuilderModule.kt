@@ -2,7 +2,7 @@ package ru.pwtest.pwapp.di.module
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import ru.pwtest.pwapp.di.PerActivity
+import ru.pwtest.common.scope.PerActivity
 import ru.pwtest.pwapp.feature.createTransaction.di.CreateTransactionViewModule
 import ru.pwtest.pwapp.feature.createTransaction.view.CreateTransactionActivity
 import ru.pwtest.pwapp.feature.mainActivity.di.MainViewModule

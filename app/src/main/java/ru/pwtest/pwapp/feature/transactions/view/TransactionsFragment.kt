@@ -7,10 +7,10 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.fragment_recyclerview.*
 import kotlinx.android.synthetic.main.layout_progressbar.*
-import ru.pwtest.delegate.SnackBarDelegate
-import ru.pwtest.delegate.error.ErrorHandler
-import ru.pwtest.delegate.itemDecorator.RecyclerViewItemDecorator
-import ru.pwtest.delegate.toolbar.ToolbarDelegate
+import ru.pwtest.pwapp.delegate.SnackBarDelegate
+import ru.pwtest.domain.error.ErrorHandler
+import ru.pwtest.pwapp.delegate.itemDecorator.RecyclerViewItemDecorator
+import ru.pwtest.pwapp.delegate.toolbar.ToolbarDelegate
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseFragment
 import ru.pwtest.pwapp.feature.transactions.adapter.TransactionAdapter

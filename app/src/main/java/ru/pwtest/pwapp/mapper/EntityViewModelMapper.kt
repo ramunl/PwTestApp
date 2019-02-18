@@ -1,8 +1,8 @@
 package ru.pwtest.pwapp.mapper
 
-import ru.pwtest.delegate.date.DateDelegate
-import ru.pwtest.domainLayer.entity.TransactionEntity
-import ru.pwtest.domainLayer.entity.UserEntity
+import ru.pwtest.pwapp.delegate.date.DateDelegate
+import ru.pwtest.domain.entity.TransactionEntity
+import ru.pwtest.domain.entity.UserEntity
 import ru.pwtest.pwapp.model.TransactionViewModel
 import ru.pwtest.pwapp.model.UserViewModel
 import javax.inject.Inject

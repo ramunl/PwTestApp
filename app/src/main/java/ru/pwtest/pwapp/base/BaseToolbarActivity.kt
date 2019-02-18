@@ -1,7 +1,7 @@
 package ru.pwtest.pwapp.base
 
 import kotlinx.android.synthetic.main.layout_toolbar.*
-import ru.pwtest.delegate.toolbar.ToolbarManager
+import ru.pwtest.pwapp.delegate.toolbar.ToolbarManager
 
 abstract class BaseToolbarActivity : BaseActivity(), ToolbarManager {
 

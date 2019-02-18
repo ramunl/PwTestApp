@@ -2,9 +2,9 @@ package ru.pwtest.pwapp.feature.usersList.di
 
 import dagger.Module
 import dagger.Provides
-import ru.pwtest.delegate.clickListener.UserClickListenerDelegate
-import ru.pwtest.delegate.itemDecorator.RecyclerViewItemDecorator
-import ru.pwtest.pwapp.di.PerFragment
+import ru.pwtest.pwapp.delegate.clickListener.UserClickListenerDelegate
+import ru.pwtest.pwapp.delegate.itemDecorator.RecyclerViewItemDecorator
+import ru.pwtest.common.scope.PerFragment
 import ru.pwtest.pwapp.feature.selectUserActivity.view.SelectUserActivity
 
 @Module

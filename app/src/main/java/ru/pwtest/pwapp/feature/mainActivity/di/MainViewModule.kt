@@ -3,10 +3,10 @@ package ru.pwtest.pwapp.feature.mainActivity.di
 import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
-import ru.pwtest.delegate.clickListener.TransactionClickListenerDelegate
-import ru.pwtest.delegate.toolbar.ToolbarDelegate
-import ru.pwtest.pwapp.di.PerActivity
-import ru.pwtest.pwapp.di.PerFragment
+import ru.pwtest.pwapp.delegate.clickListener.TransactionClickListenerDelegate
+import ru.pwtest.pwapp.delegate.toolbar.ToolbarDelegate
+import ru.pwtest.common.scope.PerActivity
+import ru.pwtest.common.scope.PerFragment
 import ru.pwtest.pwapp.feature.mainActivity.view.MainActivity
 import ru.pwtest.pwapp.feature.transactions.di.TransactionsViewModule
 import ru.pwtest.pwapp.feature.transactions.view.TransactionsFragment

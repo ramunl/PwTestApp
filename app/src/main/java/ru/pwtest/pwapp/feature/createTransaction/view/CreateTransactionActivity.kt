@@ -10,16 +10,17 @@ import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.activity_create_transaction.*
 import kotlinx.android.synthetic.main.layout_progressbar.*
 import kotlinx.android.synthetic.main.layout_user_balance.*
-import ru.pwtest.delegate.SnackBarDelegate
-import ru.pwtest.delegate.error.ErrorHandler
-import ru.pwtest.domainLayer.provider.SchedulersProvider
+import ru.pwtest.domain.error.ErrorHandler
+import ru.pwtest.domain.provider.SchedulersProvider
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseToolbarActivity
+import ru.pwtest.pwapp.delegate.SnackBarDelegate
 import ru.pwtest.pwapp.feature.createTransaction.presenter.CreateTransactionPresenter
 import ru.pwtest.pwapp.feature.signUp.view.SignUpActivity
 import ru.pwtest.pwapp.model.TransactionViewModel
 import ru.pwtest.pwapp.model.UserViewModel
 import ru.pwtest.pwapp.utils.ext.changeVisibility
+import ru.pwtest.pwapp.utils.updateBalanceFromViewModel
 import ru.pwtest.pwapp.utils.updateLoggedUserInfoFromViewModel
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -30,20 +31,17 @@ import kotlin.math.abs
 
 class CreateTransactionActivity : BaseToolbarActivity(), CreateTransactionView {
 
-
     companion object {
-        const val senderParam = "senderParam"
+        const val lastTransactionResult = "lastTransactionResult"
         const val recipientParam = "recipientParam"
         @JvmStatic
         fun start(
             context: AppCompatActivity,
-            senderModel: UserViewModel,
             recipientModel: UserViewModel,
             requestCode: Int
         ) {
             val intent = Intent(context, CreateTransactionActivity::class.java).apply {
                 putExtra(recipientParam, recipientModel)
-                putExtra(senderParam, senderModel)
             }
             context.startActivityForResult(intent, requestCode)
         }
@@ -53,13 +51,11 @@ class CreateTransactionActivity : BaseToolbarActivity(), CreateTransactionView {
         @JvmStatic
         fun start(
             context: AppCompatActivity,
-            senderModel: UserViewModel,
             transactionPrev: TransactionViewModel,
             requestCode: Int
         ) {
             val intent = Intent(context, CreateTransactionActivity::class.java).apply {
                 putExtra(transactionParam, transactionPrev)
-                putExtra(senderParam, senderModel)
             }
             context.startActivityForResult(intent, requestCode)
         }
@@ -87,19 +83,13 @@ class CreateTransactionActivity : BaseToolbarActivity(), CreateTransactionView {
     override fun viewCreated(isRestoring: Boolean) {
         setupActionBar(true)
         if (!isRestoring) {
-            updateLoggedUserInfoFromViewModel(toolbarUserInfo, intent.getParcelableExtra(senderParam))
+            presenter.refreshLoggedUserInfo()
             pwAmountEditText.requestFocus()
-            getAmountFromPreviousTransaction()?.let { presenter.validatePwAmount(it) }
+            getAmountFromIntent()?.let { presenter.validatePwAmount(it) }
         }
 
-        recipientNameTextView.text = String.format(getString(R.string.recipient), getRecipientName())
+        recipientNameTextView.text = String.format(getString(R.string.recipient), getRecipientNameFromIntent())
 
-        makeTransactionButton.setOnClickListener {
-            presenter.createTransaction(
-                getRecipientName(),
-                getPwAmountFromEdit()
-            )
-        }
         RxTextView.textChangeEvents(pwAmountEditText)
             .skipInitialValue()
             .debounce(SignUpActivity.DEBOUNCE_MAX_TIME, TimeUnit.MILLISECONDS)
@@ -115,7 +105,7 @@ class CreateTransactionActivity : BaseToolbarActivity(), CreateTransactionView {
 
     }
 
-    private fun getRecipientName(): String {
+    private fun getRecipientNameFromIntent(): String {
         val recipientModel: UserViewModel? = intent.getParcelableExtra(recipientParam)
         return if (recipientModel != null) {
             recipientModel.name
@@ -125,7 +115,7 @@ class CreateTransactionActivity : BaseToolbarActivity(), CreateTransactionView {
         }
     }
 
-    private fun getAmountFromPreviousTransaction(): Int? {
+    private fun getAmountFromIntent(): Int? {
         val prevTransactionModel: TransactionViewModel? = intent.getParcelableExtra(transactionParam)
         return prevTransactionModel?.run { abs(amount) }
     }
@@ -165,11 +155,20 @@ class CreateTransactionActivity : BaseToolbarActivity(), CreateTransactionView {
         progressBar?.changeVisibility(isLoading)
     }
 
-
     override fun refreshLoggedUserInfoViews(userViewModel: UserViewModel) {
         updateLoggedUserInfoFromViewModel(toolbarUserInfo, userViewModel)
+        makeTransactionButton.setOnClickListener {
+            presenter.createTransaction(
+                getRecipientNameFromIntent(),
+                getPwAmountFromEdit()
+            )
+        }
+    }
+
+    override fun transactionSucceeded(transactionViewModel: TransactionViewModel) {
+        updateBalanceFromViewModel(toolbarUserInfo, transactionViewModel)
         val intent = Intent().apply {
-            putExtra(senderParam, userViewModel)
+            putExtra(lastTransactionResult, transactionViewModel)
         }
         setResult(RESULT_OK, intent)
     }

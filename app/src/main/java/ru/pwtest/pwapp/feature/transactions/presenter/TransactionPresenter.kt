@@ -2,9 +2,9 @@ package ru.pwtest.pwapp.feature.transactions.presenter
 
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.rxkotlin.addTo
-import ru.pwtest.delegate.error.ErrorHandler
-import ru.pwtest.domainLayer.provider.SchedulersProvider
-import ru.pwtest.domainLayer.usecases.transaction.GetLoggedUserTransactionsUseCase
+import ru.pwtest.domain.error.ErrorHandler
+import ru.pwtest.domain.provider.SchedulersProvider
+import ru.pwtest.domain.usecases.transaction.GetLoggedUserTransactionsUseCase
 import ru.pwtest.pwapp.base.BasePresenter
 import ru.pwtest.pwapp.feature.transactions.view.TransactionsView
 import ru.pwtest.pwapp.mapper.EntityViewModelMapper

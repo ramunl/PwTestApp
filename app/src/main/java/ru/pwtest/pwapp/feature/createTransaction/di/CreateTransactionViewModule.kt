@@ -2,8 +2,8 @@ package ru.pwtest.pwapp.feature.createTransaction.di
 
 import dagger.Module
 import dagger.Provides
-import ru.pwtest.delegate.toolbar.ToolbarDelegate
-import ru.pwtest.pwapp.di.PerActivity
+import ru.pwtest.common.scope.PerActivity
+import ru.pwtest.pwapp.delegate.toolbar.ToolbarDelegate
 import ru.pwtest.pwapp.feature.createTransaction.view.CreateTransactionActivity
 
 @Module

@@ -4,9 +4,9 @@ import com.arellomobile.mvp.InjectViewState
 import io.reactivex.Single
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
-import ru.pwtest.delegate.error.ErrorHandler
-import ru.pwtest.domainLayer.provider.SchedulersProvider
-import ru.pwtest.domainLayer.usecases.auth.CheckAuthUsersUseCase
+import ru.pwtest.domain.error.ErrorHandler
+import ru.pwtest.domain.provider.SchedulersProvider
+import ru.pwtest.domain.usecases.auth.CheckAuthUsersUseCase
 import ru.pwtest.pwapp.base.BasePresenter
 import ru.pwtest.pwapp.feature.splash.view.SplashView
 import timber.log.Timber

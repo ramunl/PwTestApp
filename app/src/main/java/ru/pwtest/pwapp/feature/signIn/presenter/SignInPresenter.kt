@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.Intent
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.rxkotlin.addTo
-import ru.pwtest.dataLayer.repository.ResRepo
-import ru.pwtest.delegate.error.ErrorHandler
-import ru.pwtest.domainLayer.provider.SchedulersProvider
-import ru.pwtest.domainLayer.usecases.auth.SignInSignOutUseCase
+import ru.pwtest.domain.error.ErrorHandler
+import ru.pwtest.domain.provider.SchedulersProvider
+import ru.pwtest.domain.repository.ResRepo
+import ru.pwtest.domain.usecases.auth.SignInSignOutUseCase
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BasePresenter
 import ru.pwtest.pwapp.feature.signIn.view.SignInView

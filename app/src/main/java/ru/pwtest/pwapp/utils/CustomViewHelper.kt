@@ -5,8 +5,22 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import kotlinx.android.synthetic.main.layout_user_balance.view.*
 import ru.pwtest.pwapp.R
+import ru.pwtest.pwapp.model.TransactionViewModel
 import ru.pwtest.pwapp.model.UserViewModel
 
+
+
+
+fun updateBalanceFromViewModel(loggedUserInfo: View, transactionViewModel: TransactionViewModel?) {
+    val context = loggedUserInfo.context
+    if (transactionViewModel != null) {
+        loggedUserInfo.loggedUserBalance.text = String.format(
+            context.getString(R.string.pw_balance_format),
+            transactionViewModel.balance,
+            context.getString(R.string.currency)
+        )
+    }
+}
 
 fun updateLoggedUserInfoFromViewModel(loggedUserInfo: View, userViewModel: UserViewModel?) {
     val context = loggedUserInfo.context

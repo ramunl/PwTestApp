@@ -7,10 +7,8 @@ import android.support.v7.app.AppCompatActivity
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseToolbarActivity
 import ru.pwtest.pwapp.feature.FragmentId
-import ru.pwtest.pwapp.feature.createTransaction.view.CreateTransactionActivity.Companion.senderParam
 import ru.pwtest.pwapp.feature.mainActivity.view.MainActivity
 import ru.pwtest.pwapp.feature.usersList.view.UsersListFragment
-import ru.pwtest.pwapp.model.UserViewModel
 import ru.pwtest.pwapp.utils.replaceFragment
 
 
@@ -21,10 +19,8 @@ class SelectUserActivity : BaseToolbarActivity() {
 
     companion object {
         @JvmStatic
-        fun start(context: AppCompatActivity, senderModel: UserViewModel,/* recipientModel: UserViewModel, */requestCode:Int) {
+        fun start(context: AppCompatActivity, requestCode:Int) {
             val intent = Intent(context, SelectUserActivity::class.java).apply {
-                //putExtra(recipientParam, recipientModel)
-                putExtra(senderParam, senderModel)
             }
             context.startActivityForResult(intent, requestCode)
         }

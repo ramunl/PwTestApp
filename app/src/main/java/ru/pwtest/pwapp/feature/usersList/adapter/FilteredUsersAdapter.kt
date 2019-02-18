@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.list_item_user.view.*
-import ru.pwtest.delegate.clickListener.UserClickListenerDelegate
+import ru.pwtest.pwapp.delegate.clickListener.UserClickListenerDelegate
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.model.UserViewModel
 import ru.pwtest.pwapp.utils.ext.inflate

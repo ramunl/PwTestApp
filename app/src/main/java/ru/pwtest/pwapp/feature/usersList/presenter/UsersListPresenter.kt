@@ -2,9 +2,9 @@ package ru.pwtest.pwapp.feature.usersList.presenter
 
 
 import com.arellomobile.mvp.InjectViewState
-import ru.pwtest.delegate.error.ErrorHandler
-import ru.pwtest.domainLayer.provider.SchedulersProvider
-import ru.pwtest.domainLayer.usecases.users.GetFilteredUserListUseCase
+import ru.pwtest.domain.error.ErrorHandler
+import ru.pwtest.domain.provider.SchedulersProvider
+import ru.pwtest.domain.usecases.users.GetFilteredUserListUseCase
 import ru.pwtest.pwapp.base.BasePresenter
 import ru.pwtest.pwapp.feature.usersList.view.UsersListView
 import ru.pwtest.pwapp.mapper.EntityViewModelMapper

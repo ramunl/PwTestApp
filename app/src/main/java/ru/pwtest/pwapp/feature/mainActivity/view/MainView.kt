@@ -7,6 +7,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import ru.pwtest.pwapp.base.CanShowLoading
 import ru.pwtest.pwapp.base.CanShowLoggedUserInfo
 import ru.pwtest.pwapp.base.CanShowMessage
+import ru.pwtest.pwapp.model.TransactionViewModel
 
 
 interface MainView : MvpView, CanShowMessage, CanShowLoading, CanShowLoggedUserInfo {
@@ -19,4 +20,6 @@ interface MainView : MvpView, CanShowMessage, CanShowLoading, CanShowLoggedUserI
 
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun enableUserControls(isEnabled:Boolean)
+
+    fun refreshLoggedUserBalanceViews(viewModel: TransactionViewModel)
 }

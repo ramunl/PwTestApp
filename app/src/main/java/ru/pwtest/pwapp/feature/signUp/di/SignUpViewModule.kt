@@ -2,7 +2,7 @@ package ru.pwtest.pwapp.feature.signUp.di
 
 import dagger.Module
 import dagger.Provides
-import ru.pwtest.pwapp.di.PerActivity
+import ru.pwtest.common.scope.PerActivity
 import ru.pwtest.pwapp.utils.AuthValidator
 import java.util.regex.Pattern
 
@@ -16,7 +16,7 @@ abstract class SignUpViewModule {
         @PerActivity
         @JvmStatic
         @Provides
-        fun providePasswordPattern() = Pattern.compile(PASSWORD_PATTERN)
+        fun providePasswordPattern(): Pattern = Pattern.compile(PASSWORD_PATTERN)
 
 
         @PerActivity

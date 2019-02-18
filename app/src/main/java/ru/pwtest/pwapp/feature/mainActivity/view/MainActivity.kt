@@ -13,20 +13,21 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_progressbar.*
 import kotlinx.android.synthetic.main.layout_toolbar_collapsing.*
 import kotlinx.android.synthetic.main.layout_user_balance.*
-import ru.pwtest.delegate.SnackBarDelegate
-import ru.pwtest.delegate.error.ErrorHandler
+import ru.pwtest.domain.error.ErrorHandler
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseToolbarActivity
+import ru.pwtest.pwapp.delegate.SnackBarDelegate
 import ru.pwtest.pwapp.feature.FragmentId
-import ru.pwtest.pwapp.feature.createTransaction.view.CreateTransactionActivity
-import ru.pwtest.pwapp.feature.createTransaction.view.CreateTransactionActivity.Companion.senderParam
+import ru.pwtest.pwapp.feature.createTransaction.view.CreateTransactionActivity.Companion.lastTransactionResult
 import ru.pwtest.pwapp.feature.mainActivity.presenter.MainPresenter
 import ru.pwtest.pwapp.feature.selectUserActivity.view.SelectUserActivity
 import ru.pwtest.pwapp.feature.transactions.view.TransactionsFragment
+import ru.pwtest.pwapp.model.TransactionViewModel
 import ru.pwtest.pwapp.model.UserViewModel
 import ru.pwtest.pwapp.utils.ext.changeVisibility
 import ru.pwtest.pwapp.utils.findFragment
 import ru.pwtest.pwapp.utils.replaceFragment
+import ru.pwtest.pwapp.utils.updateBalanceFromViewModel
 import ru.pwtest.pwapp.utils.updateLoggedUserInfoFromViewModel
 import javax.inject.Inject
 import javax.inject.Provider
@@ -76,6 +77,7 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
             toolbarUserInfoCollapsing.scaleY = maxScale
         }
 
+        createTransaction.setOnClickListener { SelectUserActivity.start(this, CreateNewTransactionReqCode) }
         appBarLayout.addOnOffsetChangedListener(this)
     }
 
@@ -108,15 +110,21 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
 
     override fun logoutAccount() {
         presenter.logout()
-        snackBarDelegate.showSuccess(rootView, getString(R.string.logout_success)) {ProcessPhoenix.triggerRebirth(this)}
+        snackBarDelegate.showSuccess(
+            rootView,
+            getString(R.string.logout_success)
+        ) { ProcessPhoenix.triggerRebirth(this) }
     }
 
 
-    override fun refreshLoggedUserInfoViews(userViewModel: UserViewModel) {
-        updateLoggedUserInfoFromViewModel(toolbarUserInfo, userViewModel)
-        updateLoggedUserInfoFromViewModel(toolbarUserInfoCollapsing, userViewModel)
-        intent.putExtra(CreateTransactionActivity.senderParam, userViewModel)
-        createTransaction.setOnClickListener { SelectUserActivity.start(this, userViewModel, CreateNewTransactionReqCode) }
+    override fun refreshLoggedUserBalanceViews(viewModel: TransactionViewModel) {
+        updateBalanceFromViewModel(toolbarUserInfo, viewModel)
+        updateBalanceFromViewModel(toolbarUserInfoCollapsing, viewModel)
+    }
+
+    override fun refreshLoggedUserInfoViews(viewModel: UserViewModel) {
+        updateLoggedUserInfoFromViewModel(toolbarUserInfo, viewModel)
+        updateLoggedUserInfoFromViewModel(toolbarUserInfoCollapsing, viewModel)
     }
 
     override fun showErrorMessage(errorParam: ErrorHandler.Param) {
@@ -152,10 +160,11 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK ) {
-            if(requestCode == CreateNewTransactionReqCode || requestCode == RepeatTransactionReqCode) {
-                data?.let { refreshLoggedUserInfoViews(it.getParcelableExtra(senderParam)) }
-                val transactionsFragment = findFragment(FragmentId.TRANSACTIONS_LIST_FRAGMENT_ID) as TransactionsFragment
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == CreateNewTransactionReqCode || requestCode == RepeatTransactionReqCode) {
+                data?.let { presenter.onLoggedUserBalanceUpdated(it.getParcelableExtra(lastTransactionResult)) }
+                val transactionsFragment =
+                    findFragment(FragmentId.TRANSACTIONS_LIST_FRAGMENT_ID) as TransactionsFragment
                 transactionsFragment.updateRecentTransactionsList()
             }
         }

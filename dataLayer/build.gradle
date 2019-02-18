@@ -1,0 +1,15 @@
+
+buildscript {
+    ext.loggingInterceptorVersion = '3.8.0'
+    ext.retrofitVersion = '2.5.0'
+}
+
+dependencies {
+    implementation project(':common')
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+}
+repositories {
+    mavenCentral()
+}

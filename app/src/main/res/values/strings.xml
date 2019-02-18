@@ -9,7 +9,7 @@
     <string name="success">success</string>
     <string name="sign_up_success">Account created!</string>
     <string name="sign_in_success">Login success!</string>
-    <string name="network_error">Please check your internet connection and try again.</string>
+
     <string name="sign_in">Sign in</string>
     <string name="sign_up">Sign up</string>
 
