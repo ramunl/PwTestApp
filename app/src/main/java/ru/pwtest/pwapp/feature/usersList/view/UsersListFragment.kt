@@ -48,7 +48,7 @@ class UsersListFragment : BaseFragment(), UsersListView {
     @Inject
     lateinit var recyclerViewItemDecoration: RecyclerViewItemDecorator
 
-    var searchView: SearchView? = null
+    private var searchView: SearchView? = null
 
     override fun layoutRes() = R.layout.fragment_recyclerview
 

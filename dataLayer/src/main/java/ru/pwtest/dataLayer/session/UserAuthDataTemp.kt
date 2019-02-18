@@ -9,17 +9,13 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @PerApplication
-class UserSession @Inject constructor(
-    private val sharedPreferences: SharedPreferences,
+class UserAuthDataTemp @Inject constructor(
+    sharedPreferences: SharedPreferences,
     gson: Gson
 ) {
 
     var authModel: AuthModel? by SharedPrefDelegate(AuthModel::class.java, gson, sharedPreferences)
 
-    fun clearAllData() {
-        authModel = null
-        sharedPreferences.edit().clear().apply()
-    }
 
     fun isLoggedIn(): Boolean {
         Timber.d("authModel = $authModel")

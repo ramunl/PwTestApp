@@ -16,7 +16,7 @@ interface MainView : MvpView, CanShowMessage, CanShowLoading, CanShowLoggedUserI
     fun logoutAccount()
 
     @StateStrategyType(SkipStrategy::class)
-    fun showTransactionsHistoryFragment()
+    fun showFragment()
 
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun enableUserControls(isEnabled:Boolean)

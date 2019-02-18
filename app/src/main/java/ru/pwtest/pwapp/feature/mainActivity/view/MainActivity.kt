@@ -19,7 +19,7 @@ import ru.pwtest.pwapp.base.BaseToolbarActivity
 import ru.pwtest.pwapp.delegate.SnackBarDelegate
 import ru.pwtest.pwapp.feature.FragmentId
 import ru.pwtest.pwapp.feature.createTransaction.view.CreateTransactionActivity.Companion.lastTransactionResult
-import ru.pwtest.pwapp.feature.mainActivity.presenter.MainPresenter
+import ru.pwtest.pwapp.feature.mainActivity.presenter.MainViewPresenter
 import ru.pwtest.pwapp.feature.selectUserActivity.view.SelectUserActivity
 import ru.pwtest.pwapp.feature.transactions.view.TransactionsFragment
 import ru.pwtest.pwapp.model.TransactionViewModel
@@ -42,7 +42,6 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
     private val percentageToShow = 20
     private var mIsImageHidden: Boolean = false
     private val maxScale = 1.1f
-
     private var mMaxScrollSize: Int = 0
 
 
@@ -55,13 +54,13 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
     lateinit var snackBarDelegate: SnackBarDelegate
 
     @Inject
-    lateinit var providerPresenter: Provider<MainPresenter>
+    lateinit var providerPresenter: Provider<MainViewPresenter>
 
     @InjectPresenter
-    lateinit var presenter: MainPresenter
+    lateinit var presenter: MainViewPresenter
 
     @ProvidePresenter
-    fun providePresenter(): MainPresenter = providerPresenter.get()
+    fun providePresenter(): MainViewPresenter = providerPresenter.get()
 
     override fun layoutRes(): Int {
         return R.layout.activity_main
@@ -104,7 +103,7 @@ class MainActivity : BaseToolbarActivity(), MainView, AppBarLayout.OnOffsetChang
         }
     }
 
-    override fun showTransactionsHistoryFragment() {
+    override fun showFragment() {
         replaceFragment(R.id.container, TransactionsFragment(), FragmentId.TRANSACTIONS_LIST_FRAGMENT_ID)
     }
 

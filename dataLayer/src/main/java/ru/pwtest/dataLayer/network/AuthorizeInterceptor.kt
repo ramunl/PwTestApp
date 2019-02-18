@@ -2,11 +2,11 @@ package ru.pwtest.dataLayer.network
 
 import okhttp3.Interceptor
 import okhttp3.Response
-import ru.pwtest.dataLayer.session.UserSession
+import ru.pwtest.dataLayer.session.UserAuthDataTemp
 import javax.inject.Inject
 
 class AuthorizeInterceptor @Inject constructor(
-        private val userSession: UserSession
+        private val userSession: UserAuthDataTemp
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {

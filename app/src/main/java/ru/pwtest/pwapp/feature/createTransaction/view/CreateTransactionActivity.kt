@@ -35,11 +35,9 @@ class CreateTransactionActivity : BaseToolbarActivity(), CreateTransactionView {
         const val lastTransactionResult = "lastTransactionResult"
         const val recipientParam = "recipientParam"
         @JvmStatic
-        fun start(
-            context: AppCompatActivity,
-            recipientModel: UserViewModel,
-            requestCode: Int
-        ) {
+        fun start(  context: AppCompatActivity,
+                    recipientModel: UserViewModel,
+                    requestCode: Int) {
             val intent = Intent(context, CreateTransactionActivity::class.java).apply {
                 putExtra(recipientParam, recipientModel)
             }
@@ -84,6 +82,7 @@ class CreateTransactionActivity : BaseToolbarActivity(), CreateTransactionView {
         setupActionBar(true)
         if (!isRestoring) {
             presenter.refreshLoggedUserInfo()
+
             pwAmountEditText.requestFocus()
             getAmountFromIntent()?.let { presenter.validatePwAmount(it) }
         }

@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.support.annotation.LayoutRes
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import kotlinx.android.synthetic.main.layout_user_balance.*
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.base.BaseToolbarActivity
 import ru.pwtest.pwapp.feature.FragmentId
@@ -32,6 +34,7 @@ class SelectUserActivity : BaseToolbarActivity() {
 
     override fun viewCreated(isRestoring: Boolean) {
         setupActionBar(true)
+        toolbarUserInfo.visibility = View.GONE
         if (!isRestoring) {
             showUsersListFragment()
         }

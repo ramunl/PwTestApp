@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.pwtest.common.scope.PerApplication
 import ru.pwtest.dataLayer.network.AppApi
 import ru.pwtest.dataLayer.network.AuthorizeInterceptor
-import ru.pwtest.dataLayer.session.UserSession
+import ru.pwtest.dataLayer.session.UserAuthDataTemp
 
 @Module
 class NetworkModule {
@@ -36,7 +36,7 @@ class NetworkModule {
 
     @PerApplication
     @Provides
-    fun provideAuthInterceptor(userSession: UserSession) = AuthorizeInterceptor(userSession)
+    fun provideAuthInterceptor(userSession: UserAuthDataTemp) = AuthorizeInterceptor(userSession)
 
     @PerApplication
     @Provides

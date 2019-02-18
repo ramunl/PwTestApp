@@ -26,15 +26,18 @@ class CreateTransactionPresenter @Inject constructor(
 
 ) : BasePresenter<CreateTransactionView>() {
 
-
     fun refreshLoggedUserInfo() {
         loggedUserInfoUseCase.build(GetLoggedUserInfoUseCase.Param())
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.ui())
             .map { viewModelMapper.mapToViewModel(it) }
-            .subscribe({ model ->
-                viewState.refreshLoggedUserInfoViews(model)
-            }, { viewState.showErrorMessage(errorHandler.getError(it)) })
+            .subscribe(
+                {
+                        model ->
+                        viewState.refreshLoggedUserInfoViews(model) },
+                {
+                    viewState.showErrorMessage(errorHandler.getError(it))
+                })
             .addTo(compositeDisposable)
     }
 
@@ -42,16 +45,12 @@ class CreateTransactionPresenter @Inject constructor(
         createTransactionUseCase.build(
             CreateTransactionUseCase.Param(
                 name = recipient,
-                amount = amount
-            )
-        )
+                amount = amount))
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.ui())
             .map { viewModelMapper.mapToViewModel(it) }
             .doOnSubscribe { viewState.showLoading(true) }
-            .doFinally {
-                viewState.showLoading(false)
-            }
+            .doFinally { viewState.showLoading(false) }
             .subscribe(
                 {
                     viewState.showSuccessMessage(resRepo.getString(R.string.transaction_success))

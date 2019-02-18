@@ -1,8 +1,7 @@
 package ru.pwtest.pwapp.utils
 
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.View.*
 import kotlinx.android.synthetic.main.layout_user_balance.view.*
 import ru.pwtest.pwapp.R
 import ru.pwtest.pwapp.model.TransactionViewModel
@@ -33,6 +32,6 @@ fun updateLoggedUserInfoFromViewModel(loggedUserInfo: View, userViewModel: UserV
             context.getString(R.string.currency)
         )
     } else {
-        loggedUserInfo.visibility = GONE
+        loggedUserInfo.visibility = INVISIBLE
     }
 }

@@ -13,7 +13,7 @@ import ru.pwtest.pwapp.model.TransactionViewModel
 import javax.inject.Inject
 
 @InjectViewState
-class MainPresenter @Inject constructor(
+class MainViewPresenter @Inject constructor(
     private val loggedUserInfoUseCase: GetLoggedUserInfoUseCase,
     private val signInSignOutUseCase: SignInSignOutUseCase,
     private val schedulersProvider: SchedulersProvider,
@@ -31,7 +31,7 @@ class MainPresenter @Inject constructor(
             .doFinally { viewState.showLoading(false) }
             .subscribe({
                 viewState.refreshLoggedUserInfoViews(it)
-                viewState.showTransactionsHistoryFragment()
+                viewState.showFragment()
                 viewState.enableUserControls(true)
             },
                 {

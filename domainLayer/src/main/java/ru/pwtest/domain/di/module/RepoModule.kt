@@ -18,7 +18,6 @@ interface RepoModule {
     @Binds
     fun provideTransactionRepo(transactionsRepo: TransactionRepoImpl): TransactionRepo
 
-
     @Binds
     fun provideFilteredUserListRepo(usersRepo: FilteredUserListRepoImpl): FilteredUserListRepo
 
